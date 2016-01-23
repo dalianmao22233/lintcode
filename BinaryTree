@@ -35,7 +35,9 @@ public class Solution {
             }
             curt = stack.pop();
             result.add(curt.val);
-            curt = curt.right;//回溯找到右孩子，下次循环进栈
+            if(curt != null){
+                curt = curt.right;//回溯找到右孩子，下次循环进栈
+            }
         }
         
         return result;
