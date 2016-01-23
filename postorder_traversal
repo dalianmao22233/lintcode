@@ -1,0 +1,61 @@
+/**
+ * Definition of TreeNode:
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left, right;
+ *     public TreeNode(int val) {
+ *         this.val = val;
+ *         this.left = this.right = null;
+ *     }
+ * }
+ */
+public class Solution {
+    /**
+     * @param root: The root of binary tree.
+     * @return: Postorder in ArrayList which contains node values.
+     */
+    public ArrayList<Integer> postorderTraversal(TreeNode root) {
+        // write your code here
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        
+        if(root == null){
+            return result;
+        }
+        TreeNode prev = null;
+        TreeNode cur = root;
+        stack.push(root);
+        while(!stack.empty()){
+            cur = stack.peek();
+            if(prev == null || prev.left == cur || prev.right == cur){
+                if(cur.left != null){
+                    stack.push(cur.left);
+                }
+                else if(cur.right != null){
+                    stack.push(cur.right);
+                }
+                else{
+                    stack.pop();
+                    result.add(cur.val);
+                }
+            }
+            else if(prev == cur.left){
+                if(cur.right != null){
+                    stack.push(cur.right);
+                }
+                else{
+                    stack.pop();
+                    result.add(cur.val);
+                }
+                
+            }
+            else {//此处不用写出来cur.right == prev
+                result.add(cur.val);
+                stack.pop();
+                
+            }
+            prev = cur;
+        }
+        return result;
+    }
+}
