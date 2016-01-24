@@ -25,7 +25,9 @@ public class Solution {
         TreeNode prev = null;
         TreeNode cur = root;
         stack.push(root);
-        while(!stack.empty()){
+        while(!stack.empty()){//这里我原来加了判断条件cur != null，出错，在这个while的最后一步中
+        有prev = cur的保存，在第一个if中也有关于prev是否为空的判断，所以不用再加cur != null的判断，
+        如果加了，那么第一个if可能进不来。
             cur = stack.peek();
             if(prev == null || prev.left == cur || prev.right == cur){
                 if(cur.left != null){
