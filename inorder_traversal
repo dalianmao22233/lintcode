@@ -29,6 +29,7 @@ public class Solution {
                 stack.push(curt);
                 curt = curt.left;//顺着左边一直向下，
                 //也就是所有根节点，左孩子都进栈了
+                //出了while意味着curt=null；所以pop在前，add在后。
             }
             if(stack.isEmpty()){
                 break;
