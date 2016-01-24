@@ -29,7 +29,8 @@ public class Solution {
         有prev = cur的保存，在第一个if中也有关于prev是否为空的判断，所以不用再加cur != null的判断，
         如果加了，那么第一个if可能进不来。
             cur = stack.peek();
-            if(prev == null || prev.left == cur || prev.right == cur){
+            if(prev == null || prev.left == cur || prev.right == cur){//prev==null必须放第一个，
+            //因为如果prev.left == cur在前面，会报错，prev = null时根本没有left.
                 if(cur.left != null){
                     stack.push(cur.left);
                 }
