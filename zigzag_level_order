@@ -1,3 +1,4 @@
+这道题第一次用了两个queue做一反一正的顺序，出错。改用stack
 /**
  * Definition of TreeNode:
  * public class TreeNode {
