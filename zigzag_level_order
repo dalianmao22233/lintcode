@@ -1,4 +1,4 @@
-这道题第一次用了两个queue做一反一正的顺序，出错。改用stack
+这道题第一次用了两个queue做一反一正的顺序，出错。改用stack,最后一步交换两个stack，这样一层一层往下遍历。
 /**
  * Definition of TreeNode:
  * public class TreeNode {
