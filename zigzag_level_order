@@ -19,5 +19,44 @@ public class Solution {
      */
     public ArrayList<ArrayList<Integer>> zigzagLevelOrder(TreeNode root) {
         // write your code here
+        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+        if(root == null){
+            return result;
+        }
+        Stack<TreeNode> currlevel = new Stack<TreeNode>();
+        Stack<TreeNode> nextlevel = new Stack<TreeNode>();
+        Stack<TreeNode> tmp;
+        currlevel.push(root);
+        boolean normalOrder = true;
+        
+        while(!currlevel.isEmpty()){
+            ArrayList<Integer> currlevelResult = new ArrayList<Integer>();
+            while(!currlevel.isEmpty()){
+                TreeNode node = currlevel.pop();
+                currlevelResult.add(node.val);
+                if(normalOrder){
+                    if(node.left != null){
+                        nextlevel.push(node.left);
+                    }
+                    if(node.right != null){
+                        nextlevel.push(node.right);
+                    }
+                }
+                else{
+                    if(node.right != null){
+                        nextlevel.push(node.right);
+                    }
+                    if(node.left != null){
+                        nextlevel.push(node.left);
+                    }
+                }
+            }
+            result.add(currlevelResult);
+            tmp = currlevel;
+            currlevel = nextlevel;
+            nextlevel = tmp;
+            normalOrder = !normalOrder;
+        }
+        return result;
     }
 }
