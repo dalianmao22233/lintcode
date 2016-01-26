@@ -36,7 +36,9 @@ public class Solution {
             }
             curt = stack.pop();
             result.add(curt.val);
-            if(curt != null){
+            if(curt != null){//必须不能是curt.right != null, 如果这样会报错。因为curt.right可能是空但curt不是空。
+            //如果curt.right = null && curt != null, curt = curt.right, 此时curt = null, 进入下一次循环的时候进不去
+            //while，所以就继续stack.pop, 才能回溯到上一个节点继续找右孩子。
                 curt = curt.right;//回溯找到右孩子，下次循环进栈
             }
         }
