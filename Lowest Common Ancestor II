@@ -1,0 +1,42 @@
+/**
+ * Definition of ParentTreeNode:
+ * 
+ * class ParentTreeNode {
+ *     public ParentTreeNode parent, left, right;
+ * }
+ */
+public class Solution {
+    /**
+     * @param root: The root of the tree
+     * @param A, B: Two node in the tree
+     * @return: The lowest common ancestor of A and B
+     */
+    public ParentTreeNode lowestCommonAncestorII(ParentTreeNode root,
+                                                 ParentTreeNode A,
+                                                 ParentTreeNode B) {
+        // Write your code here   
+        if(root == null || root == A || root == B){
+            return root;
+        }
+        ArrayList<ParentTreeNode> list_a = new ArrayList<ParentTreeNode>();
+        ArrayList<ParentTreeNode> list_b = new ArrayList<ParentTreeNode>();
+        while(A != null){
+            list_a.add(0, A);
+            A = A.parent;
+        }
+       // list_a.add(0, A);这句话不用加。加了也能过。
+        while(B != null){
+            list_b.add(0, B);
+            B = B.parent;
+        }
+       // list_b.add(0, B);
+        int size = list_a.size() > list_b.size() ? list_b.size() : list_a.size();
+        //这里注意，只能取size小的作为size。取list_a就不对了。越界。
+        for(int i = 0; i < size ; i++){
+            if(list_a.get(i) != list_b.get(i)){
+                return list_a.get(i).parent;
+            }
+        }
+        return list_a.get(size - 1);                                         
+    }
+}
