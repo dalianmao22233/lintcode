@@ -42,7 +42,8 @@ public class Solution {
         if(root.left != null){
             path.add(root.left.val);
             helper(root.left, path, sum + root.left.val, target, result);
-            path.remove(path.size() - 1);//移走特定位置的元素
+            path.remove(path.size() - 1);//移走特定位置的元素,因为此时sum != target， 不是所求路径。
+            //所以要移除最后一个节点，去看右孩子的情况。
         }
         //go right
         if(root.right != null){
