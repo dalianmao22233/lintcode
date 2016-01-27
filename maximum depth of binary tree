@@ -1,4 +1,4 @@
-时间复杂度 o(n)
+时间复杂度 o(n),简单点想就是 每个点都要调用一次maxDepth，一共n个点。复杂想就是用公式推导或者画图看
 /**
  * Definition of TreeNode:
  * public class TreeNode {
