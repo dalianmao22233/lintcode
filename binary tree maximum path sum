@@ -1,5 +1,8 @@
 from any to any node
-three conditions
+three conditions:
+1. all in left tree
+2. all in right tree
+3. from left to right, across root.
 public class Solution {
     private class ResultType {
         // singlePath: 从root往下走到任意点的最大路径，这条路径可以不包含任何点
