@@ -37,7 +37,7 @@ public class Solution {
                     farthest = A[i] + i;
                 }
             }
-            start = end + 1;//Re-allocate pointer position for start and end
+            start = end + 1;//Re-allocate pointer position for start and end,start end 之间不用再跳，这步已经包含在farthest里。
             end = farthest;
         }
         return jumps;
