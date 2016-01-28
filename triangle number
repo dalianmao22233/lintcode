@@ -1,0 +1,51 @@
+For example, given the following triangle
+[
+     [2],
+    [3,4],
+   [6,5,7],
+  [4,1,8,3]
+]
+The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+
+给定一个三角形，求得和最小的路径。每层只能选一个整数，上一层和下一层的整数必须是相邻的。
+
+思路：
+
+1,动态规划。到第i层的第k个顶点的最小路径长度表示为f(i,k)，则f(i, k) = min{f(i-1,k),  f(i-1,k-1)} + d(i, k); 
+其中d(i, k)表示原来三角形数组里的第i行第k列的元素。则可以求得从第一行到最终到第length-1行第k个元素的最小路径长度，
+最后再比较第length-1行中所有元素的路径长度大小，求得最小值。
+2,本题主要关心的是空间复杂度不要超过n。
+3,注意边界条件——每一行中的第一和最后一个元素在上一行中只有一个邻居。而其他中间的元素在上一行中都有两个相邻元素。
+public class Solution {
+    /**
+     * @param triangle: a list of lists of integers.
+     * @return: An integer, minimum path sum.
+     */
+    public int minimumTotal(int[][] triangle) {
+        if (triangle == null || triangle.length == 0) {
+            return -1;
+        }
+        if (triangle[0] == null || triangle[0].length == 0) {
+            return -1;
+        }
+        
+        // state: f[x][y] = minimum path value from x,y to bottom
+        int n = triangle.length;
+        int[][] sum = new int[n][n];
+        
+        // initialize 
+        for (int i = 0; i < n; i++) {
+            sum[n - 1][i] = triangle[n - 1][i];
+        }
+        
+        // bottom up
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {
+                sum[i][j] = Math.min(sum[i + 1][j], sum[i + 1][j + 1]) + triangle[i][j];
+            }
+        }
+        
+        // answer
+        return sum[0][0];
+    }
+}
