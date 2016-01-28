@@ -19,16 +19,16 @@ public class Solution {
     	for(int i = 1; i <= s.length(); i++){
     	    cansegment[i] = false;//其实可以不写，默认就是false
     	    for(int j = 1; j <= maxlength && j <= i; j++){
-    	                if(cansegment[i - j] == false){//这是看OPT[j]是否为真
-    	                    continue;//跳出此次循环。j++
-    	                    //The break statement "jumps out" of a loop.
-                            //The continue statement "jumps over" one iteration in the loop.
-    	                }
-    	                String word = s.substring(i - j, i);//这是看valid[i-j]是否为真。是不是在dict里。
-    	                if(dict.contains(word)){
-    	                    cansegment[i] = true;
-    	                    break;//跳出循环。
-    	                }
+                if(cansegment[i - j] == false){//这是看OPT[j]是否为真
+                    continue;//跳出此次循环。j++
+                    //The break statement "jumps out" of a loop.
+                    //The continue statement "jumps over" one iteration in the loop.
+                }
+                String word = s.substring(i - j, i);//这是看valid[i-j]是否为真。是不是在dict里。
+                if(dict.contains(word)){
+                    cansegment[i] = true;
+                    break;//跳出循环。
+                }
     	   }
     	}
     	return cansegment[s.length()];
