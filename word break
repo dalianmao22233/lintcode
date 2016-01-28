@@ -1,37 +1,36 @@
+OPT[i] = OPT[j] + valid(i - j); 当OPT[j]=true, valid(i - j)=true时，才能往下做OPT[i]，此时为true。
 public class Solution {
-    private int getMaxLength(Set<String> dict) {
-        int maxLength = 0;
-        for (String word : dict) {
-            maxLength = Math.max(maxLength, word.length());
-        }
-        return maxLength;
-    }
-
-    ?????
+    /**
+     * @param s: A string s
+     * @param dict: A dictionary of words dict
+     */
     public boolean wordBreak(String s, Set<String> dict) {
-        if (s == null || s.length() == 0) {
-            return true;
-        }
-
-        int maxLength = getMaxLength(dict);
-        boolean[] canSegment = new boolean[s.length() + 1];
-
-        canSegment[0] = true;
-        for (int i = 1; i <= s.length(); i++) {
-            canSegment[i] = false;
-            for (int lastWordLength = 1;
-                     lastWordLength <= maxLength && lastWordLength <= i;
-                     lastWordLength++) {
-                if (!canSegment[i - lastWordLength]) {
-                    continue;
-                }
-                String word = s.substring(i - lastWordLength, i);
-                if (dict.contains(word)) {
-                    canSegment[i] = true;
-                    break;
-                }
-            }
-        }
-
-        return canSegment[s.length()];
+        // write your code here   
+        if (s == null || dict.contains(s)) {
+    		return true;
+    	}
+    	int maxlength = 0;
+    	for(String word:dict){
+    	    maxlength = Math.max(maxlength, word.length());
+    	}
+    	boolean[] cansegment = new boolean[s.length() + 1];//+1 is an easy method to define following state.
+    	cansegment[0] = true;
+    	for(int i = 1; i <= s.length(); i++){
+    	    cansegment[i] = false;
+    	    for(int j = 1; j <= maxlength && j <= i; j++){
+    	                if(cansegment[i - j] == false){
+    	                    continue;//跳出此次循环。j++
+    	                    //The break statement "jumps out" of a loop.
+                            //The continue statement "jumps over" one iteration in the loop.
+    	                }
+    	                String word = s.substring(i - j, i);
+    	                if(dict.contains(word)){
+    	                    cansegment[i] = true;
+    	                    break;//跳出循环。
+    	                }
+    	   }
+    	}
+    	return cansegment[s.length()];
     }
+   
+}
