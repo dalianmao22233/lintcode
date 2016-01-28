@@ -1,0 +1,51 @@
+
+/*Example
+A = [2,3,1,1,4], return true.
+A = [3,2,1,0,4], return false.
+This can be done using DP. However, greedy algorithm is fast in this particular problem. Consider both solutions.
+DP
+Thinking Process:
+We have array A, that stores the # of steps for each index.
+Function: state = canjump[j] && (j + A[j] >= i) 数组下标的考虑：A[j] >= i - j
+Answer: f[n-1], if n is the length of A
+*/
+public class Solution {
+    /**
+     * @param A: A list of integers
+     * @return: The boolean answer
+     */
+    public boolean canJump(int[] A) {
+        // wirte your code here
+        if(A == null || A.length == 0){
+            return false;
+        }
+        boolean []canjump = new boolean[A.length];
+        canjump[0] = true;//这里必须是true,不然没法往下跳
+        for(int i = 1; i < A.length; i++){
+            for(int j = 0; j < i; j++){
+                if((i -j <= A[j])&&canjump[j]){
+                    canjump[i] = true;
+                    break;
+                }
+            }
+        }
+        return canjump[A.length - 1];
+        
+    }
+}
+// version 2: Greedy
+public class Solution {
+    public boolean canJump(int[] A) {
+        // think it as merging n intervals
+        if (A == null || A.length == 0) {
+            return false;
+        }
+        int farthest = A[0];
+        for (int i = 1; i < A.length; i++) {
+            if (i <= farthest && A[i] >= farthest - i) {
+                farthest = A[i] + i;//farthest - i = A[i]
+            }
+        }
+        return farthest >= A.length - 1;
+    }
+}
