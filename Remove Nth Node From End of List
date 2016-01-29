@@ -1,4 +1,5 @@
-两个指针，p先走n步，然后q开始走。当p走到末尾时，q正好到了待删除节点
+两个指针，p先走n步，然后q开始走。当p走到末尾时，q正好到了待删除节点. attention that n is from end of list. 
+不会的时候画图。1->2->3是最简单的情况。
 /**
  * Definition for ListNode.
  * public class ListNode {
