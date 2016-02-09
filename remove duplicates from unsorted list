@@ -1,0 +1,25 @@
+我之前想到了用hashset，指针往后移看是否存在在hashset中，因为hashset中是Unique的值。
+public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: head node
+     */
+    public ListNode removeDuplicates(ListNode head) { 
+        // Write your code here
+        HashSet<Integer> set = new HashSet<Integer>();
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        head = dummy;
+        while(head.next != null){
+            if(set.contains(head.next.val)){
+                head.next = head.next.next;
+            }
+            else{
+                set.add(head.next.val);
+                head = head.next;
+            }
+        }
+        return dummy.next;
+        
+    }  
+}
