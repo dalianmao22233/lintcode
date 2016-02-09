@@ -45,7 +45,7 @@ public class Solution {
             head = head.next;
         }
         post.next = null;
-        pre.next = dummyPost.next;
-        return dummyPre.next;
+        pre.next = dummyPost.next;  #注意这里。
+        return dummyPre.next; #注意这里。
     }
 }
