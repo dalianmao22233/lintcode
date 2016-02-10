@@ -1,0 +1,56 @@
+第二个自己做出来的题！
+/**
+ * Definition for ListNode.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int val) {
+ *         this.val = val;
+ *         this.next = null;
+ *     }
+ * }
+ */ 
+public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @param n: An integer.
+     * @return: Nth to last node of a singly linked list. 
+     */
+    ListNode nthToLast(ListNode head, int n) {
+        // write your code here
+    
+        if(head == null || n < 0){
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        // System.out.println("dummy.next" + dummy.next);
+        int count = 0;
+        while(head != null){
+            head = head.next;
+            count ++; //number of linkedlist nodes
+        }
+        head = dummy.next;
+        for(int i = 0; i < count - n; i++){
+            head = head.next;
+        }
+        return head;
+    }
+}
+------还是想麻烦了，第二种：
+ListNode nthToLast(ListNode head, int n) {
+    if (head == null || n < 0) {
+        return null;
+    }
+    int count = 0;
+    ListNode node = head;
+    while (node != null && count < n) {
+        node = node.next;
+        count++;
+    }
+    while (node != null) {
+        node = node.next;
+        head = head.next;
+    }
+    return head;
+}
