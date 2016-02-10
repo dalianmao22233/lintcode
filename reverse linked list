@@ -1,18 +1,5 @@
-????不是很懂
-Thinking process:
-User a variable ‘newList’(or reversedList) to store the partial list. It will be the final result
-this will first be null
-then something will add newList to its tail
-The ‘something’ is actually the ‘head’ during each cycle
-save: newList = something
-Every cycle, cut off head.next
-Store head.next in a temporary node, which we will use later. Now, link a different head.next
-append: head.next = newList
-Like in ThinkingProcess(1), save: newList = head.
-At this moment, we are about to get into next cycle, change the head to the cut-off part that saved in the temporary node.
-Cycle until head is null. 
-return newList
-*/
+实际上就是把list中的指针转向都改变。
+记住转换的4步，这是固定的，记住保存current.next节点信息。记住check .next信息。
 
 /**
  * Definition for ListNode.
@@ -31,16 +18,18 @@ public class Solution {
      * @return: The new head of reversed linked list.
      */
     public ListNode reverse(ListNode head) {
-        if (head == null) {
+        // write your code here
+        if(head == null){
             return head;
         }
-        ListNode reversedList = null;
-        while (head != null) {
-            ListNode cutOffPart = head.next;
-            head.next = reversedList;
-            reversedList = head;
-            head = cutOffPart;
+        
+        ListNode prev = null;//prev point to null node. 
+        while(head != null){
+            ListNode temp = head.next;//head is current node，保存cur.next信息。
+            head.next = prev;//give prev a position， send it to head.next
+            prev = head;//change pointer
+            head = temp;
         }
-        return reversedList;
+        return prev;
     }
 }
