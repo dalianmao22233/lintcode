@@ -1,0 +1,23 @@
+public class Solution {
+    /**
+     * @param ListNode head is the head of the linked list
+     * @return: ListNode head of linked list
+     */
+    public static ListNode deleteDuplicates(ListNode head) { 
+        // write your code here
+        if(head == null){
+            return head;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        while(head != null && head.next != null){
+            if(head.val == head.next.val){
+                head.next = head.next.next; // remove head.next, keep head.
+            }
+            else{
+                head = head.next;
+            }
+        }
+        return dummy.next;
+    }  
+}
