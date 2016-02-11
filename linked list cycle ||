@@ -1,4 +1,5 @@
-follow up: sf 相遇后，将s放到起始位置，调整f的速度和s一样，一起走，最后相遇的位置一定是环入口。
+follow up: sf 相遇后，将s放到起始位置，调整f的速度和s一样，一起走，这里就用了Head，当做是s，真正的s还在环里走，
+最后相遇的位置一定是环入口。
 public class Solution {
     public ListNode detectCycle(ListNode head) {
         if (head == null || head.next==null) {
