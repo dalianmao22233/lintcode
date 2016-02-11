@@ -1,0 +1,24 @@
+follow up: sf 相遇后，将s放到起始位置，调整f的速度和s一样，一起走，最后相遇的位置一定是环入口。
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if (head == null || head.next==null) {
+            return null;
+        }
+
+        ListNode fast, slow;
+        fast = head.next;
+        slow = head;
+        while (fast != slow) {
+            if(fast==null || fast.next==null)
+                return null;
+            fast = fast.next.next;
+            slow = slow.next;
+        } 
+        
+        while (head != slow.next) {
+            head = head.next;
+            slow = slow.next;
+        }
+        return head;
+    }
+}
