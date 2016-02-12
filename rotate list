@@ -1,4 +1,15 @@
 还是快慢指针。
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
 public class Solution {
     private int getLength(ListNode head) {
         int length = 0;
@@ -15,25 +26,25 @@ public class Solution {
         }
         
         int length = getLength(head);
-        n = n % length;//有可能n特别大。
+        n = n % length;
         
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        head = dummy;
         
-        ListNode tail = dummy;
+        
+        ListNode fast = head, slow = head;
         for (int i = 0; i < n; i++) {
-            head = head.next;
-        }//快指针先走n步
-        
-        while (head.next != null) {//快慢指针一起走，tail到达n位置。
-            tail = tail.next;
-            head = head.next;
+            fast = fast.next;
         }
         
-        head.next = dummy.next;
-        dummy.next = tail.next;
-        tail.next = null;
+        while (fast.next != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        
+        fast.next = head;//注意顺序，先写这句，如果后写会报错。Link old Head to the end, form circle
+        dummy.next = slow.next;// Link slow.next as new head. tail should be end point.
+        slow.next = null;// add null to end point tail
         return dummy.next;
     }
 }
