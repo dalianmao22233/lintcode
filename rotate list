@@ -24,9 +24,12 @@ public class Solution {
         if (head == null) {
             return null;
         }
-        
-        int length = getLength(head);
-        n = n % length;
+        ListNode node = head;//这里出错了，不应该直接用head作为参数，会改变链表结构。传址了。
+        int length = getLength(node);
+        n = n % length;//有可能n太大，这样需要进行计算得到合适的n值。
+        if(n == 0){//记得加上！考虑这种情况
+            return head;
+        }
         
         ListNode dummy = new ListNode(0);
         dummy.next = head;
@@ -41,8 +44,8 @@ public class Solution {
             slow = slow.next;
             fast = fast.next;
         }
-        
-        fast.next = head;//注意顺序，先写这句，如果后写会报错。Link old Head to the end, form circle
+        //与顺序无关。
+        fast.next = head;//Link old Head to the end, form circle
         dummy.next = slow.next;// Link slow.next as new head. tail should be end point.
         slow.next = null;// add null to end point tail
         return dummy.next;
