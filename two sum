@@ -20,7 +20,8 @@ public class Solution {
 	            if ( hs.containsKey( target - numbers[i] )){
 	                int index1 = i+1;
 	                int index2 = hs.get(target - numbers[i]);
-	                if (index1 == index2){// 2+2=4
+	                if (index1 == index2){// 比如，2，2，4，5，target=4，i=0时，index1 = 1，index2=1，因为在hashmap中
+	                不会录入第二个2了，此时就不会有index2=2
 	                    continue;
 	                }
 	                a[0] = index1;
