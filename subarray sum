@@ -1,4 +1,5 @@
-有一种情况是：-3, 1, 0, 2, -2，中间有个0，但是map中已经录入了相同的值，这样会对结果产生影响。
+有一种情况是：-3, 1, 0, 2, -2，中间有个0，由于初始时，map中已经录入了sum=0，index=-1，遇到0的时候就直接返回了，
+There is a subarray with zero sum from index 3 to 3.
 public class Solution {
     /**
      * @param nums: A list of integers
