@@ -1,0 +1,30 @@
+有一种情况是：-3, 1, 0, 2, -2，中间有个0，但是map中已经录入了相同的值，这样会对结果产生影响。
+public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @return: A list of integers includes the index of the first number 
+     *          and the index of the last number
+     */
+    public ArrayList<Integer> subarraySum(int[] nums) {
+        // write your code here
+        if(nums == null || nums.length == 0){
+            return null;
+        }
+        int sum = 0;
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        HashMap <Integer, Integer> map = new HashMap<Integer, Integer>();
+        map.put(0, -1);
+        for(int i = 0; i < nums.length; i++){
+            sum = sum + nums[i];
+            if(map.containsKey(sum)){
+                array.add(map.get(sum) + 1);
+                System.out.println(map.get(sum));
+                array.add(i);
+                System.out.println(i);
+                return array;
+            }
+            map.put(sum, i);
+        }
+        return array;
+    }
+}
