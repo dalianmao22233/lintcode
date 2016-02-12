@@ -21,7 +21,8 @@ public class Solution {
 	                int index1 = i+1;
 	                int index2 = hs.get(target - numbers[i]);
 	                if (index1 == index2){// 比如，2，2，4，5，target=4，i=0时，index1 = 1，index2=1，因为在hashmap中
-	                不会录入第二个2了，此时就不会有index2=2
+	                不会录入第二个2了，此时就不会有index2=2,所以有可能会出现情况3，4，3，6，此时的结果index1=3, index2=1
+	                所以要加下面的判断。
 	                    continue;
 	                }
 	                if(index1<index2){
