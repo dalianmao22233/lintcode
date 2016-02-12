@@ -24,8 +24,14 @@ public class Solution {
 	                不会录入第二个2了，此时就不会有index2=2
 	                    continue;
 	                }
-	                a[0] = index1;
-	                a[1] = index2;
+	                if(index1<index2){
+	                    a[0] = index1;
+	                    a[1] = index2;
+	                }
+	                else{
+	                    a[0] = index2;
+	                    a[1] = index1;
+	                }
 	                return a;
 	            }
 	        }
