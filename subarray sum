@@ -19,9 +19,9 @@ public class Solution {
             sum = sum + nums[i];
             if(map.containsKey(sum)){
                 array.add(map.get(sum) + 1);
-                System.out.println(map.get(sum));
+              //  System.out.println(map.get(sum));
                 array.add(i);
-                System.out.println(i);
+              //  System.out.println(i);
                 return array;
             }
             map.put(sum, i);
