@@ -1,37 +1,44 @@
 merge sort version:
 
 public class Solution {            
-    private ListNode findMiddle(ListNode head) {
-        ListNode slow = head, fast = head.next;
-        while (fast != null && fast.next != null) {
+    private ListNode findMiddle(ListNode head){
+        ListNode slow = head;
+        ListNode fast = head.next;//fast slow don't need point to the same place. 
+       
+        while(fast != null && fast.next != null){
             fast = fast.next.next;
             slow = slow.next;
         }
-        return slow;
-    }    
-
-    private ListNode merge(ListNode head1, ListNode head2) {
+        return slow;//fast = head.next, 画画图就懂了，最后返回的就是slow.
+    }
+    private ListNode mergeList(ListNode node1, ListNode node2){
+      
+        if(node1 == null && node2 == null){
+            return null;
+        }
         ListNode dummy = new ListNode(0);
-        ListNode tail = dummy;
-        while (head1 != null && head2 != null) {
-            if (head1.val < head2.val) {
-                tail.next = head1;
-                head1 = head1.next;
-            } else {
-                tail.next = head2;
-                head2 = head2.next;
+        ListNode head = dummy;
+       
+        while(node1 != null && node2 != null){
+            if(node1.val < node2.val){
+                head.next = node1;
+                node1 = node1.next;
             }
-            tail = tail.next;
+            else{
+                head.next = node2;
+                node2 = node2.next;
+            }
+            head = head.next;
         }
-        if (head1 != null) {
-            tail.next = head1;
-        } else {
-            tail.next = head2;
+        if(node1 != null){
+            head.next = node1;
         }
-
+        else{
+            head.next = node2;
+        }
         return dummy.next;
     }
-
+    
     public ListNode sortList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
