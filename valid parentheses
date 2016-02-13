@@ -1,0 +1,22 @@
+public class Solution {
+    public boolean isValid(String s) {
+    
+        Stack<Character> stack = new Stack<Character>();
+        for(Character c : s.toCharArray()){ //注意写法，s.toCharArray(),字符串变成字符数组
+            if("{[(".contains(String.valueOf(c))){//注意写法，String.valueOf(c), 变成子串序列:http://www.tutorialspoint.com/java/lang/string_contains.htm
+                stack.push(c);
+            }
+            else if(!stack.isEmpty() && is_valid(stack.peek(), c)){ //注意stack.peek()
+                stack.pop();
+            }
+            else{
+                return false;
+            }
+        }
+        return stack.isEmpty();
+    }
+    private boolean is_valid(Character c1, Character c2){
+        return ((c1 == '{' && c2 == '}') || (c1 == '(' && c2 == ')') || (c1 == '[' && c2 == ']'));
+    }
+    
+}
