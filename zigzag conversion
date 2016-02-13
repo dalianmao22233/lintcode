@@ -1,0 +1,57 @@
+比较直观的解法是，用一个字符串数组 string[rows] 来存储每一行，最后一拼接就是最终结果。
+用一个delta表示正向还是反向，即上图中从第一行到最后一行还是最后一行到第一行。
+
+public class Solution {
+    public String convert(String s, int numRows) {
+        int len = s.length();  
+        if (len == 0 || numRows <= 1) return s;  
+          
+        String[] ans = new String[numRows];  
+        Arrays.fill(ans, "");  
+        int row = 0, delta = 1;  
+        for (int i = 0; i < len; i++) {  
+            ans[row] += s.charAt(i);  
+            row += delta;  
+            if (row >= numRows) {  
+                row = numRows-2;  
+                delta = -1;  
+            }  
+            if (row < 0) {  
+                row = 1;  
+                delta = 1;  
+            }  
+        }  
+          
+        String ret = "";  
+        for (int i = 0; i < numRows; i++) {  
+            ret += ans[i];  
+        }  
+        return ret;  
+    }
+}
+
+
+其他解法：
+发现所有行的重复周期都是 2 * nRows - 2
+对于首行和末行之间的行，还会额外重复一次，重复的这一次距离本周期起始字符的距离是 2 * nRows - 2 - 2 * i
+public class Solution {
+    public String convert(String s, int nRows) {
+        int length = s.length();
+        if (length <= nRows || nRows == 1) return s;
+        char[] chars = new char[length];
+        int step = 2 * (nRows - 1);
+        int count = 0;
+	    for (int i = 0; i < nRows; i++){
+    		int interval = step - 2 * i;
+    		for (int j = i; j < length; j += step){
+    		   	chars[count] = s.charAt(j);
+    			count++;
+    			if (interval < step && interval > 0 && j + interval < length && count <  length){
+    				chars[count] = s.charAt(j + interval);
+    				count++;
+    			}
+    		}
+    	}
+        return new String(chars);
+    }
+}
