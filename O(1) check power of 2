@@ -2,6 +2,15 @@ Thinking process:
 Any integer that's power of 2, follows one pattern. They are all: 1000000000....000 format.
 so (n - 1) becomes: 01111111111...111. 
 If bit-and them togeter, it will be 0.
+思路：如果n是2的幂，则n的二进制表示中只有一个1. 用n&(n-1)，如果结果是0则表示只有一个1. 比如：
+
+((4 & 3) == 0) 
+100 = 4 
+011 = 3
+
+有两个例外：
+排除n==0的情况
+排除Integer.MIN_VALUE。二进制表示为1000 0000 0000 0000 0000 0000 0000 0000
 */
 
 class Solution {
@@ -10,7 +19,7 @@ class Solution {
      * @return: True or false
      */
     public boolean checkPowerOf2(int n) {
-        if (n <= 0) {
+        if (n <= 0 || n == Integer.MIN_VALUE) {
             return false;
         }
         return (n & (n - 1)) == 0;
