@@ -25,6 +25,22 @@ public class Solution {
         return maxsum;
     }
 }
+
+-----zhanglin 空间复杂度O(1)
+{
+ int sum = nums[0];
+        int maxv = nums[0];
+        for(int i = 1; i < nums.length; i++){
+            if(sum <= 0){
+                sum = nums[i];
+            }
+            else{
+                sum += nums[i];
+            }
+            maxv = Math.max(sum, maxv);
+        }
+        return maxv;
+}
 // Version 1: Greedy
 
 public class Solution {
@@ -43,3 +59,28 @@ public class Solution {
         return max;
     }
 }
+//version 2: DP 非常好的想法，minsum指index=i之前任意一段的最小和，比如i=5, 1-3之间的和是最小的=minsum。
+那么sum-minsum得到的就是最大的那一段。
+public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @return: A integer indicate the sum of max subarray
+     */
+    public int maxSubArray(int[] nums) {
+        // write your code
+        if(nums == null || nums.length == 0){
+            return 0;
+         }
+        int minsum = 0;
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i < nums.length; i++){
+            sum += nums[i];
+            max = Math.max(sum - minsum, max);
+            minsum = Math.min(minsum, sum);
+        }
+        return max;
+    }
+    
+}
+
