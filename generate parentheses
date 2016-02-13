@@ -1,0 +1,25 @@
+典型的递归。一步步构造字符串。当左括号出现次数<n时，就可以放置新的左括号。
+当剩余的右括号大于左括号时，就可以放置新的右括号。
+public class Solution {
+    public List<String> generateParenthesis(int n) {
+        if(n <= 0){
+            return null;
+        }
+        ArrayList<String> rst = new ArrayList<String>();
+        helper(rst, "", n, n);
+        return rst;
+    }
+    private void helper(ArrayList<String> rst, String paren, int left, int right){
+        if(left == 0 && right == 0){
+            rst.add(paren);
+            return;
+        }
+        if(left > 0){
+            helper(rst, paren + '(', left-1, right);
+        }
+        if(right > 0 && left < right){
+            helper(rst, paren + ')', left, right-1);
+        }
+        return;
+    }
+}
