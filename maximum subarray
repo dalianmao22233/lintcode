@@ -1,4 +1,30 @@
-连续的数组元素相加求最大的和。
+连续的数组元素相加求最大的和。如果一个和是变成负数了，那么肯定没什么用，就直接扔掉重新开始。其实是一个dp的想法。
+
+public class Solution {
+    /**
+     * @param nums: A list of integers
+     * @return: A integer indicate the sum of max subarray
+     */
+    public int maxSubArray(int[] nums) {
+        // write your code
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int[] sums = new int[nums.length];
+        sums[0] = nums[0];
+        int maxsum = sums[0];
+        for(int i = 1; i < sums.length; i++){
+            if(sums[i-1] < 0){
+                sums[i] = nums[i];
+            }
+            else{
+                sums[i] = sums[i-1] + nums[i];
+            }
+            maxsum = Math.max(maxsum, sums[i]);
+        }
+        return maxsum;
+    }
+}
 // Version 1: Greedy
 
 public class Solution {
