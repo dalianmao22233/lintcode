@@ -1,0 +1,34 @@
+class Solution {
+    /**
+     * @param A and B: sorted integer array A and B.
+     * @return: A new sorted integer array
+     */
+    public int[] mergeSortedArray(int[] A, int[] B) {
+        // Write your code here
+        if(A == null && B == null){
+            return null;
+        }
+        if(A == null || B == null){
+            return A == null ? B:A;
+        }
+        int m = A.length - 1;
+        int n = B.length - 1;
+        int index = A.length + B.length - 1;
+        int[] result = new int[index + 1];
+        while(m>=0 && n>=0){
+            if(A[m] <= B[n]){
+                result[index--] = B[n--];//注意这里不要写成=A[m--],因为是从后往前填的，大的放后面。
+            }
+            else{
+                result[index--] = A[m--];
+            }
+        }
+        while(m >= 0){
+            result[index--] = A[m--];
+        }
+        while(n >= 0){
+            result[index--] = B[n--];
+        }
+        return result;
+    }
+}
