@@ -1,0 +1,30 @@
+从后向前找最后一个单词。首先要先转成字符串数组，方便取字符。
+public class Solution {
+    public int lengthOfLastWord(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+        int length = 0;
+        char[] chars = s.toCharArray();
+        for(int i = s.length()-1; i >= 0; i--){
+            if(length == 0){
+                if(chars[i] == ' '){
+                    continue;
+                }
+                else{
+                    length++;
+                }
+            }
+            else{
+                if(chars[i] == ' '){
+                    break;
+                }
+                else{
+                    length++;
+                }
+            }
+        }
+        return length;
+        
+    }
+}
