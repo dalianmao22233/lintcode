@@ -1,3 +1,4 @@
+连续的数组元素相加求最大的和。
 // Version 1: Greedy
 
 public class Solution {
