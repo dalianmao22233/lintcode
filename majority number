@@ -1,0 +1,40 @@
+/*Challenge
+O(n) time and O(1) space
+Tag: Enumeration
+Thinking process:
+Natural thinking process: count how many you have for 1st element, if next one is the same, count++, if next one is not the same, count- -. 
+When count ==0, that means other types of element has same amount as the 1st majority number, they are even.
+From this point, count the value at current position as the majority number, keep the loop rolling.
+Note: this solutions works only when the given array has a valid solution.
+CounterCase:[111223], with actually return 3 as the majority number. But again, this is not a valid input in this case.
+*/
+public class Solution {
+    /**
+     * @param nums: a list of integers
+     * @return: find a  majority number
+     */
+    public int majorityNumber(ArrayList<Integer> nums) {
+        // write your code
+        if(nums == null || nums.size() == 0){
+            return 0;
+        }
+        int candidate = -1;
+        int count = 0;
+        for(int i = 0; i < nums.size(); i++){
+            if(count == 0){
+                count = 1;
+                candidate = nums.get(i);
+            }
+            else if(candidate == nums.get(i)){//注意这里是else if，一共只有三种情况。if就报错了。如果只写if，
+            相当于除了第一个if又进了第二个if.计数会少1.
+                count++;
+            }
+            else{
+                count--;
+            }
+            
+        }
+        return candidate;
+        
+    }
+}
