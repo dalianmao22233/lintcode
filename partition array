@@ -2,6 +2,7 @@ quick sort:
 Partition Array根据pivot把array分成两半。
 从array两边开始缩进。while loop到遍历完。
 注意low/high,或者叫start/end不要越边界
+实现在k的左边是<k, 右边是>k。 并不要求排序。只有quick sort能这样。
 O(n)
 
 class Solution {
