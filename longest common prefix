@@ -1,3 +1,4 @@
+注意border，只有一个的情况。
 public class Solution {
     public String longestCommonPrefix(String[] strs) {
         if (strs == null || strs.length == 0){
