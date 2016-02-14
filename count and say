@@ -1,3 +1,6 @@
+一开始没看懂题目，找了一下别人的翻译。。。
+第一个序列是 1， 第二个序列由第一个生成， 叫 一个1 ，写为 11
+问 第n个是什么 
 public class Solution {
     public String countAndSay(int n) {
         String oldString = "1";
