@@ -13,7 +13,7 @@ public class Solution {
         
         while(pb >= 0){
             int sum = (int)(a.charAt(pa) - '0') + (int)(b.charAt(pb) - '0') + carries;
-            rst = String.valueOf(sum % 2) + rst;
+            rst = String.valueOf(sum % 2) + rst;  //valueOf convert int to string
             carries = sum / 2;
             pa --;
             pb --;
