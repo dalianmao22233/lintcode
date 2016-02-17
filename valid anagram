@@ -1,0 +1,32 @@
+public class Solution {
+    public boolean isAnagram(String s, String t) {
+        // if(s == null && t == null){
+        //     return true;
+        // }
+        // if(s == null || t == null){
+        //     return false;
+        // }
+        if(s.length() != t.length()){
+            return false;
+        }
+        s = s.toLowerCase();
+        t = t.toLowerCase();
+        // int[] record = new int[s.length()];
+        int[] record = new int['z' + 1];
+        char[] s_array = s.toCharArray();
+        char[] t_array = t.toCharArray();
+        for(int i = 0; i < s_array.length; i++){
+            record[s_array[i]]++;
+        }
+        for(int j = 0; j < t_array.length; j++){
+            record[t_array[j]]--;
+        }
+        for(int k = 0; k < record.length; k++){
+            if(record[k] != 0){
+                return false;
+            }
+        }
+        return true;//i wrote it to false...
+        
+    }
+}
