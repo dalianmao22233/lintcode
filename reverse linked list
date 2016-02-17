@@ -1,3 +1,4 @@
+//iterative method:
 实际上就是把list中的指针转向都改变。
 记住转换的4步，这是固定的，记住保存current.next节点信息。记住check .next信息。记住最后返回的是prev，不是head....此时prev
 已经在末尾了。cur指向了Null。
@@ -33,4 +34,26 @@ public class Solution {
         }
         return prev;
     }
+}
+
+//recursive method:
+//mark first node and second node, thus the second node represents the rest of the list 
+//recursively call reverse method on the rest of the list to reverse it,
+// mark the last node of the original list when reverse method reaches the end
+// after reverse method returns, point the second node to the first node, point the first node to null
+public ListNode reverseList(ListNode head) {
+    if(head == null) return null;
+    if(head.next == null) return head;
+    ListNode rest = head.next;
+    ListNode newhead = reverse(rest);
+    rest.next = head;
+    head.next = null;
+    return newhead;
+}
+private ListNode reverse(ListNode rest){
+    if(rest.next == null) return rest;
+    ListNode newrest = rest.next;
+    ListNode head = reverse(newrest);
+    newrest.next = rest;
+    return head;
 }
