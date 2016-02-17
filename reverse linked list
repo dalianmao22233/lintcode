@@ -1,5 +1,6 @@
 实际上就是把list中的指针转向都改变。
-记住转换的4步，这是固定的，记住保存current.next节点信息。记住check .next信息。
+记住转换的4步，这是固定的，记住保存current.next节点信息。记住check .next信息。记住最后返回的是prev，不是head....此时prev
+已经在末尾了。cur指向了Null。
 
 /**
  * Definition for ListNode.
