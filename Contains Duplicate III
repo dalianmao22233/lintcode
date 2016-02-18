@@ -1,0 +1,45 @@
+Contains Duplicate III
+用treeset的subset：
+O(n log k)
+
+public class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (nums == null || nums.length == 0) 
+            return false;
+        TreeSet<Long> set = new TreeSet<>();
+        set.add((long) nums[0]);
+        for (int i = 1; i < nums.length; i++) {
+            if (i > k) 
+                set.remove((long) nums[i - k - 1]);
+            long left = (long) nums[i] - t;
+            long right = (long) nums[i] + t;
+            if (left <= right && !set.subSet(left, right + 1).isEmpty()) return true;
+            set.add((long) nums[i]);
+        }
+        return false;
+    }
+}
+=================
+space O(1), time O(1):
+private long getID(long i, long w) {
+    return i < 0 ? (i + 1) / w - 1 : i / w;
+}
+
+public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+    if (t < 0) return false;
+    int n = nums.length;
+    Map<Long, Integer> d = new HashMap<>();
+    long w = (long)t + 1;
+    for (int i = 0; i < n; ++i) {
+        if (i > k) d.remove(getID(nums[i - k - 1], w));
+        long m = getID(nums[i], w);
+        if (d.containsKey(m))
+            return true;
+        if (d.containsKey(m - 1) && Math.abs(nums[i] - d.get(m - 1)) < w)
+            return true;
+        if (d.containsKey(m + 1) && Math.abs(nums[i] - d.get(m + 1)) < w)
+            return true;
+        d.put(m, nums[i]);
+    }
+    return false;
+}
