@@ -9,9 +9,11 @@ public class Solution {
         return res;
     }
     private void view(List<List<Integer>> res, List<Integer> sol, int level, int[] nums){
-        //没有判断条件，这是看子集个数，不是从最右看有多少个节点的那种题。
-        res.add(new ArrayList(sol));
-        
+        //没有其他的判断条件，这是看子集个数，不是从最右看有多少个节点的那种题。
+        //只能判断一下子集的大小是不是超过了数组的长度，不超过就加入res
+        if(sol.size() <= nums.length){
+            res.add(new ArrayList(sol));
+        }
         for(int i = level; i < nums.length; i++){
             sol.add(nums[i]);
             view(res, sol, i+1, nums);
