@@ -20,17 +20,17 @@ public class Solution {
         if(l1 == null && l2 == null){
             return null;
         }
+        if(l1 == null && l2 != null){
+            return l2;
+        }
+        if(l2 == null && l1 != null){
+            return l1;
+        }
         ListNode dummy = new ListNode(0);
         ListNode head = dummy;
         while(l1 != null && l2 != null){   //这里我写成||了，报错，根据while外面的情况，必须是&&。
-            // if(l1 == null){
-            //     return l2;
-            // }
-            // if(l2 == null){
-            //     return l1;
-            // }
             if(l1.val < l2.val){
-                head.next = l1;
+                head.next = l1;//必须有head.next的赋值。我没写，报错了。最后只返回了head.因为.next结构构造了链表，所以必须有！
                 l1 = l1.next;
             }
             else{
