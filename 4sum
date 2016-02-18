@@ -1,3 +1,5 @@
+记得先Arrays.sort(nums)
+以及跳过重复元素的判断
 public class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
