@@ -1,0 +1,20 @@
+public class Solution {
+    public String reverseWords(String s) {
+        if(s == null || s.length() == 0){
+            return s;
+        }
+        String[] array = s.split(" ");
+        StringBuilder s_new = new StringBuilder();
+        for(int i = array.length - 1; i >= 0 ; i--){
+            if(!array[i].equals("")){
+                s_new = s_new.append(array[i]+" ");
+            }
+        }
+        if(s_new.length() == 0){
+            return "";
+        }
+        else{
+            return s_new.substring(0, s_new.length()-1);//remove last space
+        }
+    }
+}
