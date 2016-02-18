@@ -1,3 +1,27 @@
+我的：
+使用hashMap
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null){
+            return null;
+        }
+        HashMap map = new HashMap();
+        // while(headA != null){
+        for(int i = 0; headA != null; i++){
+            map.put(headA, i);
+            headA = headA.next;
+        }
+        // for(int j = 0; headB != null; j++){
+        while(headB != null){
+            if(map.containsKey(headB)){
+                return headB;
+            }
+            headB = headB.next;
+        }
+        return headB;//这里返回Null也是对的。
+}
+
+更简洁！：
+
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         if(headA == null || headB == null){
@@ -8,6 +32,7 @@ public class Solution {
         while(a != b){
             a = a==null?headB:a.next;
             b = b==null?headA:b.next;
-        }return b;
+        }
+        return b;//a也一样
     }
 }
