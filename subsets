@@ -1,0 +1,21 @@
+recursive:
+
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> sol = new ArrayList<>();
+        view(res, sol, 0, nums);
+        return res;
+    }
+    private void view(List<List<Integer>> res, List<Integer> sol, int level, int[] nums){
+        //没有判断条件，这是看子集个数，不是从最右看有多少个节点的那种题。
+        res.add(new ArrayList(sol));
+        
+        for(int i = level; i < nums.length; i++){
+            sol.add(nums[i]);
+            view(res, sol, i+1, nums);
+            sol.remove(sol.size()-1);
+        }
+    }
+}
