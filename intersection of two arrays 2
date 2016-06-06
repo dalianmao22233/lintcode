@@ -1,0 +1,50 @@
+public class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        if(nums1 == null || nums2 == null) return null;
+        Stack mystack = new Stack();
+        Arrays.sort(nums1);
+        List<Integer> list_1 = new ArrayList<Integer>();  //array nums1 convert to list_1,就是为了用list.remove(index)的功能
+        for(int num:nums1){  //array没有移除元素的内置函数，而且实现起来很麻烦
+            list_1.add(num);
+        }
+        for(int i = 0; i < nums2.length; i++){
+            if(bsearch(nums1, nums2[i])){
+                mystack.push(nums2[i]);
+                list_1.remove(list_1.indexOf(nums2[i]));
+                if(list_1.isEmpty()){
+                    break;
+                }
+                //list convert to nums1， 其实本意就是用nums1作为bsearch的参数，每次比较完都要删除这个element.
+                nums1 = new int[list_1.size()];
+                for(int j = 0; j < list_1.size(); j++) 
+                    nums1[j] = list_1.get(j);
+                // nums1 = ArrayUtils.removeElement(nums1, nums2[i]);//这是java的内置方法，但是leetcode没有引用包，所以不能用
+                // array = ArrayUtils.removeElement(array, element)
+            }
+        }
+        
+        int[] res = new int[mystack.size()];
+        int index = 0;
+        while(!mystack.empty()){
+            res[index++] = Integer.parseInt(mystack.pop().toString());
+        }
+        return res;
+    }
+    private boolean bsearch(int[] nums, int target){
+        if(nums == null || nums.length == 0){
+            return false;
+        }
+        int start = 0, end = nums.length-1;
+        while(start+1  <end){
+            int mid = (start + end)/2;
+            if(nums[mid] == target) return true;
+            else if(nums[mid] > target) end = mid;
+            else start = mid;
+        }
+        if(nums[start] == target) return true;
+        if(nums[end] == target) return true;
+        return false;
+    }
+   
+    
+}
