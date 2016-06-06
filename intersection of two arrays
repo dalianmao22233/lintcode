@@ -1,0 +1,51 @@
+public class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        if(nums1 == null || nums2 == null){
+            return null;
+        }
+        Arrays.sort(nums1);
+        HashSet<Integer> set = new HashSet<>();
+        for(int i = 0; i < nums2.length; i++){
+            if(set.contains(nums2[i])){
+                continue;
+            }
+            if(bsearch(nums1, nums2[i])){
+                set.add(nums2[i]);
+            }
+            
+        }
+        int[] res = new int[set.size()];
+        int i = 0;
+        for(Integer num : set){
+            res[i] = num;
+            i++;
+        }
+        return res;
+    }
+    private boolean bsearch(int[] nums, int target){
+        if(nums == null || nums.length == 0) return false;
+        int start = 0, end = nums.length-1;
+        
+        while(start+1 < end){
+            int mid = (start + end)/2;
+            // for(int i = 0; i < nums[i]; i++){
+                if(nums[mid] > target){
+                    end = mid;
+                }
+                else if(nums[mid] < target){
+                    start = mid;
+                }
+                else{
+                    return true;
+                }
+            // }
+        }
+        if(nums[start] == target){
+            return true;
+        }
+        if(nums[end] == target){
+            return true;
+        }
+        return false;
+    }
+}
