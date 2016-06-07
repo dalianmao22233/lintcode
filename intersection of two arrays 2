@@ -1,3 +1,4 @@
+1. 使用binary search+sort
 public class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
         if(nums1 == null || nums2 == null) return null;
@@ -47,4 +48,31 @@ public class Solution {
     }
    
     
+}
+2. 其中一个数组转成List，暴力搜索另一个
+public class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        List<Integer> list_1 = new ArrayList<Integer>();
+        List<Integer> list_2 = new ArrayList<Integer>();
+        for(int num:nums1){
+            list_1.add(num);
+        }
+        for(int i = 0; i < nums2.length; i++){
+            if(list_1.isEmpty()) break;
+            if(list_1.contains(nums2[i])){
+                list_2.add(nums2[i]);
+                list_1.remove(list_1.indexOf(nums2[i]));
+            }
+            
+        }
+        int[] res = new int[list_2.size()];
+        // int i = 0;
+        for(int i = 0; i < list_2.size(); i++){ //注意这里i的边界，我原来写了个-1. 其实i根本到不了list_2.size()这个值。
+            res[i] = list_2.get(i);
+        }
+        // for(int num: list_2){
+        //     res[i++] = num;    //这种方法也能得到res
+        // }
+        return res;
+    }
 }
