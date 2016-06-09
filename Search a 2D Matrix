@@ -68,7 +68,7 @@ public class Solution {
         
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
-            int number = matrix[mid / column][mid % column];
+            int number = matrix[mid / column][mid % column]; //？？？这里为什么都是除以col，%col?
             if (number == target) {
                 return true;
             } else if (number < target) {
