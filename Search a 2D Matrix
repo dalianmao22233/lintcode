@@ -89,7 +89,7 @@ public class Solution {
     }
 }
 3. 不用二分搜索，时间复杂度高
-从右上角元素开始遍历，每次遍历中若与target相等则返回true；若小于则行向下移动；若大于则列向左移动。时间复杂度m+n
+从左下角元素开始遍历，每次遍历中若与target相等则返回true；若大于则行向上移动；若小于则列向右移动。时间复杂度m+n
 public class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
         if(matrix == null || matrix.length == 0) return false;
