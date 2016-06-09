@@ -1,4 +1,5 @@
 // Binary Search Twice
+二分法确定target可能在第几行出现。再用二分法在该行确定target可能出现的位置。时间复杂度O(logn+logm)
 public class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
         if (matrix == null || matrix.length == 0) {
@@ -88,6 +89,7 @@ public class Solution {
     }
 }
 3. 不用二分搜索，时间复杂度高
+从右上角元素开始遍历，每次遍历中若与target相等则返回true；若小于则行向下移动；若大于则列向左移动。时间复杂度m+n
 public class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
         if(matrix == null || matrix.length == 0) return false;
