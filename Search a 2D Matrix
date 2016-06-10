@@ -26,6 +26,7 @@ public class Solution {
         }
         if (matrix[end][0] <= target) { //先从end开始，这样才不会报错，1.因为此时start+1 = end，刚刚跳出while的条件。
                 //2.end算作一个边界条件，如果matrix[end][0]都小于target,那此时end是最逼近target的，将end赋值给row，先确定了行数
+                //3.如果matrix[end][0]>target，这时就需要转到下一个分支，看start，确定了row才能去左右移动col来找target
             row = end;
         } else if (matrix[start][0] <= target) {
             row = start;
