@@ -31,7 +31,7 @@ public class Solution {
         } else if (matrix[start][0] <= target) {
             row = start;
         } else {
-            return false;
+            return false; //如果都不符合，就是没有合适的row。直接报错。
         }
         
         // find the column index, the number equal to target
