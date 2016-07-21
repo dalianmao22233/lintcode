@@ -46,6 +46,33 @@ public class Solution {
         }
         
         // answer
-        return sum[0][0];
+        return sum[0][0];//返回顶层元素，顶层只有一个。
     }
 }
+2. triangle is not a d2, is an embedded list.只用一个一维数组，空间复杂度O(n)
+public class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        if(triangle == null) {
+            return 0;
+        }
+        if(triangle.size() == 1) {
+            return triangle.get(0).get(0);
+        }
+        for(int i = 0; i < triangle.size(); i++){
+            if(triangle.get(i) == null) {
+                return 0;
+            }
+        }
+        int m = triangle.size();
+        int n = triangle.get(m-1).size();
+        int[] sum = new int[m];//从底往上，先初始化底层。
+        for(int i = 0; i < n; i++) {
+            sum[i] = triangle.get(m-1).get(i);
+        }
+        for(int i = m-2; i >= 0; i--) {
+            for(int j = 0; j < triangle.get(i).size(); j++) {
+                sum[j] = triangle.get(i).get(j) + Math.min(sum[j], sum[j+1]);
+            }
+        }
+        return sum[0];
+        }
