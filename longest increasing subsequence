@@ -1,0 +1,29 @@
+public class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+        int m = nums.length;
+        int[] f = new int[m];
+        int max = 0;
+       
+        for(int i = 0; i < m; i++) {
+            f[i] = 1;      //initialize，可以分出去写。
+            for(int j = 0; j < i; j++) {
+                if(nums[j] < nums[i]) //注意这个条件不能写在for的条件里，不然报错，因为如果这个条件不满足，就不会往下继续执行循环。
+                    f[i] = Math.max(f[j]+1, f[i]);
+            }
+            if(f[i] > max){   //也可以写成下面循环的形式，找出最大值。
+                max = f[i];
+            }
+        }
+        // int max = 0;
+        // for(int i = 0; i < m; i++) {
+        //     max = Math.max(f[i], max);
+        // }
+        return max;
+        
+        
+        
+    }
+}
