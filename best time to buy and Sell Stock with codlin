@@ -1,0 +1,28 @@
+动态规划，但是需要推导。非常类似于house robber
+public class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices == null || prices.length == 0) {
+            return 0;
+        }
+        int[] profit = new int[prices.length];
+        int min = Integer.MIN_VALUE;
+        if(prices.length == 1) return 0;
+        if(prices.length == 2) return Math.max(prices[1]-prices[0], 0);
+        profit[0] = 0;
+        profit[1] = Math.max(prices[1]-prices[0], 0);
+        profit[2] = Math.max(profit[1], Math.max(prices[2]-prices[0], prices[2]-prices[1]));
+        int max = 0;
+        for(int i = 3; i < prices.length; i++) {
+            for(int j = 0; j < i; j++){
+                max = Math.max(0, prices[i]-prices[j]);
+                if(j>=2){
+                    profit[i] = Math.max(profit[i], Math.max(max+profit[j-2], profit[i-1]));// 这里一定注意还要求外层max
+                } else {
+                    profit[i] = Math.max(profit[i], Math.max(max, profit[i-1]));
+                }
+            }
+        }
+        return profit[prices.length-1];
+    }
+    
+}
