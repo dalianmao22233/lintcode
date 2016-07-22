@@ -26,7 +26,7 @@ public class Solution {
     }
 }
 
------zhanglin 空间复杂度O(1)
+-----zhanglin 空间复杂度O(1) 这是贪心！！！！！！
 {
  int sum = nums[0];
         int maxv = nums[0];
