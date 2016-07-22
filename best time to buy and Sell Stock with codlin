@@ -26,3 +26,37 @@ public class Solution {
     }
     
 }
+
+仿照做法：
+Define f [ i ] as the amount / profit you can get most at kth step.
+
+Basically , f [ i ] is to be calculated as: f [ i ] = max( f [ i - 1 ], p [ i ] -p [ j ] + f [ j - 2 ] )
+
+where f [ i - 1 ] means no action take from last step to here,
+
+and p [ i ] - p [ j ] + f [ j - 2 ] means you took an action (purchase and sale) from j to i, with CD at j-1, thus previous profit at f [ j - 2 ], where j runs from 0 to i
+
+thus it's changed into:
+
+f [ i ] = max ( f [ i - 1 ], p [ i ] + max ( f [ j - 2 ] - p [ j ] ) )
+
+and here's the java code submitted
+
+    public int maxProfit(int[] prices) {
+   		if ( prices.length < 2 )
+			return 0;
+   		if ( prices.length == 2 )
+   		    return Math.max(0,prices[1]-prices[0]);
+		int f0=0, f1=0, f2=0;
+		f0 = 0;
+		f1 = Math.max( prices[1] - prices[0], 0 );
+		int sum = 0, minj = Math.max( -prices[0], -prices[1] );
+		for ( int i = 2; i < prices.length; i++ )
+		{
+			minj = Math.max( minj, f0 - prices[i] );
+			f2 = Math.max( f1, prices[i] + minj );
+			f0 = f1;
+			f1 = f2;
+		}
+		return f2;
+    }
