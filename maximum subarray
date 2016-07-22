@@ -84,3 +84,42 @@ public class Solution {
     
 }
 
+4. 我写的超时DP。。。
+public class Solution {
+    public int maxSubArray(int[] nums) {
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+        int m = nums.length;
+        int max = Integer.MIN_VALUE;
+        if(m == 1) {
+            return nums[0];
+        }
+        
+        int tmp_max = Integer.MIN_VALUE;
+        int global_max = Integer.MIN_VALUE;
+        for (int i = 0; i < m; i++) {
+            global_max = Math.max(global_max, nums[i]);
+            for(int j = 0; j < i; j++){
+                tmp_max = Math.max(tmp_max, range_sum(nums, j, i));
+            }
+        }
+        int tmp_max2 = Integer.MIN_VALUE;
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < i; j++){
+                tmp_max2 = Math.max(Math.max(tmp_max, range_sum(nums, j, i-1)+nums[i]), global_max);
+            }
+            if(max < tmp_max2) max = tmp_max2;
+        }
+        
+        return max;
+        
+    }
+    public int range_sum(int[] nums, int start, int end) {
+        int sum = 0;
+        for(int i = start; i <= end; i++) {
+            sum += nums[i];
+        }
+        return sum;
+    }
+}
