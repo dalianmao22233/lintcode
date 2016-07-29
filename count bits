@@ -1,0 +1,29 @@
+1. naive做法，循环遍历。
+public class Solution {
+    public int[] countBits(int num) {
+        if (num < 0) {
+            return null;
+        }
+        int[] arr = new int[num+1];
+        if (num == 0) {
+            return arr;
+        }
+        // int[] arr = new int[num];
+        for (int i = 0; i <= num; i++) {
+            int bits = countbits(i);
+            arr[i] = bits;
+        }
+        return arr;
+    }
+    public int countbits(int num) {
+        int count = 0; 
+        while(num != 0){
+            if(num%2==1){
+                count++;
+            }
+            num = num/2;
+        }
+        return count;
+
+    }
+}
