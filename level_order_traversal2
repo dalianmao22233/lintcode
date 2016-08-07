@@ -9,7 +9,45 @@
  *     }
  * }
  */
+ 1.leetcode:用stack
+ /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        Stack<List> stack = new Stack<List>();
+        if (root == null) return res;
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            ArrayList<Integer> level = new ArrayList<Integer>();
+            for(int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                level.add(node.val);
+                if(node.left != null) queue.offer(node.left);
+                if(node.right != null) queue.offer(node.right);
+            }
+            // res.add(level);
+            stack.push(level);
+        }
+        while(!stack.isEmpty()) {
+            res.add(stack.pop());
+        }
+        return res;
+    }
+}
  
+ 
+ 
+ 2.lintcode:用arraylist.add的特质
  
 public class Solution {
     /**
