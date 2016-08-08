@@ -6,7 +6,7 @@ public class Solution {
         if(root == null) return res;
         Stack<TreeNode> stack = new Stack<TreeNode>();
         TreeNode cur = root;
-        while(cur != null || !stack.empty()) {
+        while(cur != null || !stack.empty()) { //这里用||, 如果两个同时满足，就终止while.否则只有cur == null是不会终止的。
             while(cur != null) {
                 stack.push(cur);
                 cur = cur.left;
