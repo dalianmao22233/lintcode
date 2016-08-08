@@ -1,30 +1,16 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
+递归：
+注意数据类型为Long,如果写Int会溢出。
 public class Solution {
     public boolean isValidBST(TreeNode root) {
-        if(root == null){
-            return true;
-        }
-        return is_valid(root, Long.MIN_VALUE, Long.MAX_VALUE);
+        if(root == null) return true;//空树也是二叉搜索树
+        return helper(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
-    private boolean is_valid(TreeNode root, long min, long max){
-        if(root == null){
-            return true;
-        }
-        if(root.val <= min){
-            return false;
-        }
-        if(root.val >= max){
-            return false;
-        }
-        return is_valid(root.left, min, root.val) && is_valid(root.right, root.val, max);
-        
+    public boolean helper(TreeNode root, long min, long max) {
+        if(root == null) return true;
+        if(root.val <= min) return false;
+        if(root.val >= max) return false;
+        return helper(root.left, min, root.val) && helper(root.right, root.val, max);
     }
+     
+   
 }
