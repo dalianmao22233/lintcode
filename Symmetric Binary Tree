@@ -1,3 +1,17 @@
+第二次：
+public class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null) return true;
+        return helper(root.left, root.right);
+    }
+    public boolean helper(TreeNode A, TreeNode B) {
+        if(A == null && B == null) return true;
+        if(A == null || B == null) return false;
+        if(A.val != B.val) return false;
+        return helper(A.left, B.right) && helper(A.right, B.left);
+    }
+}
+第一次：
 /**
  * Definition of TreeNode:
  * public class TreeNode {
