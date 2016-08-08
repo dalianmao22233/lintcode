@@ -1,0 +1,15 @@
+和symmetric tree很类似。递归。
+public class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p == null && q == null) return true;
+        if(p == null || q == null) return false;
+        return same(p, q);
+    }
+    public boolean same(TreeNode A, TreeNode B) {
+        if(A == null && B == null) return true;
+        if(A == null || B == null) return false;
+        if(A.val != B.val) return false;
+        else return same(A.left, B.left) && same(A.right, B.right);
+    }
+    
+}
