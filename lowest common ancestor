@@ -1,3 +1,4 @@
+如果p和q分别位于root的左右两侧，则root为它们的LCA，否则为左子树或者右子树
 
 第一种方法好想，come from LLJ。先遍历某一颗子树，from top to bottom, check if there is a node == target(A or B),如果存在，
 那么返回true.这样，如果在同一个side上，那么再细分左右子树继续查找。如果不在，则LCA=root.
