@@ -7,8 +7,11 @@ public class Solution {
     public boolean helper(TreeNode A, TreeNode B) {
         if(A == null && B == null) return true;
         if(A == null || B == null) return false;
+        
         if(A.val != B.val) return false;
-        return helper(A.left, B.right) && helper(A.right, B.left);
+        if(A.val == B.val)
+            return helper(A.left, B.right) && helper(A.right, B.left);
+        return false;
     }
 }
 第一次：
