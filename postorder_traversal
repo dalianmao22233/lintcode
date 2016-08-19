@@ -50,7 +50,18 @@ public class Solution {
 }
 
 
-
+第二种解法：递归
+public class Solution {
+    List<Integer> res = new ArrayList<Integer>();
+    public List<Integer> postorderTraversal(TreeNode root) {
+        if(root == null) return res;
+        postorderTraversal(root.left);
+        postorderTraversal(root.right);
+        res.add(root.val);
+        return res;
+    }
+}
+这个在Leetcode上运行速度超过其他两种方法。
 
 第一种解法，记录下来prev，即访问当前节点之前访问的那个节点的情况，一共三种
 我们使用prev变量跟踪上一次访问的节点。假设栈顶元素是curr。当prev是curr的父节点时，我们正在向下遍历树。此时，优先遍历curr的左孩子（将左孩子压入栈）。如果没有左孩子，再看右孩子。如果左右孩子都不存在（curr是叶节点），就输出curr的值并弹出栈顶元素。
@@ -58,6 +69,7 @@ public class Solution {
 如果prev是curr的左孩子，我们正在从左子树向上遍历。我们看一下curr的右孩子。如果可以，就从右孩子向下遍历（将右孩子压入栈），否则打印curr的值并弹出栈顶元素。
 
 如果prev是curr的右孩子，我们正在从右子树向上遍历。打印curr的值并弹出栈顶元素。
+第一个解法的空间复杂度是O(h)，其中h是树的最大高度。比第三种解法要小。
 /**
  * Definition of TreeNode:
  * public class TreeNode {
