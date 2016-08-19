@@ -29,24 +29,24 @@ public class Solution {
     }
 }
 根据以上的想法，可以不用双栈，用stack+list也行，意思是一样的：
- public List<Integer> postorderTraversal(TreeNode r) {
-        LinkedList<Integer> list = new LinkedList<>();
-        if (r == null)
-            return list;
-
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(r);
-
-        while (!stack.isEmpty()) {
-            final TreeNode treeNode = stack.pop();
-            list.addFirst(treeNode.val);
-            if (treeNode.left != null)
-                stack.push(treeNode.left);
-            if (treeNode.right != null)
-                stack.push(treeNode.right);
+ public class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        LinkedList<Integer> res = new LinkedList<Integer>();//这句中必须都写成LinkedList,如果左边是List会报错。
+        if(root == null) return res;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        Stack<Integer> tmp = new Stack<Integer>();
+        
+        stack.push(root);
+        while(!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            res.addFirst(node.val);
+            if(node.left != null) stack.push(node.left);
+            if(node.right != null) stack.push(node.right);
         }
-        return list;
+        return res;
+        
     }
+}
 
 
 
