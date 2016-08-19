@@ -1,3 +1,40 @@
+另一种解法是使用两个栈。试着在纸上写一下代码。我认为这种解法非常的神奇而优美。你可能觉得这很不可思议，但实际上它做的是反向的先序遍历。亦即遍历的顺序是：节点 -> 右子树 -> 左子树。这生成的是后根遍历的逆序输出。使用第二个栈，再执行一次反向输出即可得到所要的结果。
+
+下面是它的实现步骤：
+
+将根节点压入第一个栈
+从第一个栈中弹出一个元素，压入第二个栈
+然后分别将该节点的左右孩子压入第一个栈
+重复步骤2和步骤3直到第一个栈为空
+执行结束，第二个栈中就保存了所有节点的后序遍历输出结果。依次将元素从第二个栈中弹出即可。
+
+public class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if(root == null) return res;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        Stack<Integer> tmp = new Stack<Integer>();
+        stack.push(root);
+        while(!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            tmp.push(node.val);
+            if(node.left != null) stack.push(node.left);
+            if(node.right != null) stack.push(node.right);
+        }
+        while(!tmp.isEmpty()) {
+            int tmp_node_val = tmp.pop();
+            res.add(tmp_node_val);
+        }
+        return res;
+        
+    }
+}
+
+
+
+
+
+
 /**
  * Definition of TreeNode:
  * public class TreeNode {
