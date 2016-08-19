@@ -28,11 +28,30 @@ public class Solution {
         
     }
 }
+根据以上的想法，可以不用双栈，用stack+list也行，意思是一样的：
+ public List<Integer> postorderTraversal(TreeNode r) {
+        LinkedList<Integer> list = new LinkedList<>();
+        if (r == null)
+            return list;
+
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(r);
+
+        while (!stack.isEmpty()) {
+            final TreeNode treeNode = stack.pop();
+            list.addFirst(treeNode.val);
+            if (treeNode.left != null)
+                stack.push(treeNode.left);
+            if (treeNode.right != null)
+                stack.push(treeNode.right);
+        }
+        return list;
+    }
 
 
 
 
-
+第一种解法，记录下来prev，即访问当前节点之前访问的那个节点的情况，一共三种
 
 /**
  * Definition of TreeNode:
