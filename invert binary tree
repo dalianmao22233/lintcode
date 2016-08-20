@@ -1,0 +1,13 @@
+递归：
+public class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null) return root;
+        TreeNode tmp = null;
+        tmp = root.right;
+        root.right = root.left;
+        root.left = tmp;
+        if(root.left != null) invertTree(root.left);
+        if(root.right != null) invertTree(root.right);
+        return root;
+    }
+}
