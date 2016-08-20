@@ -35,4 +35,27 @@ public class Solution {
         return level;
     }
 }
-第三种：DFS
+第三种：DFS 不是很懂。。
+public int minDepth(TreeNode root){
+    if(root==null) return 0;
+    Stack<TreeNode> stack=new Stack<TreeNode>();
+    TreeNode tp,lastVisited=null,n;
+    int min=Integer.MAX_VALUE;
+    while(root!=null||!stack.isEmpty()){
+        if(root!=null){
+            stack.push(root);
+            root=root.left;
+        }else{
+            tp=stack.peek();
+            if(tp.right!=null&&tp.right!=lastVisited){
+                root=tp.right;
+            }else{
+                if(tp.left==null&&tp.right==null){
+                    if(stack.size()<min) min=stack.size();
+                }
+                lastVisited=stack.pop();
+            }
+        }
+    }
+    return min;
+}
