@@ -45,6 +45,11 @@ public class Solution {
             return false;
         }
         if(node == target){
+    //cannot be written as node.val == target.val, 
+    //[37,-34,-48,null,-100,-100,48,null,null,null,null,-54,null,-71,-22,null,null,null,8]
+    //node with value -100
+    //node with value -71
+    //即使node.val一样，node本身也有区别。参照这个例子。
             return true;
         }
         return inleftSide(node.left, target) || inleftSide(node.right, target);
