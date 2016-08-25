@@ -5,7 +5,7 @@ public class Solution {
         if(root == null) return true;//空树也是二叉搜索树
         return helper(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
-    public boolean helper(TreeNode root, long min, long max) {
+    public boolean helper(TreeNode root, long min, long max) {//注意long大小写。。。人生啊
         if(root == null) return true;
         if(root.val <= min) return false;
         if(root.val >= max) return false;
