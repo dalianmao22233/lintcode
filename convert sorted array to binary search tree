@@ -1,4 +1,5 @@
 思想：找到中间位置，作为root，然后对于root.left, root.right重复这一步。
+//注意：int mid = low + (high-low)/2; // avoids integer overflow
 public class Solution {
     public TreeNode sortedArrayToBST(int[] nums) {
         if(nums == null) return null;
