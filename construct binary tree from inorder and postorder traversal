@@ -1,4 +1,5 @@
 后序+中序，和前序+中序相反。
+第一种：
 public class Solution {
     
     public TreeNode buildTree(int[] inorder, int[] postorder) {
@@ -19,6 +20,38 @@ public class Solution {
         
         root.left = helper(inorder, postorder, inmid-1, inEnd, postEnd-(inStart-inmid)-1);
         root.right = helper(inorder, postorder, inStart, inmid+1, postEnd-1);
+        return root;
+    }
+}
+第二种：https://discuss.leetcode.com/topic/4746/my-comprehension-of-o-n-solution-from-hongzhi
+public class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if (inorder == null || inorder.length < 1) return null;
+        int i = inorder.length - 1;
+        int p = i;
+        TreeNode node;
+        TreeNode root = new TreeNode(postorder[postorder.length - 1]);
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        p--;
+        
+        while (true) {
+            if (inorder[i] == stack.peek().val) { // inorder[i] is on top of stack, pop stack to get its parent to get to left side
+                if (--i < 0) break;
+                node = stack.pop();
+                if (!stack.isEmpty() && inorder[i] == stack.peek().val) {// continue pop stack to get to left side
+                    continue;
+                }
+                node.left = new TreeNode(postorder[p]);
+                stack.push(node.left);
+            } else { // inorder[i] is not on top of stack, postorder[p] must be right child
+                node = new TreeNode(postorder[p]);
+                stack.peek().right = node;
+                stack.push(node);
+            }
+            p--;
+        }
+        
         return root;
     }
 }
