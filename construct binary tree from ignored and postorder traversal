@@ -1,0 +1,24 @@
+后序+中序，和前序+中序相反。
+public class Solution {
+    
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if(inorder == null || inorder.length == 0) return null;
+        if(postorder == null || postorder.length == 0) return null;
+        int postEnd = postorder.length-1;
+        return helper(inorder, postorder, inorder.length-1, 0, postEnd);
+    }
+    public TreeNode helper(int[] inorder, int[] postorder, int inStart, int inEnd, int postEnd) {
+        if(postEnd < 0 || inEnd > inStart) return null;
+        int inmid = 0;
+        TreeNode root = new TreeNode(postorder[postEnd]);
+        for(int i = inStart; i >= inEnd; i--) {
+            if(inorder[i] == postorder[postEnd]) {
+                inmid = i;
+            }
+        }
+        
+        root.left = helper(inorder, postorder, inmid-1, inEnd, postEnd-(inStart-inmid)-1);
+        root.right = helper(inorder, postorder, inStart, inmid+1, postEnd-1);
+        return root;
+    }
+}
