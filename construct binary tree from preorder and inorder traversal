@@ -1,0 +1,48 @@
+对于先序遍历序列，根在最前面，后面部分存在一个分割点，前半部分是根的左子树，
+后半部分是根的右子树。对于中序遍历序列，根在中间部分，从根的地方分割，
+前半部分是根的左子树，后半部分是根的右子树。当我们从上向下构建树时，
+我们可以通过先序遍历序列知道根节点的值，但是如何知道两个序列是在哪里分割的呢？
+这就要依靠中序序列了。我们在中序序列中找到这个根的值，根据这个根的坐标，
+我们可以知道这个根左子树有多少个节点，右子树有多少个节点。然后我们根据这个将先序遍历序列分割，
+通过递归再次取每个部分的第一个作为根，同时为了下一次能准确的计算出左右子树各有多少节点，我们也要同时对中序遍历序列进行分割。
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+    int preStart = 0;
+    
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if(preorder.length == 0 || inorder.length == 0) return null;
+        return helper(0,inorder.length - 1,preorder,inorder);
+    }
+    
+    private TreeNode helper(int inStart, int inEnd, int[] preorder, int[] inorder){
+        // Base情况
+        if(preStart > preorder.length || inStart > inEnd){
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int inMid = 0;
+        // 找到根在中序序列中的位置，从而知道先序中的分割点
+        for(int i = inStart ; i <= inEnd; i++){
+            if(inorder[i] == preorder[preStart]){
+                inMid = i;
+            }
+        }
+        preStart++;
+        // 例如先序序列 1(234)(567) 中2是左子树的根
+        root.left = helper(inStart, inMid - 1, preorder, inorder);
+        // 先序序列 1(234)(567) 中5是右子树的根
+        root.right = helper(inMid + 1, inEnd, preorder, inorder);
+        return root;
+    }
+}
