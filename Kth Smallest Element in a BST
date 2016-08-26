@@ -45,6 +45,25 @@ public class Solution {
   * Insert/ delete a node of BST, update the cnt_left_child and cnt_right_child, time complexity: O(height of the tree);
   * Query the Kth smallest, just count the cnt_left_child and cnt_right_child, time complexity: O(height of the tree);
   */
+解法一：好懂，对于每个节点root， 计算以它为根节点的树的节点数s
+若s==k,返回root.val；
+若s>k, 在root左子树中找第K小；
+若s<k, 在root右子树找第(k-s)小;
+  public class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        int left = helper(root.left);
+        if(left+1 == k) return root.val;
+        else if(left+1 < k) return kthSmallest(root.right, k-left-1);
+        else return kthSmallest(root.left, k);
+        
+    }
+    public int helper(TreeNode root) {
+        if( root == null) return 0;
+        int sum = helper(root.left) + helper(root.right) + 1;
+        return sum;
+    }
+}
+解法二：
 public int kthSmallest(TreeNode root, int k) {
    PriorityQueue<Integer> queue = new PriorityQueue<>(k, Collections.reverseOrder());
 
