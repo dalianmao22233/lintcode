@@ -5,7 +5,7 @@
 这就要依靠中序序列了。我们在中序序列中找到这个根的值，根据这个根的坐标，
 我们可以知道这个根左子树有多少个节点，右子树有多少个节点。然后我们根据这个将先序遍历序列分割，
 通过递归再次取每个部分的第一个作为根，同时为了下一次能准确的计算出左右子树各有多少节点，我们也要同时对中序遍历序列进行分割。
-
+第一种：好懂
 
 /**
  * Definition for a binary tree node.
@@ -46,3 +46,29 @@ public class Solution {
         return root;
     }
 }
+第二种： 用stack ,O(n)
+class Solution {
+public:
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+        TreeNode *root=NULL; stack<TreeNode *> MyData;
+        if(preorder.empty()) return root;
+        root = new TreeNode(preorder[0]);
+        MyData.push(root); int index = 0;
+       	for(int i=1; i<=preorder.size(); i++) {
+       		TreeNode *cur = MyData.top();
+       		if((MyData.top()->val)!=inorder[index]) {
+       			cur->left = new TreeNode(preorder[i]);
+       			MyData.push(cur->left);
+       		} else {
+       			while(!MyData.empty() && ((MyData.top()->val)==inorder[index])) {
+       				cur=MyData.top(); MyData.pop(); index++; 
+       			}
+       			if(index<inorder.size()) {
+       				cur->right = new TreeNode(preorder[i]);
+       				MyData.push(cur->right);
+       			} 
+       		}  
+       	}
+       	return root;
+    }
+};
