@@ -10,7 +10,7 @@ public class Solution {
         if(low > high) return null;
         int mid = low + (high-low)/2;
         TreeNode root = new TreeNode(nums[mid]);
-        root.left = helper(nums, low, mid-1);
+        root.left = helper(nums, low, mid-1); //要给root的左右孩子分配结构。不要忘记左边。
         root.right = helper(nums, mid+1, high);
         return root;
         
