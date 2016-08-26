@@ -36,6 +36,7 @@ public class Solution {
         for(int i = inStart ; i <= inEnd; i++){
             if(inorder[i] == preorder[preStart]){
                 inMid = i;
+                break;//可以在这里终止循环。不终止也没事。省时间。
             }
         }
         preStart++;
