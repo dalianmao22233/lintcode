@@ -42,3 +42,21 @@ public class Solution {
   * Insert/ delete a node of BST, update the cnt_left_child and cnt_right_child, time complexity: O(height of the tree);
   * Query the Kth smallest, just count the cnt_left_child and cnt_right_child, time complexity: O(height of the tree);
   */
+public int kthSmallest(TreeNode root, int k) {
+   PriorityQueue<Integer> queue = new PriorityQueue<>(k, Collections.reverseOrder());
+
+    kthHelper(queue, root, k);
+    return queue.peek();
+}
+
+private void kthHelper(PriorityQueue<Integer> queue, TreeNode root, int k) {
+
+    if (root == null || queue.size() >= k) return;
+
+   kthHelper(queue, root.left, k);
+    if (queue.size() >= k) return;
+
+    queue.add(root.val);
+
+    if (root.right != null) kthHelper(queue, root.right, k);
+}
