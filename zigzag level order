@@ -1,3 +1,111 @@
+第二次：
+1.两个栈，好理解
+public class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(root == null) return res;
+        Stack<TreeNode> stack1 = new Stack<TreeNode>();
+        Stack<TreeNode> stack2 = new Stack<TreeNode>();
+        stack1.push(root);
+        while(!stack1.isEmpty() || !stack2.isEmpty()) {
+            ArrayList<Integer> level = new ArrayList<Integer>();
+            while(!stack1.isEmpty()) {
+                TreeNode node = stack1.pop();
+                level.add(node.val);
+                if(node.left != null) stack2.push(node.left);
+                if(node.right  != null) stack2.push(node.right);
+            }
+            if(!level.isEmpty()) res.add(level);
+            level = new ArrayList<Integer>();
+            while(!stack2.isEmpty()) {
+                TreeNode node = stack2.pop();
+                level.add(node.val);
+                if(node.right  != null) stack1.push(node.right);
+                if(node.left != null) stack1.push(node.left);
+            }
+            if(!level.isEmpty()) res.add(level);
+        }
+        return res;
+    }
+}
+2. 递归
+public class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) 
+    {
+        List<List<Integer>> sol = new ArrayList<>();
+        travel(root, sol, 0);
+        return sol;
+    }
+    
+    private void travel(TreeNode curr, List<List<Integer>> sol, int level)
+    {
+        if(curr == null) return;
+        
+        if(sol.size() <= level)
+        {
+            List<Integer> newLevel = new LinkedList<>();
+            sol.add(newLevel);
+        }
+        
+        List<Integer> collection  = sol.get(level);
+        if(level % 2 == 0) collection.add(curr.val);
+        else collection.add(0, curr.val);
+        
+        travel(curr.left, sol, level + 1);
+        travel(curr.right, sol, level + 1);
+    }
+}
+3. 递归另一种
+public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+    List<List<Integer>> rlts = new ArrayList<List<Integer>>();
+    if (root == null) {
+        return rlts;
+    } 
+    
+    Queue<TreeNode> que = new LinkedList<TreeNode>();
+    que.add(root);
+    boolean isForward = true;
+    int lvlNumNodes = 1;
+    LinkedList<Integer> rlt = new LinkedList<Integer>();
+    
+    while (!que.isEmpty()) {
+        TreeNode node = que.poll();
+        
+        // From left to right
+        if (isForward) {
+            rlt.add(node.val);
+        } else {
+            // From right to left
+            rlt.addFirst(node.val);
+        }
+        
+        if (node.left != null) {
+            que.add(node.left);
+        }
+        
+        if (node.right != null) {
+            que.add(node.right);
+        }
+        
+        --lvlNumNodes;
+        // New level
+        if (lvlNumNodes == 0) {
+            rlts.add(rlt);
+            lvlNumNodes = que.size();
+            
+            if (lvlNumNodes != 0) {
+                rlt = new LinkedList<Integer>();
+            }
+            
+            // Change direction
+            isForward = !isForward;
+        }
+    }
+    
+    return rlts;
+}
+
+第一次：
 这道题第一次用了两个queue做一反一正的顺序，出错。改用stack,最后一步交换两个stack，这样一层一层往下遍历。
 /**
  * Definition of TreeNode:
