@@ -1,4 +1,4 @@
-第一种：递归
+只能递归
 public class Solution {
     public int sumNumbers(TreeNode root) {
         if(root == null) return 0;
@@ -19,4 +19,4 @@ public class Solution {
         return val;
     }
 }
-第二种：
+
