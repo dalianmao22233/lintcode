@@ -1,0 +1,30 @@
+we get root's height (h) at first and then we get the root's right node height, 
+if h(root.right) == h - 1, it means that root.left is a complete tree node with height h-1, 
+or if h(root.right) == h - 2, it means root.right is a complete tree with height h-2.
+完全二叉树左边/右边节点的个数: 1<<h-1, 画图就懂了
+public class Solution {
+    public int countNodes(TreeNode root) {
+        if(root == null) return 0;
+        int h = getHeight(root);
+        if(h == 1) return 1;
+        int righth = getHeight(root.right);
+        if(righth == h-1) { // left is complete tree
+            return (1<<h-1) + countNodes(root.right); // << is lower than +/-, so must have ()
+        } else {
+            return (1<<h-2) + countNodes(root.left);
+        }
+        
+       
+    }
+    public int getHeight(TreeNode root) {
+        if(root == null) return 0;
+        int count = 0;
+        while(root != null) {
+            root = root.left;
+            count++;
+        }
+        return count;
+    }
+    
+    
+}
