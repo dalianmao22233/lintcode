@@ -14,22 +14,26 @@ BST的特性是，如果按照中序排列，得到的递增序；所以可以�
  */
 public class Solution {
     public int kthSmallest(TreeNode root, int k) {
+        if(root == null) return 0;
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        int result=0;;
-        TreeNode current = root;
-        while(!stack.empty() || current !=null) {
-            if(current !=null){
-                stack.push(current);
-                current = current.left;
-            }else{
-                TreeNode temp = stack.pop();
-                k--;
-                if(k==0) result = temp.val;
-                current = temp.right;//看第一行注释
-                }
-        }       
-        return result;
+        TreeNode node = root;
+        while(!stack.isEmpty() || node != null) {
+            while(node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+            TreeNode tmp = stack.pop();
+            k--;
+            if(k == 0) return tmp.val;
+          
+            node = tmp.right;
+            
+            
+        }
+        return 0;
+         
     }
+    
 }
 2. follow up 问题
 /*
