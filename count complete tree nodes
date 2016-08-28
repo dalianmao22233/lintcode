@@ -1,3 +1,4 @@
+第一种：好懂
 we get root's height (h) at first and then we get the root's right node height, 
 if h(root.right) == h - 1, it means that root.left is a complete tree node with height h-1, 
 or if h(root.right) == h - 2, it means root.right is a complete tree with height h-2.
@@ -28,3 +29,5 @@ public class Solution {
     
     
 }
+第二种：
+https://discuss.leetcode.com/topic/31392/my-java-solution-with-explanation-which-beats-99
