@@ -1,0 +1,42 @@
+第一种：
+recursive.
+1.Each depth of the tree only select one node.
+View depth is current size of result list.
+
+public class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if(root == null) return res;
+        return helper(root, 0, res);
+    }
+    public List<Integer> helper(TreeNode root, int level, List<Integer> res) {
+        if(root == null) return res;
+        if(level == res.size()) res.add(root.val);
+        helper(root.right, level+1, res);
+        helper(root.left, level+1, res);
+        return res;
+    }
+}
+第二种：
+reverse level order traverse:画图就懂了，只是在i=0的时候放到res里，且先在queue中放入右孩子。
+public class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if(root == null) return res;
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            
+            for(int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if(i == 0) res.add(node.val);
+                if(node.right != null) queue.offer(node.right);
+                if(node.left != null) queue.offer(node.left);
+            }
+            
+            
+        }
+        return res;
+    }
+}
