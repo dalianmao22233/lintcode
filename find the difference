@@ -23,10 +23,13 @@ public class Solution {
         // In the loop below, add the previous value of sum,
     	// add the ASCII value of each character of string t
     	// and subtract ASCII value of each character of string s.
+        int sum_s = 0, sum_t = 0;
         for(int i = 0; i < s.length(); i++) {
-            res = res + t.charAt(i) - s.charAt(i);
+            sum_s+=s.charAt(i);
+            sum_t+=t.charAt(i);
         }
-        res = res + t.charAt(t.length()-1);
+        sum_t+=t.charAt(t.length()-1);
+        res = sum_t-sum_s;
         return (char)res;
     }
 }
