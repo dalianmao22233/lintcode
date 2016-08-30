@@ -1,3 +1,4 @@
+第一种：位移法
 1   0 0000 0001
 4   0 0000 0100
 16  0 0001 0000
@@ -10,9 +11,30 @@
 
 public class Solution {
     public boolean isPowerOfFour(int num) {
-        if(num == 0 || num == Integer.MIN_VALUE) return false;
-        
+    //if(num == 0 || num == Integer.MIN_VALUE) return false;  
+        if(num <=0) return false;
         return (((num-1) & num) == 0) && ((num&0x55555555) == num);
     }
 }
 
+第二种：普通暴力做法
+private boolean bruteForceBit(long num){
+    boolean res = false;
+    if(num <= 0) return res;
+    for(int i = 1; i <= 64; i++){
+        // 如果该位是0，则不操作
+        if((num & 1) == 1){
+            // 如果是偶数位为1，说明不是4的幂
+            if(i % 2 == 0) return false;
+            // 如果是奇数位为1，如果之前已经有1了，则也不是4的幂
+            if(res){
+                return false;
+            } else {
+            // 如果是第一次出现技术位为1，则可能是4的幂
+                res = true;
+            }
+        }
+        num = num >>> 1;
+    }
+    return res;
+}
