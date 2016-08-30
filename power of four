@@ -18,10 +18,10 @@ public class Solution {
 }
 
 第二种：普通暴力做法
-private boolean bruteForceBit(long num){
+private boolean bruteForceBit(int num){
     boolean res = false;
     if(num <= 0) return res;
-    for(int i = 1; i <= 64; i++){
+    for(int i = 1; i <= 32; i++){
         // 如果该位是0，则不操作
         if((num & 1) == 1){
             // 如果是偶数位为1，说明不是4的幂
