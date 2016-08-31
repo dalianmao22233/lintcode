@@ -1,4 +1,31 @@
-recursive:
+第二次：
+ The idea is:
+起始subset集为：[]
+添加S0后为：[], [S0]
+添加S1后为：[], [S0], [S1], [S0, S1]
+添加S2后为：[], [S0], [S1], [S0, S1], [S2], [S0, S2], [S1, S2], [S0, S1, S2]
+红色subset为每次新增的。显然规律为添加Si后，新增的subset为克隆现有的所有subset，并在它们后面都加上Si。
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> tmp = new ArrayList<Integer>();
+        if(nums == null || nums.length == 0) return res;
+        res.add(tmp);
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length; i++) {
+            
+            int len = res.size();
+            for(int j = 0; j < len; j++) {
+                tmp = new ArrayList<Integer>(res.get(j));
+                tmp.add(nums[i]);
+                res.add(tmp);
+            }
+        }
+        return res;
+    }
+}
+第一次：
+backtracking:
 
 public class Solution {
     public List<List<Integer>> subsets(int[] nums) {
