@@ -50,6 +50,6 @@ public class Solution {
         mid.next = null;//attention!  如果不写，那么长度是不变的，一直是head，这样的话就是一直死循环，stackoverflow.
         ListNode left = sortList(head);
 
-        return merge(left, right);
+        return mergeList(left, right);
     }
 }
