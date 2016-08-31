@@ -38,18 +38,22 @@ public int majorityElement3(int[] nums) {
 }
 
 // Bit manipulation 
-public int majorityElement(int[] nums) {
-    int[] bit = new int[32];
-    for (int num: nums)
-        for (int i=0; i<32; i++) 
-            if ((num>>(31-i) & 1) == 1)
-                bit[i]++;
-    int ret=0;
-    for (int i=0; i<32; i++) {
-        bit[i]=bit[i]>nums.length/2?1:0;
-        ret += bit[i]*(1<<(31-i));
+public class Solution {
+    public int majorityElement(int[] nums) {
+        int winner = 0;
+        for(int i = 0, mask = 1; i < 32; i++, mask <<= 1) {
+            int ones = 0;
+            for(int j = 0; j < nums.length; j++) {
+                if((nums[j]&mask) != 0) ones++;
+                if(ones > nums.length/2) {
+                    winner = winner | mask;
+                    break;
+                }
+            }
+            
+        }
+        return winner;
     }
-    return ret;
 }
 第二次：
 用hashmap
