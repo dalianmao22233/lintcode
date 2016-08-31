@@ -1,3 +1,4 @@
+只允许左边的进stack。
 public class Solution {
     public boolean isValid(String s) {
     
