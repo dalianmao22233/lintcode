@@ -1,4 +1,5 @@
 第二次：
+1. 添加数字构建subset
  The idea is:
 起始subset集为：[]
 添加S0后为：[], [S0]
@@ -24,6 +25,31 @@ public class Solution {
         return res;
     }
 }
+2. 位操作：
+由于S[0: n-1]组成的每一个subset，可以看成是对是否包含S[i]的取舍。S[i]只有两种状态，包含在特定subset内，或不包含。
+所以subset的数量总共有2^n个。所以可以用0~2^n-1的二进制来表示一个subset。
+二进制中每个0/1表示该位置的S[i]是否包括在当前subset中。
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        int k = 1 << nums.length;
+        List<List<Integer>> res = new ArrayList<>();
+        for(int i = 1; i < k; i++) {
+            int mask = i;
+            int cnt = nums.length-1;
+            List<Integer> sets = new ArrayList<>();
+            while(mask>0 & cnt>=0) {
+                if((mask&1) == 1) sets.add(nums[cnt]);
+                mask >>= 1;
+                cnt--;
+            }
+            res.add(sets);
+            
+        }
+        res.add(new ArrayList<>());
+        return res;
+    }
+}
+
 第一次：
 backtracking:
 
