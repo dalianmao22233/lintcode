@@ -78,14 +78,14 @@ public class Solution {
 
 第一次：
 python就用内置的set，几行就完了
-java中用sort+binary search：
+java中用sort+binary search：注意！！二分搜索的前提是，这是个有序的数组。先排序！
 
 public class Solution {
     public int[] intersection(int[] nums1, int[] nums2) {
         if(nums1 == null || nums2 == null){
             return null;
         }
-        Arrays.sort(nums1);
+        Arrays.sort(nums1);//忘了写了。
         HashSet<Integer> set = new HashSet<>();
         for(int i = 0; i < nums2.length; i++){
             if(set.contains(nums2[i])){
@@ -105,7 +105,7 @@ public class Solution {
         return res;
     }
     private boolean bsearch(int[] nums, int target){ // binary search的固定做法
-        if(nums == null || nums.length == 0) return false;
+        if(nums == null || nums.length == 0) return false; //如果没有nums.length == 0,会越界。一定要写！
         int start = 0, end = nums.length-1;
         
         while(start+1 < end){
