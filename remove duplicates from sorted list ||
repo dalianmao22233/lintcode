@@ -11,7 +11,7 @@ public class Solution {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
         head = dummy;
-        while(head.next != null && head.next.next != null){
+        while(head.next != null && head.next.next != null){ //注意不要写反，因为是从左向右执行。
             if(head.next.val == head.next.next.val){
                 int val = head.next.val;
                 while(head.next != null && head.next.val == val){
