@@ -20,7 +20,7 @@ public class Solution {
         head = dummy;
         
         while (head.next != null) {
-            if (head.next.val == val) {
+            if (head.next.val == val) { //因为head 指向dummy,所以正式开始是从head.next开始判断。。。。这里出错了。
                 head.next = head.next.next;
             } else {
                 head = head.next;//else head pointer move forward
