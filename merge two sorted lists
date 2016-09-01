@@ -5,6 +5,7 @@ public class Solution {
         if(l2 == null) return l1;
         ListNode dummy = new ListNode(0);
         ListNode head = dummy;
+        dummy.next = head;
         while(l1 != null && l2 != null ) {
             if(l1.val < l2.val) {
                 head.next = l1;
