@@ -1,3 +1,4 @@
+第一种:
 public class Solution {
     /**
      * @param ListNode head is the head of the linked list
@@ -20,4 +21,12 @@ public class Solution {
         }
         return dummy.next;
     }  
+}
+第二种：recursive
+public class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null) return head;
+        head.next = deleteDuplicates(head.next);
+        return head.val == head.next.val? head.next: head;
+    }
 }
