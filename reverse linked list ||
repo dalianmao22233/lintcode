@@ -22,7 +22,7 @@ public class Solution {
         ListNode nNode = mNode;
         ListNode postnNode = mNode.next;
         
-        for(int i = m; i < n; i++) {
+        for(int i = m; i < n; i++) {//不要动premNode,mNode的位置。跟他们无关。他们是用来衔接后面节点的。
             ListNode tmp = postnNode.next;
             postnNode.next = nNode;
             nNode = postnNode;
