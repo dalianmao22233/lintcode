@@ -28,7 +28,7 @@ public class Solution {
             nNode = postnNode;
             postnNode = tmp;
         }
-        premNode.next = nNode;
+        premNode.next = nNode;//画图就懂了，最后顺序是premNode, nNode, ..., mNode, postnNode,所以要这样写衔接。
         mNode.next = postnNode;
         return dummy.next;
     }
