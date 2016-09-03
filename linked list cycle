@@ -1,7 +1,7 @@
 记答案，这是追击问题。
 public class Solution {
     public Boolean hasCycle(ListNode head) {
-        if (head == null || head.next == null) {
+        if (head == null || head.next == null) {//一定记得check []这种情况，这是no cycle的。而且记得head.next也要check。
             return false;
         }
 
@@ -9,7 +9,7 @@ public class Solution {
         fast = head.next;
         slow = head;
         while (fast != slow) {
-            if(fast==null || fast.next==null)
+            if(fast==null || fast.next==null) //一定记得check fast的状态。不然报错空指针。
                 return false;
             fast = fast.next.next;
             slow = slow.next;
