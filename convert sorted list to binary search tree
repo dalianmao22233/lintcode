@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        TreeNode root = new TreeNode(0);
+        if(head == null) return null;
+        root = tobst(head, null);
+        return root;
+       
+    }
+    public TreeNode tobst(ListNode head, ListNode tail) {
+        if(head == null) return null;
+        ListNode slow = head, fast = head.next;
+        if(head == tail) return null;
+        while(fast != tail && fast.next != tail) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        TreeNode root = new TreeNode(slow.val);
+        root.left = tobst(head, slow);
+        root.right = tobst(slow.next, tail);
+        return root;
+    }
+}
+最开始想到了find middle的快慢指针想法，但是没想出来recursive怎么写。。
