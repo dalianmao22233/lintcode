@@ -36,7 +36,7 @@ public class Solution {
         ListNode post = dummyPost;
         while(head != null){
             if(head.val < x){
-                pre.next = head;
+                pre.next = head;//画图就懂了，就是一步简单的连接。
                 pre = pre.next;
             }
             else{
