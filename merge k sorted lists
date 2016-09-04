@@ -1,3 +1,50 @@
+第二次：
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+     public ListNode mergeKLists(ListNode[] lists) {
+    if (lists.length < 1)
+        return null;
+    if (lists.length < 2)
+        return lists[0];
+    if (lists.length == 2)
+        return mergeTwoLists(lists[0], lists[1]);
+
+    return mergeTwoLists(mergeKLists(Arrays.copyOfRange(lists, 0,lists.length / 2)), mergeKLists(Arrays.copyOfRange(lists,
+            lists.length / 2, lists.length)));
+
+}
+
+public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    ListNode dummy = new ListNode(-1);
+    ListNode head = dummy;
+    while (l1 != null && l2 != null) {
+        if (l1.val < l2.val) {
+            head.next = l1;
+            l1 = l1.next;
+        } else {
+            head.next = l2;
+            l2 = l2.next;
+        }
+        head.next.next = null;
+        head = head.next;
+    }
+
+    if (l1 != null)
+        head.next = l1;
+    else
+        head.next = l2;
+
+    return dummy.next;
+}
+}
+第一次：
 
 // version 1: Divide & Conquer
 /**
