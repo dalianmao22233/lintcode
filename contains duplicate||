@@ -1,3 +1,23 @@
+第二次：
+使用Set以及sliding window。最优解。
+我们维护一个size为k的HashSet
+遍历整个数组，每次先判断是否有重复，有重复的话我们直接返回true
+当size > k的时候，这时候size() = k + 1。 我们要把距离当前元素最远的一个元素，即第i - k个元素移出set，继续维护set的size = k
+全部遍历完毕以后返回false。
+public class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        if (nums == null || k <= 0) return false;
+        Set<Integer> set = new HashSet<>((int)(nums.length / 0.8));
+        for (int i = 0; i < nums.length; i++) {
+            if (i > k) set.remove(nums[i - k - 1]);
+            if (!set.add(nums[i])) return true;
+        }
+        return false;
+    }
+}
+第一次：
+用HashMap来保存(nums[i]，i) pair，假如存在相同key并且 i - map.get(key) <= k，返回true。否则遍历完毕以后返回false.
+好懂，hashmap
 public class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
