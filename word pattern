@@ -1,0 +1,51 @@
+第一种：
+使用两个map,容易懂。
+public class Solution {
+    public boolean wordPattern(String pattern, String str) {
+        if(pattern == null && str == null) return true;
+        if(pattern == null) return false;
+        HashMap<String, Character> wordmap = new HashMap<>();
+        HashMap<Character, String> patternmap = new HashMap<>();
+        String[] word = str.split(" ");
+        if(word.length != pattern.length()) return false;
+        for(int i = 0; i < word.length; i++) {
+            char p = pattern.charAt(i);
+            String w = word[i];
+            if(!patternmap.containsKey(p)) {
+                patternmap.put(p, w);
+            } else if(!patternmap.get(p).equals(w)) {
+                return false;
+            }
+            if(!wordmap.containsKey(w)) {
+                wordmap.put(w, p);
+            } else if(!wordmap.get(w).equals(p)) {
+                return false;
+            }
+        }
+        return true;
+        
+        
+    }
+}
+第二种：
+非常精妙，比较str中的word和pattern中的p，上一次出现的index是否一样。
+map.put返回值是同一个key的旧value值。（更新前上一次的value值）
+原理和Isomophic Strings一样。
+public class Solution {
+    public boolean wordPattern(String pattern, String str) {
+        if (pattern == null || str == null) {
+            return false;
+        }
+        String[] words= str.split(" ");
+        if (pattern.length() != words.length) {
+            return false;
+        }
+        Map index = new HashMap();
+        for (Integer i = 0; i < words.length; ++i) {
+            if (index.put(pattern.charAt(i), i) != index.put(words[i], i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
