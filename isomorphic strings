@@ -1,0 +1,46 @@
+不能用map.put()返回值，出错。详见https://discuss.leetcode.com/topic/32385/java-solution-with-1-line-core-code/6
+第一种：
+两个map一一对应
+Time Complexity - O(n)， Space Complexity - O(1)。
+public class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        if(s == null && t == null) return true;
+        if(s == null || t == null) return false;
+        if(s.length() != t.length() ) return false;
+        HashMap<Character, Character> stmap = new HashMap<>();
+        HashMap<Character, Character> tsmap = new HashMap<>();
+        for(int i = 0; i < s.length(); i++) {
+            char chs = s.charAt(i);
+            char cht = t.charAt(i);
+            if(!stmap.containsKey(chs)) stmap.put(chs, cht);
+            else if(!stmap.get(chs).equals(cht)) return false;
+            if(!tsmap.containsKey(cht)) tsmap.put(cht, chs);
+            else if(!tsmap.get(cht).equals(chs)) return false;
+        }
+        return true;
+    }
+}
+第二种：
+假设Alphabet为Single-byte char，我们就可以使用bitmap，速度大大提高。这里是对每个元素的出现位置进行比较，
+并且使用的是 1- based index来避免 array数组初始化的0。每次遇到两个字符，
+我们就去sMap和tMap中来比较它们上一次的出现的位置是否相同，假如不通的话我们就返回false。
+public class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        if (s == null || t == null || s.length() != t.length()) {
+            return false;
+        }
+        int[] sMap = new int[256];
+        int[] tMap = new int[256];
+        
+        for (int i = 0; i < s.length(); i++) {
+            char sChar = s.charAt(i);
+            char tChar = t.charAt(i);
+            if (sMap[sChar] != tMap[tChar]) {
+                return false;
+            }
+            sMap[sChar] = i + 1;
+            tMap[tChar] = i + 1;
+        }
+        return true;
+    }
+}
