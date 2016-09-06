@@ -1,3 +1,24 @@
+第二次：
+直接使用set的话会超时，我们需要给Set设置一个初始值来避免resizing的过程。一般来说loading factor大约是0.75，
+最大的test case大约是30000个数字，所以我们用40000左右的容量的HashSet应该就足够了，这里我选的41000。
+这道题也可以先排序再比较前后两个元素，那样的话是O(nlogn)时间复杂度，但可以做到O(1)空间复杂度。
+Java:
+Time Complexity - O(n)， Space Complexity - O(1)
+public class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        if (nums == null) {
+            return false;
+        }
+        Set<Integer> set = new HashSet<>(41000);
+        for (int i : nums) {
+            if (!set.add(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+第一次：
 set.add(),如果是不重复的，返回true.
 public class Solution {
     public boolean containsDuplicate(int[] nums) {
