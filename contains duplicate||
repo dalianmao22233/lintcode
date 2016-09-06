@@ -1,5 +1,6 @@
 第二次：
 使用Set以及sliding window。最优解。
+创建map的时候利用load factor = 0.75，我们建立一个比nums.length略大一些的map就能节约resizing的时间，但这也是空间换时间了
 我们维护一个size为k的HashSet
 遍历整个数组，每次先判断是否有重复，有重复的话我们直接返回true
 当size > k的时候，这时候size() = k + 1。 我们要把距离当前元素最远的一个元素，即第i - k个元素移出set，继续维护set的size = k
