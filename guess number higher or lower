@@ -1,0 +1,41 @@
+第一种：
+iterative binary search, use O(1) space.
+这道题注意条件，和数组下标不一样，不然会直接到最后return返回了。注意！
+/* The guess API is defined in the parent class GuessGame.
+   @param num, your guess
+   @return -1 if my number is lower, 1 if my number is higher, otherwise return 0
+      int guess(int num); */
+
+public class Solution extends GuessGame {
+    public int guessNumber(int n) {
+        if(n <= 0) return Integer.MIN_VALUE;
+        int start = 1, end = n;
+        while(start < end) {
+            int mid = start + (end-start)/2;
+            if(guess(mid) == -1) {
+                end = mid-1;//注意+-1的问题。必须写，不然TLE。
+            } else if(guess(mid) == 1) {
+                start = mid+1;
+            } else return mid;
+        }
+        return start; // return end也可以。
+    }
+}
+第二种：
+recursive
+public int guessNumber(int n) {
+        return guessNumberRecursive(1,n);
+    }
+    private int guessNumberRecursive(int start,int end) {
+        if(start >= end) {
+            return start;
+        }
+        int mid = start+(end - start)/2;
+        if (guess(mid) == 0) {
+            return mid;
+        }else if(guess(mid) > 0) {
+            return guessNumberRecursive(mid+1,end);
+        }else {
+            return guessNumberRecursive(start,mid);
+        }
+    }
