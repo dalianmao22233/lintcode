@@ -1,2 +1,1 @@
-# lintcode
-第一遍刷题---yuxin shi
+快点刷。。快点刷。。要来不及了TOT
