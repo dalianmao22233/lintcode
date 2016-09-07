@@ -1,4 +1,7 @@
 找中点的思想。
+注意这道题要用Long,不然会溢出。input:2147395599,在算mid*mid的时候造成溢出要使用long型防止溢出
+（Java中Integer型的范围：-2147483648 到2147483648）要使用long型防止溢出
+
 class Solution {
     /**
      * @param x: An integer
