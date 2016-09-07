@@ -1,0 +1,30 @@
+第一种：
+public class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> res = new ArrayList<>();
+        
+        for(int i = 0; i <= rowIndex; i++) {
+            res.add(0, 1);
+            
+            for(int j = 1; j < res.size() - 1; j++)
+                res.set(j, res.get(j) + res.get(j + 1));    
+        }
+        
+        return res;
+    }
+}
+第二种：memorization 和pascal's triangle一样。
+Time Complexity - O(k ^2)，Space Complexity - O(k)。
+public class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> res = new ArrayList<>();
+        if (rowIndex < 0) return res;
+        for (int i = 0; i <= rowIndex; i++) {
+            res.add(1);
+            for (int j = res.size() - 2; j > 0; j--) {
+                res.set(j, res.get(j) + res.get(j - 1));
+            }
+        }
+        return res;
+    }
+}
