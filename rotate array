@@ -1,0 +1,25 @@
+数组移动问题。可以参考<编程珠玑>里利用三次reverse达成数组向左移动的方法。
+向右移动k step相当于向左移动数组长度nums.length - k。 
+要注意提前取摸，使k成为一个合理的值。
+
+Time Complexity - O(n)， Space Complexity - O(1)。
+public class Solution {
+    public void rotate(int[] nums, int k) {
+        int len = nums.length;
+        k = k % len;
+        k = len-k;
+        reverse(nums, 0, k-1);
+        reverse(nums, k, len-1);
+        reverse(nums, 0, len-1);
+    }
+    public void swap(int[] nums, int l, int r) {
+        int tmp = nums[l];
+        nums[l] = nums[r];
+        nums[r] = tmp;
+    }
+    public void reverse(int[] nums, int l, int r) {
+        while(l <= r) {
+            swap(nums, l++, r--);
+        }
+    }
+} 
