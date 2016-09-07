@@ -1,0 +1,47 @@
+第一种：
+依照题意，注意j的条件
+public class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(numRows <= 0) return res;
+        ArrayList<Integer> level = new ArrayList<>();
+        level.add(1); //first level
+        res.add(level);
+        for(int i = 1; i < numRows; i++) {
+            ArrayList<Integer> tmp = new ArrayList<>();
+            tmp.add(1);
+            for(int j = 1; j < res.get(i-1).size(); j++) {
+                tmp.add(res.get(i-1).get(j)+res.get(i-1).get(j-1));
+            }
+            tmp.add(1);
+            res.add(tmp);
+        }
+        return res;
+    }
+    
+}
+第二种：
+主要还是使用一个list作为辅助，从1 到 numRows开始遍历，先在level末尾加1，使用memorization倒序遍历level就可以了。
+
+Java:
+
+Time Complexity - O(n), Space Complexity - O(n)。     n =  numRows
+
+复制代码
+public class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (numRows < 1) {
+            return res;
+        }
+        List<Integer> level = new ArrayList<>();
+        for (int i = 1; i <= numRows; i++) {
+            level.add(1);
+            for (int j = level.size() - 2; j >= 1; j--) {
+                level.set(j, level.get(j - 1) + level.get(j)); 
+            }
+            res.add(new ArrayList<Integer>(level));
+        }
+        return res;
+    }
+}
