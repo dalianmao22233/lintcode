@@ -1,3 +1,4 @@
+参考：http://www.cnblogs.com/yrbbest/p/4435074.html
 第二次：
 public class Solution {
     public int strStr(String haystack, String needle) {
