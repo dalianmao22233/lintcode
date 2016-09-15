@@ -1,3 +1,50 @@
+第二次：判断时不可以使用long才hold溢出情况，一般都是比较当前数值和Integer.MAX_VALUE / 10 或者Integer.MIN_VALUE / 10。、
+Time Complexity - O(n)， Space Complexity - O(1)
+
+Java: 二刷思路就比较清晰。依然是有下面几个步骤:
+
+判断str是否为空或者长度是否为0
+处理前部的space，也可以用str = str.trim();
+尝试求出符号sign
+定义结果int res = 0 ,  处理数字
+假如char c = str.charAt(index)是数字，则定义int num = c - '0'， 接下来判断是否越界
+当前 res > Integer.MAX_VALUE / 10，越界，根据sign 返回 Integer.MAX_VALUE或者 Integer.MIN_VALUE
+res == Integer.MAX_VALUE / 10时， 根据最后sign和最后一位数字来决定是否越界，返回Integer.MAX_VALUE或者 Integer.MIN_VALUE
+不越界情况下，res = res * 10 + num
+否则返回当前 res * sign
+返回结果 res * sign
+这里比较tricky的点是，从Integer.MAX_VALUE和Integer.MIN_VALUE越界时要分别返回Integer.MAX_VALUE或者Integer.MIN_VALUE。
+假如当前字符不为数字，则返回之前已经计算过的，到这一位为止的res * sign。
+public class Solution {
+    public int myAtoi(String str) {
+        if (str == null || str.length() == 0) return 0;
+        str = str.trim();
+        int index = 0;
+        boolean isNeg = false;
+        if (str.charAt(index) == '-') {
+            isNeg = true;
+            index++;
+        } else if (str.charAt(index) == '+') {
+            index++;
+        }
+        int res = 0;
+        while (index < str.length()) {
+            char c = str.charAt(index);
+            if (c > '9' || c < '0') return isNeg ? -res : res;
+            if (res > Integer.MAX_VALUE / 10) {
+                return isNeg ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            } else if (res == Integer.MAX_VALUE / 10) {
+                if (isNeg && (c - '0') > 8) return Integer.MIN_VALUE;
+                else if (!isNeg && (c - '0') > 7) return Integer.MAX_VALUE;
+            }
+            res = res * 10 + c - '0';
+            index++;
+        }
+        return isNeg ? -res : res;
+    }
+}
+第一次：
+九章做法，不太对，最好不用Long来看越界
 public class Solution {
     public int myAtoi(String str) {
         if(str == null){
