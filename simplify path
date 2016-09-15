@@ -1,0 +1,38 @@
+1."/"是根目录
+2.遇到".."的话，这算是一个特殊操作符，我们要返回上一级目录
+3.遇到"."的或者""的话，我们不做改变
+4.否则，这段string可以被用作relative path
+这里我们先初始化一个LinkedList<String>  list用来保存结果，把原来的path根据"/" split成一小段一小段
+然后根据上面的逻辑对每一小段进行判断，符合条件的加入到list中，或者遇到".."从list中removeLast()。
+处理完毕之后遍历list中的所有小段。这里我们先建立一个"/"打头的StringBuilder，接下来每次append list中的string时，
+我们都append一个"/"。最后判断list是否为空，假如不为空，根据题意，我们需要去除掉最后加入的"/"。 
+（比如/home/ ， 我们需要return  /home）。 
+
+Time Complexity - O(n)， Space Complexity - O(n)。
+public class Solution {
+    public String simplifyPath(String path) {
+        if (path == null || path.length() == 0) {
+            return "/";
+        }
+        String[] relativePaths = path.split("/");
+        LinkedList<String> list = new LinkedList<>();
+        for (String s : relativePaths) {
+            if (s.equals("..")) {
+                if (!list.isEmpty()) {
+                    list.removeLast();        
+                }
+            } else if (!(s.equals("") || s.equals("."))){
+                list.add(s);
+            }
+        }
+        StringBuilder sb = new StringBuilder("/");
+        for (String s : list) {
+            sb.append(s);
+            sb.append("/");
+        }
+        if (!list.isEmpty()) {
+            sb.setLength(sb.length() - 1);// 去掉最后一个/，用stringbuilder的方法setLength来截取
+        }
+        return sb.toString();
+    }
+}
