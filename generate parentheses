@@ -1,5 +1,6 @@
 典型的递归。一步步构造字符串。当左括号出现次数<n时，就可以放置新的左括号。
 当剩余的右括号大于左括号时，就可以放置新的右括号。
+还可以用StringBuilder 做法：http://www.cnblogs.com/yrbbest/p/4434626.html
 public class Solution {
     public List<String> generateParenthesis(int n) {
         if(n <= 0){
@@ -15,7 +16,7 @@ public class Solution {
             return;
         }
         if(left > 0){
-            helper(rst, paren + '(', left-1, right);
+            helper(rst, paren + '(', left-1, right);  //这里不能分开写成先paren += '(',再helper()，因为不能改变原来的paren
         }
         if(right > 0 && left < right){
             helper(rst, paren + ')', left, right-1);
