@@ -1,0 +1,20 @@
+
+Sliding Window，每次在HashMap里放入当前字符的index i。 要注意start何时更新。 比如abba这种情况。
+为什么条件是map.get(c) >= lo呢？ 就是对于"abba"这种情况，当访问第二个"a"的时候，map.get(a) = 0，但lo已经是2了，所以不用更新lo.
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if(s == null || s.length() == 0) return 0;
+        int start = 0;
+        int max = 0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i = 0; i < s.length(); i++) {
+            if(map.containsKey(s.charAt(i))) {
+                if(map.get(s.charAt(i)) >= start)
+                    start = map.get(s.charAt(i))+1;
+            }
+            map.put(s.charAt(i), i);
+            max = Math.max(max, i-start+1);
+        }
+        return max;
+    }
+}
