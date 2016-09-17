@@ -1,0 +1,15 @@
+二分搜索，和找peak很类似。
+public class Solution {
+    public int findMin(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        int start = 0, end = nums.length-1;
+        while(start+1 < end && nums[start] > nums[end]) {//第二个条件可以写在里面，写外面更好。case:[2,3,4,5,1]这种情况直接返回1不用继续判断。
+            int mid = start + (end-start)/2;
+            if(nums[mid] < nums[end]) end = mid;
+            else start = mid;
+        }
+        if(nums[start] < nums[end]) return nums[start];
+        else return nums[end];
+        
+    }
+}
