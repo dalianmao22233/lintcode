@@ -10,7 +10,8 @@ public class Solution {
         int l = 0, r = haystack.length()-1;
         for (int i= 0; i  <= haystack.length()-needle.length(); i++) {
             int j = 0;
-            while((i+j) < haystack.length() && j < needle.length() && haystack.charAt(i+j) == needle.charAt(j)) {
+            while((i+j) < haystack.length() && j < needle.length() && haystack.charAt(i+j) == needle.charAt(j)) {//这个条件必须写全，
+            不然会死循环
                 j++;
                 if(j == needle.length()) return i;
             }
