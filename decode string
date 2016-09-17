@@ -1,0 +1,27 @@
+两个栈，非常常规的做法，但是我怎么只想到了一个栈。。
+public class Solution {
+    public String decodeString(String s) {
+        if(s == null || s.length() == 0) return "";
+        Stack<Integer> intstack = new Stack<>();
+        Stack<StringBuilder> strstack = new Stack<>();
+        StringBuilder cur = new StringBuilder();
+        int k = 0;
+        for(char ch: s.toCharArray()) {
+            if(Character.isDigit(ch)) {
+                k = k*10+ch-'0';//str-->int
+            } else if(ch == '[') {
+                intstack.push(k);
+                strstack.push(cur);
+                cur = new StringBuilder();
+                k = 0;
+            } else if(ch == ']') {
+                StringBuilder tmp = cur;
+                cur = strstack.pop();
+                for(k = intstack.pop(); k > 0; k--) {
+                    cur.append(tmp);
+                }
+            } else cur.append(ch);
+        }
+        return cur.toString();
+    }
+}
