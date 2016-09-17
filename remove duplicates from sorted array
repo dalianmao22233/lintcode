@@ -1,0 +1,16 @@
+这道题跟27很像，关键是判断出我们不考虑第一个元素，从第二个元素开始遍历，而且一开始的index也是设置为1. 
+条件是当nums[i] != nums[i - 1]的时候，我们更新nums[index++] = nums[i]。
+Time Complexity - O(n)，Space Complexity - O(1)
+public class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        int index = 1;
+       
+        for(int i = 1; i < nums.length; i++) {
+            if(nums[i] != nums[i-1])
+                nums[index++] = nums[i];
+        }
+        return index;
+        
+    }
+}
