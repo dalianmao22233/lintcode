@@ -29,7 +29,7 @@ public class Solution {
         return ret;
     }
 }
-第二种:2 pointers
+第二种:先排序+2 pointers
 public class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
