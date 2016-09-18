@@ -1,0 +1,34 @@
+先从数组后部向前部找第一个正序的数对，比如(2, 3)，(2, 4)一类。找到这第一个正序队之后，
+我们要另外设置一个变量j，也是从数组后部向前部查找，找第一个值nums[j] > nums[i]，比如(2, 3, 1)。 
+找到之后我们要swap(i, j)，这样就能保持 i + 1到 nums.length - 1这些数字呈现一个降序的排列，
+然后我们再reverse(i + 1, nums.length - 1)就可以了。
+假如数组中没有正序的数对，那么我们根据题意要对整个数组进行逆序。
+Time Complexity - O(n)， Space Complexity - O(1)
+public class Solution {
+    public void nextPermutation(int[] nums) {
+        if (nums == null || nums.length < 2) return;
+        int len = nums.length;
+        for (int i = len - 2; i >= 0; i--) {
+            if (nums[i] < nums[i + 1]) {
+                for (int j = len - 1; j > i; j--) {
+                    if (nums[j] > nums[i]) {
+                        swap(nums, i, j);
+                        reverse(nums, i + 1, len - 1);
+                        return;
+                    }
+                }
+            }
+        } 
+        reverse(nums, 0, len - 1);
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+    
+    private void reverse(int[] nums, int i, int j) {
+        while (i < j) swap(nums, i++, j--);
+    }
+}
