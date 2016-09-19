@@ -1,0 +1,18 @@
+注意count的赋值不能是0. eg:[1,1,1]如果count初始为0，那么结果就是[1,1,1]而不是[1,1]，因为如果不满足if，
+就已经有一个元素了。此时index=1.(初始化的时候index=1)。
+public class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        int index = 1;
+        int count = 1;
+        for(int i = 1; i < nums.length; i++) {
+            if(nums[i] == nums[i-1]) count++;
+            else count = 1;
+            if(count <= 2) {
+                nums[index] = nums[i];
+                index++;
+            } 
+        }
+        return index;
+    }
+}
