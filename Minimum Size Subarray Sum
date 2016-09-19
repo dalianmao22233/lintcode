@@ -1,18 +1,22 @@
 这道题注意：求subarray，不是任意位置。必须要前后连接，所以是sliding window题。
+从0开始累加，当和Sum大于等于S的时候再从左侧减小窗口，继续进行判断。
+Time Complexity - O(n)，Space Complexity - O(1)
+这题需要画图懂。。没做出来。
 public class Solution {
-    public int minSubArrayLen(int s, int[] nums) {
-        if(nums == null || nums.length == 0) return 0;
-        int min = Integer.MAX_VALUE, start = 0, sum = 0;
-        for(int i = 0; i < nums.length; i++) {
-            sum += nums[i];
-            if(sum >= s) {
-                while(sum >=s && start <= i) {
-                    sum = sum-nums[start];
-                    start++;
-                }
-                min = Math.min(min, i-start+2);
-            }
+    public int minSubArrayLen(int s, int[] a) {
+      if (a == null || a.length == 0)
+        return 0;
+      int start = 0, index = 0, sum = 0, min = Integer.MAX_VALUE;
+      while (index < a.length) {
+        sum += a[index++];
+        while (sum >= s) {
+          sum -= a[start];
+          min = Math.min(min, index - start);
+          start++;
+          
         }
-        return min != Integer.MAX_VALUE?min:0;
+        // System.out.println("start: "+start+", index: " + index+", min: " + min);
+      }
+      return min == Integer.MAX_VALUE ? 0 : min;
     }
 }
