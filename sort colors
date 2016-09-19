@@ -1,0 +1,39 @@
+我们可以借用一个swap函数，来把这三种情况进行排序。
+三指针问题：
+1.首先设定一个lo = 0, hi = nums.length - 1， 另外设置一个用来遍历的指针index = 0
+2.当index <= hi的情况下
+  1.假如 nums[index] = 0， 那么我们把index这个位置元素换到数组头部去，  swap(nums, index++, lo++)
+  2.假如nums[index] = 2， 那么我们把index这个位置的元素换到数组尾部，swap(nums, index, hi--)，  这里因为我们不确定新换过来的元素的值，所以index这个位置还需要重新判定
+  3.否则nums[index] = 1，我们增加index++, 继续判断下一个元素。
+3.最后返回结果。
+注意遇到2的时候Index不变。画图就能懂。
+public class Solution {
+    public void sortColors(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        int lo = 0, hi = nums.length - 1;
+        int index = 0;
+        while (index <= hi) {
+            if (nums[index] == 0) {
+                swap(nums, index++, lo++);
+            
+            } else if (nums[index] == 2) {
+                swap(nums, index, hi--);
+            } else {
+                index++;
+            }
+            for(int i = 0;i < nums.length; i++) {
+                System.out.print(nums[i]+",");
+            }
+            System.out.println(";");
+        }
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+        
+    }
+}
