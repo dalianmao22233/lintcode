@@ -1,0 +1,18 @@
+这道题注意：求subarray，不是任意位置。必须要前后连接，所以是sliding window题。
+public class Solution {
+    public int minSubArrayLen(int s, int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        int min = Integer.MAX_VALUE, start = 0, sum = 0;
+        for(int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if(sum >= s) {
+                while(sum >=s && start <= i) {
+                    sum = sum-nums[start];
+                    start++;
+                }
+                min = Math.min(min, i-start+2);
+            }
+        }
+        return min != Integer.MAX_VALUE?min:0;
+    }
+}
