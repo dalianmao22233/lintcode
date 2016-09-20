@@ -1,4 +1,20 @@
-
+第二次：DP做法，画图就懂了。
+省空间的DP方法，维护一个常量max，表示最远能到达的位置，遍历数组中每一个数字，
+如果当前坐标大于max或者max已经抵达最后一个位置则跳出循环，
+否则就更新max的值为其和i + nums[i]中的较大值，其中i + nums[i]表示当前位置能到达的最大位置
+public class Solution {
+    public boolean canJump(int[] nums) {
+        if(nums == null && nums.length == 0)
+            return false;
+        int max = 0;
+        for(int i = 0; i < nums.length; i++) {
+            if(i > max || max >= nums.length-1) break;
+            max = Math.max(max, i+nums[i]);
+        }
+        return max >= nums.length-1;
+    }
+}
+第一次:这次的做法不知道怎么都变成TLE了。
 /*Example
 A = [2,3,1,1,4], return true.
 A = [3,2,1,0,4], return false.
