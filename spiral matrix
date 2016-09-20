@@ -1,0 +1,42 @@
+转圈打印矩阵，需要设置left, right, top和bot四个变量来控制， 
+注意每次增加行/列前要判断list所含元素是否小于矩阵的总元素数目。
+不需要什么算法。。认真就好了。
+public class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new ArrayList<>();
+        if(matrix == null || matrix.length == 0) return res;
+        int row = matrix.length, col = matrix[0].length;
+        int left = 0, right = matrix[0].length-1, top = 0, bottom = matrix.length-1;
+        int total = row*col;
+        while(total > 0) {
+            for(int i = left; i <= right; i++) {
+                res.add(matrix[top][i]);
+                total--;
+            }
+            top++;
+            if(total>0) {
+                for(int i = top; i <= bottom; i++) {
+                    res.add(matrix[i][right]);
+                    total--;
+                }
+            right--;
+            }
+            if(total>0){
+                for(int i = right; i >= left; i--) {
+                    res.add(matrix[bottom][i]);
+                    total--;
+                }
+                bottom--;
+            }
+            if(total>0){
+                for(int i = bottom; i >= top; i--) {
+                    res.add(matrix[i][left]);
+                    total--;
+                }
+                left++;
+            }
+            
+        }
+        return res;
+    }
+}
