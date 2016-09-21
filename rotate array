@@ -18,7 +18,7 @@ public class Solution {
         nums[r] = tmp;
     }
     public void reverse(int[] nums, int l, int r) {
-        while(l <= r) {
+        while(l < r) {
             swap(nums, l++, r--);
         }
     }
