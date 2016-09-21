@@ -1,0 +1,21 @@
+这种小的code snippet一定要熟练，说不定可以用到哪一个大段的程序里。 像这道题的方法，就可以在"Trapping Rain Water"里面使用。
+很多算法，思想都是想通的，要多学多练，融会贯通。
+
+这里我们的面积等于左边和右边较小的bar * (hi - lo)，每次都要尝试更新一下max。 之后，移动两根bar中较短的一根。
+注意这里的高度是两根bar中较小的一根，长度是 hi - lo。可以想象成两根细线中间夹的区域，并不是hi - lo + 1。
+Java:
+
+Time Complexity - O(n)， Space Complexity - O(1)
+public class Solution {
+    public int maxArea(int[] height) {
+        if (height == null || height.length < 2) return 0;
+        int lo = 0, hi = height.length - 1;
+        int max = 0;
+        while (lo < hi) {
+            max = Math.max(Math.min(height[lo], height[hi]) * (hi - lo), max);
+            if (height[lo] < height[hi]) lo++;
+            else hi--;
+        }
+        return max;
+    }
+}
