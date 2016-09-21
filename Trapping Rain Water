@@ -1,0 +1,70 @@
+第一种：
+two pointers:
+Space Complexity O(1)的解法。
+像Container with most water一样，设立一个lo = 0， hi = height.length - 1，使用双指针来夹逼遍历。
+设立一个res = 0， maxLeftBar = 0, maxRightBar = 0
+在 lo <= hi的条件下进行遍历
+假如height[lo] <= height[hi]，或者height[lo] < height[hi]也可以， 这时候说明当前左边的height <= 右边的height。那么我们只需要考虑左边界和当前左边的height的差值，这个差值就是我们能容纳多少水
+在上述情况下，假如height[lo] >= maxLeftBar， 当前index的值 > maxLeftBar，那么我们不能接到水，我们要把maxLeftBar更新为height[lo]
+否则res += maxLeftBar - height[lo]，我们把这个差值加入到结果中
+lo++
+否则，左边的当前height > 右边的当前height，容易能盛多少水取决于右边的height以及maxRightBar的差值
+当height[hi] >= maxRightBar,我们更新maxRightBar = height[hi]
+否则，我们把结果 maxRightBar - height[hi]加入到res中
+hi--
+最后返回结果res就可以了， 很巧妙。
+public class Solution {
+    public int trap(int[] height) {
+        if (height == null || height.length == 0) return 0;
+        int len = height.length;
+        int lo = 0, hi = len - 1, maxLeftBar = 0, maxRightBar = 0;
+        int res = 0;
+        
+        while (lo <= hi) {
+            if (height[lo] <= height[hi]) {
+                if (height[lo] < maxLeftBar) {
+                    res += maxLeftBar - height[lo];
+                } else {
+                    maxLeftBar = height[lo];
+                }
+                lo++;
+            } else {
+                if (height[hi] < maxRightBar) {
+                    res += maxRightBar - height[hi];
+                } else {
+                    maxRightBar = height[hi];
+                }
+                hi--;
+            }
+        }
+        
+        return res;
+    }
+}
+第二种：
+一维dp: - Time Complexity - O(n)， Space Complexity - O(n)
+
+
+public class Solution {
+    public int trap(int[] height) {
+        if (height == null || height.length == 0) return 0;
+        int len = height.length;
+        int[] leftVolumns = new int[len];
+        
+        int localMaxVol = height[0];
+        for (int i = 1; i < len - 1; i++) {
+            leftVolumns[i] = localMaxVol;
+            localMaxVol = Math.max(localMaxVol, height[i]);
+        }
+        
+        localMaxVol = height[len - 1];
+        int res = 0;
+        for (int i = len - 1; i > 0; i--) {
+            int curVolumn = Math.min(leftVolumns[i], localMaxVol) - height[i];
+            if (curVolumn > 0) res += curVolumn;
+            localMaxVol = Math.max(localMaxVol, height[i]);
+        }
+        
+        return res;
+    }
+}
