@@ -1,5 +1,25 @@
 连续的数组元素相加求最大的和。如果一个和是变成负数了，那么肯定没什么用，就直接扔掉重新开始。其实是一个dp的想法。
+第三次：好懂：
+这道题在Amazon电面二的时候问到过，不过不是返回最大值，而是返回subarray。
+这样的话我们要保存local和global的starting index以及length。 
+Follow up是overflow或者underflow该怎么处理， throw ArithmeticException就可以了。
+public class Solution {
+    public int maxSubArray(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        int maxsum = Integer.MIN_VALUE;
+        int localsum = 0;
+        for(Integer i: nums) {
+            localsum += i;
+            maxsum = Math.max(maxsum, localsum);
+            if(localsum < 0) localsum = 0;//此时对于Maxsum没有用处，清零。而且也通过max()来保存了当前最大值。
+        }
+        return maxsum;
+    }
+}
 
+
+
+第二次：
 public class Solution {
     /**
      * @param nums: A list of integers
