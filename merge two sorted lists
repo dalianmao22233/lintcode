@@ -1,3 +1,41 @@
+第三次：
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1 == null && l2 == null) return l1;
+        ListNode dummy = new ListNode(0);
+        ListNode head = dummy;
+        
+        while(l1 != null && l2 != null) {
+            if(l1.val > l2.val) {
+                head.next = l2;
+                l2 = l2.next;
+            } else {
+                head.next = l1;
+                l1 = l1.next;
+            }
+            head = head.next;
+        }
+        while(l1 != null) { //跟第二次的区别就是这里是while，一直链到最后一个点。但是没必要。
+            head.next = l1;
+            l1 = l1.next;
+            head = head.next;
+        }
+        while(l2 != null) {
+            head.next = l2;
+            l2 = l2.next;
+            head = head.next;
+        }
+        return dummy.next;
+    }
+}
 第二次：
 public class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
@@ -16,7 +54,7 @@ public class Solution {
             }
             head = head.next;
         }
-        if(l1 != null) {
+        if(l1 != null) { 
             head.next = l1;
         } else {
             head.next = l2;
