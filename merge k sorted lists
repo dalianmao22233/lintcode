@@ -1,3 +1,92 @@
+第三次：
+第一种：
+先把k个list分成两半，然后继续划分，知道剩下两个list就合并起来，合并时会用到Merge Two Sorted Lists这道题。
+我们来分析一下上述算法的时间复杂度。假设总共有k个list，每个list的最大长度是n，那么运行时间满足递推式T(k) = 2T(k/2)+O(n*k)。
+根据主定理，可以算出算法的总复杂度是O(nklogk)。如果不了解主定理的朋友，可以参见主定理-维基百科。空间复杂度的话是递归栈的大小O(logk)。
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists == null || lists.length == 0) return null;
+        return helper(lists, 0, lists.length-1);
+    }
+    private ListNode helper(ListNode[] lists, int l, int r) {
+        if(l < r) {
+            int m = l + (r-l)/2;
+            return merge(helper(lists, l, m), helper(lists, m+1, r));
+        }
+        return lists[l];
+    }
+    private ListNode merge(ListNode l1, ListNode l2) {
+        if(l1 == null && l2 == null) return l1;
+        ListNode dummy = new ListNode(0);
+        ListNode head = dummy;
+        
+        while(l1 != null && l2 != null) {
+            if(l1.val < l2.val) {
+                head.next = l1;
+                l1 = l1.next;
+            } else {
+                head.next = l2;
+                l2 = l2.next;
+            }
+            head = head.next;
+        }
+        if(l1 != null) head.next = l1;
+        if(l2 != null) head.next = l2;
+        return dummy.next;
+    }
+}
+接下来我们来看第二种方法。这种方法用到了堆的数据结构，思路比较难想到，但是其实原理比较简单。维护一个大小为k的堆，
+每次取堆顶的最小元素放到结果中，然后读取该元素的下一个元素放入堆中，重新维护好。因为每个链表是有序的，每次又是去当前k个元素中最小的，
+所以当所有链表都读完时结束，这个时候所有元素按从小到大放在结果链表中。这个算法每个元素要读取一次，即是k*n次，
+然后每次读取元素要把新元素插入堆中要logk的复杂度，所以总时间复杂度是O(nklogk)。空间复杂度是堆的大小，即为O(k)。
+代码如下：
+public ListNode mergeKLists(ArrayList<ListNode> lists) {
+    PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(10,new Comparator<ListNode>(){
+            @Override
+            public int compare(ListNode n1, ListNode n2)
+            {
+                return n1.val-n2.val;
+            }
+        });
+    for(int i=0;i<lists.size();i++)
+    {
+        ListNode node = lists.get(i); 
+        if(node!=null)
+        {
+            heap.offer(node);
+        }
+    }
+    ListNode head = null;
+    ListNode pre = head;
+    while(heap.size()>0)
+    {
+        ListNode cur = heap.poll();
+        if(head == null)
+        {
+            head = cur;
+            pre = head;
+        }
+        else
+        {
+            pre.next = cur;
+        }
+        pre = cur;
+        if(cur.next!=null)
+            heap.offer(cur.next);
+    }
+    return head;
+}
+可以看出两种方法有着同样的时间复杂度，
+都是可以接受的解法，但是却代表了两种不同的思路，数据结构也不用。个人觉得两种方法都掌握会比较好哈，因为在实际中比较有应用，
+所以也是比较常考的题目。
 第二次：
 /**
  * Definition for singly-linked list.
