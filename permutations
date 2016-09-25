@@ -1,42 +1,68 @@
-这个方法虽好，但是想不到。。
-public class Solution {
-  public List<List<Integer>> permute(int[] nums) {
-        LinkedList<List<Integer>> list = new LinkedList<List<Integer>>();
-        if(nums.length==0) return list;
-        list.add(new ArrayList<Integer>());
-        System.out.println("size outside: " + list.size() );
-        for(int num : nums){
-            int size = list.size();
-            System.out.println("size: " + size );
-            for(;size>0;size--){
-                List<Integer> helper = list.poll();
-                for(int i=0;i<=helper.size();i++){
-                    List<Integer> temp = new ArrayList<Integer>(helper);
-                    temp.add(i,num);
-                    list.add(temp);
-                    System.out.println("list, tmp: " + list + "," + temp );
-                }
-            }
+背下来：
+这道题跟N-Queens，Sudoku Solver，Combination Sum，Combinations等一样，也是一个NP问题。方法还是原来那个套路，还是用一个循环递归处理子问题。
+区别是这里并不是一直往后推进的，前面的数有可能放到后面，所以我们需要维护一个used数组来表示该元素是否已经在当前结果中，因为每次我们取一个元素放入结果，
+然后递归剩下的元素，所以不会出现重复。时间复杂度还是NP问题的指数量级。
+代码如下：
+public ArrayList<ArrayList<Integer>> permute(int[] num) {
+    ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+    if(num==null || num.length==0)
+        return res;
+    helper(num, new boolean[num.length], new ArrayList<Integer>(), res);
+    return res;
+}
+private void helper(int[] num, boolean[] used, ArrayList<Integer> item, ArrayList<ArrayList<Integer>> res)
+{
+    if(item.size() == num.length)
+    {
+        res.add(new ArrayList<Integer>(item));
+        return;
+    }
+    for(int i=0;i<num.length;i++)
+    {
+        if(!used[i])
+        {
+            used[i] = true;
+            item.add(num[i]);
+            helper(num, used, item, res);
+            item.remove(item.size()-1);
+            used[i] = false;
         }
-        return list;
     }
 }
-
-Your input
-
-[1,2,3]
-Your stdout
-
-size outside: 1
-size: 1
-list, tmp: [[1]],[1]
-size: 1
-list, tmp: [[2, 1]],[2, 1]
-list, tmp: [[2, 1], [1, 2]],[1, 2]
-size: 2
-list, tmp: [[1, 2], [3, 2, 1]],[3, 2, 1]
-list, tmp: [[1, 2], [3, 2, 1], [2, 3, 1]],[2, 3, 1]
-list, tmp: [[1, 2], [3, 2, 1], [2, 3, 1], [2, 1, 3]],[2, 1, 3]
-list, tmp: [[3, 2, 1], [2, 3, 1], [2, 1, 3], [3, 1, 2]],[3, 1, 2]
-list, tmp: [[3, 2, 1], [2, 3, 1], [2, 1, 3], [3, 1, 2], [1, 3, 2]],[1, 3, 2]
-list, tmp: [[3, 2, 1], [2, 3, 1], [2, 1, 3], [3, 1, 2], [1, 3, 2], [1, 2, 3]],[1, 2, 3]
+注意在实现中有一个细节，就是在递归函数的前面，我们分别设置了used[i]的标记，表明改元素被使用，并且把元素加入到当前结果中，而在递归函数之后，
+我们把该元素从结果中移除，并把标记置为false，这个我们可以称为“保护现场”，递归函数必须保证在进入和离开函数的时候，变量的状态是一样的，
+这样才能保证正确性。当然也可以克隆一份结果放入递归中，但是那样会占用大量空间。所以个人认为这种做法是最高效的，而且这种方法在很多题目（几乎所有NP问题）
+中一直用到，不熟悉的朋友可以练习一下哈。
+对于NP问题我们一直都是用递归方法，也是一个很成熟的套路，可以举一反三。不过有时候面试官会刻意让我们实现一下迭代的做饭，
+所以这里我们就介绍一下迭代的实现方法。迭代一般就是要理清每次加入一个新的元素，我们应该做什么，这里其实还是比较清晰的，
+假设有了当前前i个元素的所有permutation，当第i+1个元素加进来时，我们要做的就是将这个元素带入每一个之前的结果，并且放到每一个结果的各个位置中。
+因为之前的结果没有重复，所以带入新元素之后也不会有重复（当然这里假设数字集合本身是没有重复的元素的）。按照这个思路，
+实现的代码如下：
+public ArrayList<ArrayList<Integer>> permute(int[] num) {
+    ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+    if(num == null || num.length==0)
+        return res;
+    ArrayList<Integer> first = new ArrayList<Integer>();
+    first.add(num[0]);
+    res.add(first);
+    for(int i=1;i<num.length;i++)
+    {
+        ArrayList<ArrayList<Integer>> newRes = new ArrayList<ArrayList<Integer>>();
+        for(int j=0;j<res.size();j++)
+        {
+            ArrayList<Integer> cur = res.get(j);
+            for(int k=0;k<cur.size()+1;k++)
+            {
+                ArrayList<Integer> item = new ArrayList<Integer>(cur);
+                item.add(k,num[i]);
+                newRes.add(item);
+            }
+        }
+        res = newRes;
+    }
+    return res;   
+}
+上面的代码有时候乍一看可能觉得只有两层循环，时间复杂度是不是O(n^2)之类的。事实上肯定不是的，因为注意第二层循环是对于res进行遍历的，
+而res是一直在以平方量级增长的，所以总的时间复杂度还是会是指数量级以上的。
+这种NP问题的求解在LeetCode中非常常见，类似的有N-Queens，Sudoku Solver，Combination Sum，Combinations，不过思路差不多，
+掌握套路就不难了。这道题还有一个扩展就是如果元素集合中会出现重复，那么意味着我们需要跳过一些重复元素，具体的细节可以参见Permutations II。
