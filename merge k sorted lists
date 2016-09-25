@@ -48,41 +48,32 @@ public class Solution {
 所以当所有链表都读完时结束，这个时候所有元素按从小到大放在结果链表中。这个算法每个元素要读取一次，即是k*n次，
 然后每次读取元素要把新元素插入堆中要logk的复杂度，所以总时间复杂度是O(nklogk)。空间复杂度是堆的大小，即为O(k)。
 代码如下：
-public ListNode mergeKLists(ArrayList<ListNode> lists) {
-    PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(10,new Comparator<ListNode>(){
+public class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(10, new Comparator<ListNode>() {
             @Override
-            public int compare(ListNode n1, ListNode n2)
-            {
+            public int compare(ListNode n1, ListNode n2) {
                 return n1.val-n2.val;
             }
         });
-    for(int i=0;i<lists.size();i++)
-    {
-        ListNode node = lists.get(i); 
-        if(node!=null)
-        {
-            heap.offer(node);
+        for(int i = 0; i < lists.length; i++) {
+            ListNode node = lists[i];
+            if(node != null) {
+                heap.offer(node);
+            }
         }
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+        while(heap.size() > 0) {
+            ListNode cur= heap.poll();
+            tail.next = cur;
+            tail = cur;
+            if(cur.next != null) { //这里的意思是：从Heap里拿出来一个listnode,要补上这个listnode的next，一直维护k大小的heap。
+                heap.offer(cur.next);
+            }
+        }
+        return dummy.next;
     }
-    ListNode head = null;
-    ListNode pre = head;
-    while(heap.size()>0)
-    {
-        ListNode cur = heap.poll();
-        if(head == null)
-        {
-            head = cur;
-            pre = head;
-        }
-        else
-        {
-            pre.next = cur;
-        }
-        pre = cur;
-        if(cur.next!=null)
-            heap.offer(cur.next);
-    }
-    return head;
 }
 可以看出两种方法有着同样的时间复杂度，
 都是可以接受的解法，但是却代表了两种不同的思路，数据结构也不用。个人觉得两种方法都掌握会比较好哈，因为在实际中比较有应用，
