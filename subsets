@@ -1,3 +1,23 @@
+第三次：终于懂了回溯：
+这里加上了pos是为了定位[1,2,3]中从第几个数字开始操作，带入数值进去就懂了。而出来之后又remove是为了保留现场，remove之前已经产生过一个解，
+删掉这个新插入item中的数值，继续下一次循环，在item中插入另一个新的数值。
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(nums == null || nums.length == 0) return res;
+        Arrays.sort(nums);
+        view(nums, res, 0, new ArrayList<Integer>());
+        return res;
+    }
+    private void view(int[] nums, List<List<Integer>> res, int pos, ArrayList<Integer> item) {
+        if(nums.length >= item.size()) res.add(new ArrayList<>(item));//这特别注意不能直接res.add(item)，reference的原因。详见Permutation
+        for(int i = pos; i < nums.length; i++) {
+            item.add(nums[i]);
+            view(nums, res, i+1, item);
+            item.remove(item.size()-1);
+        }
+    }
+}
 http://bangbingsyb.blogspot.com/2014/11/leetcode-subsets-i-ii.html
 第二次：
 1. 添加数字构建subset
