@@ -1,5 +1,5 @@
 两种做法：
-1.仿照two sum:
+1.仿照two sum: TLE, 舍弃。
 public class Solution {
     public List<List<Integer>> threeSum(int[] num) {
         Arrays.sort(num);
@@ -54,7 +54,8 @@ public class Solution {
                     level.add(nums[right]);
                     
                     res.add(level);
-                    left++;
+                    left++;//如果这只有left++或者right--是不对的，假设从nums[0]开始，nums[0]+nums[1]+nums[n]=0,
+                    //如果只有一个指针后移，那么另一个值肯定是还和上一组解一样，题目要求没有重复解。
                     right--;
                     while(left<right && nums[left] == nums[left -1]){
                         left++;
