@@ -38,14 +38,14 @@ public class Solution {
 2. follow up 问题
 /*
  * Follow up:
-  * What if the BST is modified (insert/delete operations) often and you need to find the kth smallest           frequently?
+  * What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently?
   * How would you optimize the kthSmallest routine?
   * Hint:
   * 1. Try to utilize the property of a BST.
   * 2. What if you could modify the BST node's structure?
   * 3. The optimal runtime complexity is O(height of BST).
   * Solution:
-  * Change the structure of TreeNode, add the number of left child(cnt_left_child) and the number of right      child(cnt_right_child);
+  * Change the structure of TreeNode, add the number of left child(cnt_left_child) and the number of right child(cnt_right_child);
   * Insert/ delete a node of BST, update the cnt_left_child and cnt_right_child, time complexity: O(height of the tree);
   * Query the Kth smallest, just count the cnt_left_child and cnt_right_child, time complexity: O(height of the tree);
   */
