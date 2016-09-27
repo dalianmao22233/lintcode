@@ -1,3 +1,20 @@
+最快解法： 用count记录每个节点的左子树节点个数：
+（follow up： time:O(height of tree), space:O(1)）
+public class Solution {
+    private int count = 0;
+    private int res = 0;
+    public int kthSmallest(TreeNode root, int k) {
+        helper(root, k);
+        return res;
+    }
+    private void helper(TreeNode root, int k) {
+        if(root == null || count >= k) return;
+        helper(root.left, k);
+        count++;
+        if(count == k) res = root.val;
+        helper(root.right, k);
+    }
+}
 注意二叉搜索树的特性，左子树  所  有  点  的值都小于根节点，右子树的左右值都大于根节点。
 采用中序遍历（左 -> 根 -> 右）即可以递增顺序访问BST中的节点，从而得到第k小的元素，时间复杂度O(k)
 （最优时间复杂度应该是O(BST的高度)， 
