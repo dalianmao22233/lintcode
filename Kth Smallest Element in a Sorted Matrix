@@ -66,6 +66,10 @@ class Tuple implements Comparable<Tuple> {
     return pq.poll();
 }
 二分搜索：
+还可参考:
+http://www.guoting.org/leetcode/leetcode-378-kth-smallest-element-in-a-sorted-matrix/
+http://www.guoting.org/leetcode/leetcode-378-kth-smallest-element-in-a-sorted-matrix/
+不太懂。
 public class Solution {
     public int kthSmallest(int[][] matrix, int k) {
 		int n = matrix.length;
