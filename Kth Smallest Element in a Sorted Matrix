@@ -42,3 +42,74 @@ class Tuple implements Comparable<Tuple> {
         return this.val - that.val;
     }
 }
+
+
+复杂度更高：
+   PriorityQueue<Integer> pq= new PriorityQueue(k, Collections.reverseOrder());
+    
+    for(int i=0;i<matrix.length;i++){
+        for(int j=0;j<matrix[0].length;j++){
+            if(pq.size()<k)
+                pq.add(matrix[i][j]);
+            else{
+                int temp=pq.peek();
+                if(temp>matrix[i][j]){
+                    pq.poll();
+                    pq.offer(matrix[i][j]);
+                }
+            }
+        }
+    }
+    return pq.poll();
+}
+二分搜索：
+Java
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+public class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+		int n = matrix.length;
+		int L = matrix[0][0], R = matrix[n - 1][n - 1];
+		while (L < R) {
+			int mid = L + ((R - L) >> 1);
+			int temp = 0;
+			for (int i = 0; i < n; i++) temp += binary_search(matrix[i], n, mid);
+			if (temp < k) L = mid + 1;
+			else R = mid;
+		}
+		return L;
+	}
+	
+	private int binary_search(int[] row,int R,int x){
+	    int L = 0;
+	    while (L < R){
+	        int mid = (L + R) >> 1;
+	        if(row[mid] <= x) L = mid + 1;
+	        else R = mid;
+	    }
+	    return L;
+	}
+}
