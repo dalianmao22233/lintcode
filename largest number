@@ -1,0 +1,23 @@
+Time Complexity - O(nlogn)， Space Complexity - O(n)
+public class Solution {
+    public String largestNumber(int[] nums) {
+        String res = "";
+        if(nums == null || nums.length == 0) return res;
+        String[] str = new String[nums.length];
+        for(int i = 0; i < nums.length; i++) {
+            str[i] = String.valueOf(nums[i]);
+        }
+        Arrays.sort(str, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return (s2+s1).compareTo(s1+s2);
+            }
+        });
+        if(str[0].equals("0")) return "0";
+        // StringBuilder res = new StringBuilder();
+        for(int i = 0; i < nums.length; i++) {
+            res += str[i];
+        }
+        return res;
+    }
+}
