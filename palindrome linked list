@@ -26,7 +26,7 @@ public class Solution {
             p2 = p2.next;
         }
         
-        return p2 == null;
+        return p2 == null; //p2走到最后，p1走到mid，p2==null就是true.
     }
     
     private ListNode findMiddle(ListNode head) {
@@ -52,6 +52,6 @@ public class Solution {
             head = temp;
         }
         
-        return prev;
+        return prev;//不能返回head，因为head 出了while就是null了。
     }
 }
