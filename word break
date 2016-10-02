@@ -1,3 +1,27 @@
+第二次：
+这道题目其实没有说清楚的是，wordDict中的元素是否可以被重复使用。测试了几次以后发现是可以的。比如S = "aa"，wordDict = ["a"]，结果为true。
+面试的时候一定要注意问清楚面试官的意思，一点一点clarify问题。 
+
+Recursive:
+
+Time Complexity - O(n ^ 2)， Space Complexity - O(n ^ 2)
+public class Solution {
+    public boolean wordBreak(String s, Set<String> wordDict) {
+        if(s == null || s.length() == 0) return true;
+        boolean[] res = new boolean[s.length()+1];
+        res[0] = true;
+        for(int i = 1; i <= s.length(); i++) {
+            for(int j = 0; j < i; j++) {
+                if(res[j] && wordDict.contains(s.substring(j, i))) {
+                    res[i] = true;
+                    break;
+                }
+            }
+        }
+        return res[s.length()];
+    }
+}
+第一次：
 //OPT[i] = OPT[j] + valid(i - j); 当OPT[j]=true, valid(i - j)=true时，才能往下做OPT[i]，此时为true。
 //cansegment[i] = cansegment[j] + valid(i - j);
 public class Solution {
