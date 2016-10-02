@@ -15,100 +15,79 @@ get:如果没有，返回-1， 如果有，返回key, node move to tail
 set:如果有，直接返回，如果没有，首先看capacity满没有，如果满了，移走头部，新节点插到尾部，如果没满，新节点插到尾部。
 这样尾部的新节点会慢慢移到前面。
 其实正着也是一样。先记这个吧。
+public class LRUCache {
+    private Map<Integer, Node> map;
+    private Node head, tail;
+    private int capacity = 0;
+    
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.map = new HashMap<>();
+    }
+    
+    public int get(int key) {
+        if (!map.containsKey(key)) return -1;
+        Node node = map.get(key);
+        moveToTail(node);
+        return node.val;
+    }
+    
+    public void set(int key, int value) {
+        if (map.containsKey(key)) {
+            Node node = map.get(key);
+            node.val = value;
+            moveToTail(node);
+        } else {
+            if (map.size() == capacity) {
+                map.remove(head.key);
+                head = head.next;
+                if (head != null) head.prev = null;     
+                else tail = null;               
+            }
+            Node node = new Node(key, value); //注意这里不能写成else.这步无论是否超出capacity都要执行，因为是插入新节点。
+            moveToTail(node);
+            map.put(key, node);
+        }
+    }
+    
+    private void moveToTail(Node node) {
+        if (head == null && tail == null) {
+            head = node;
+            tail = node;
+            return;
+        }
+        
+        if (map.containsKey(node.key)) {
+            if (node == tail) return;  // node is tail
+            
+            if (node == head) {    // node is head;
+                head = head.next;
+                head.prev = null;
+            } else {
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
+            }    
+        }
+        
+        node.prev = tail;
+        tail.next = node;
+        node.next = null;//这句和下一句可以写反。
+        tail = node;
+    }
+    
+    private class Node {
+        int key;
+        int val;
+        Node prev;
+        Node next;
+        
+        public Node(int k, int v) {
+            this.key = k;
+            this.val = v;
+        }
+    }
+}
 
-public class LRUCache {  
-    class Node  
-    {  
-        Node pre, next;  
-        int key;  
-        int val;  
-        public Node(int key, int value)  
-        {  
-            this.key = key;  
-            this.val = value;  
-        }  
-    }  
-      
-    private int capacity;  
-    private int num;  
-    private HashMap<Integer, Node> map;  
-    private Node first, last;  
-      
-    public LRUCache(int capacity) {  
-        this.capacity = capacity;  
-        num = 0;  
-        map = new HashMap<Integer, Node>();  
-        first = null;  
-        last = null;  
-    }  
-      
-    public int get(int key) {  
-        Node node = map.get(key);  
-        if(node == null)  
-            return -1;  
-        else if(node!=last)  
-        {  
-            if(node == first)  
-                first = first.next;  
-            else  
-                node.pre.next = node.next;  
-            node.next.pre = node.pre;  
-            last.next = node;  
-            node.pre = last;  
-            node.next = null;  
-            last = node;  
-        }  
-        return node.val;  
-    }  
-      
-    public void set(int key, int value) {  
-        Node node = map.get(key);  
-        if(node != null)  
-        {  
-            node.val = value;  
-            if(node!=last)  
-            {  
-                if(node == first)  
-                    first = first.next;  
-                else  
-                    node.pre.next = node.next;  
-                node.next.pre = node.pre;  
-                last.next = node;  
-                node.pre = last;  
-                node.next = null;  
-                last = node;  
-            }  
-        }  
-        else   
-        {  
-            Node newNode = new Node(key,value);  
-  
-            if(num>=capacity)  
-            {  
-                map.remove(first.key);  
-                first = first.next;  
-                if(first!=null)  
-                    first.pre = null;  
-                else  
-                    last = null;  
-                num--;      
-            }  
-            if(first == null || last == null)  
-            {  
-                first = newNode;  
-            }  
-            else  
-            {  
-                last.next = newNode;  
-            }  
-            newNode.pre = last;  
-            last = newNode;  
-            map.put(key,newNode);  
-            num++;  
-        }  
-  
-    }  
-}  
 实现的时候还是有很多细节的，因为我们不经常使用双向链表，插入删除操作要维护前后指针，并且同时要维护成队列，增加了许多注意点。
 这道题是一道很实际的题目，思路和数据结构都是很适合面试的题目，但是代码量有些偏大，所以一般只在onsite的时候有可能遇到，
 可能也不会让你完整地写出全部代码，主要还是讲出维护的数据结构和各种操作复杂度的分析。
