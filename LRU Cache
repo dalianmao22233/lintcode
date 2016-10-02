@@ -9,6 +9,13 @@
 通过hash表访问结点我们可以认为是O(1)的操作（假设hash函数足够好），然后双向链表的插入删除操作也是O(1)的操作。如此我们便实现了用O(1)
 时间来完成所有LRU cache的操作。空间上就是对于每一个资源有一个hash表的的项以及一个对应的结点（包含前后指针和资源的<key, value>）。
 
+我的：
+这道题有点奇怪，反着想：
+get:如果没有，返回-1， 如果有，返回key, node move to tail
+set:如果有，直接返回，如果没有，首先看capacity满没有，如果满了，移走头部，新节点插到尾部，如果没满，新节点插到尾部。
+这样尾部的新节点会慢慢移到前面。
+其实正着也是一样。先记这个吧。
+
 public class LRUCache {  
     class Node  
     {  
@@ -105,3 +112,114 @@ public class LRUCache {
 实现的时候还是有很多细节的，因为我们不经常使用双向链表，插入删除操作要维护前后指针，并且同时要维护成队列，增加了许多注意点。
 这道题是一道很实际的题目，思路和数据结构都是很适合面试的题目，但是代码量有些偏大，所以一般只在onsite的时候有可能遇到，
 可能也不会让你完整地写出全部代码，主要还是讲出维护的数据结构和各种操作复杂度的分析。
+
+以下是石坚发的代码，好懂：
+class LRUCache{
+    struct Node{
+        int val;
+        int key;
+        Node* next;
+        Node* prev;
+        Node(int k, int v): key(k), val(v){}
+    };
+    int maxSize;
+    Node* head;
+    Node* tail;
+    unordered_map<int, Node*> keyToNode;
+    
+    void insertToEnd(int key, int value)
+    {
+        if(isFull() || keyToNode.count(key) != 0)
+        {
+            return;
+        }
+        Node* nd = new Node(key, value);
+        keyToNode[key] = nd;
+        if(!head)
+        {
+            head = tail = nd;
+        }
+        else
+        {
+            tail->next = nd;
+            nd->prev = tail;
+            tail = tail->next;
+        }
+    }
+    void removeHead()
+    {
+        if(!head)
+        {
+            return;
+        }
+        keyToNode.erase(head->key);
+        if(head == tail)
+        {
+            head = tail = NULL;
+        }
+        else
+        {
+            head = head->next;
+            head->prev = NULL;
+        }
+    }
+    
+    void moveToEnd(int key)
+    {
+        if(keyToNode.count(key) == 0 || keyToNode[key] == tail)
+        {
+            return;
+        }
+        Node* nd = keyToNode[key];
+        if(nd == head)
+        {
+            head = head->next;
+            head->prev = NULL;
+        }
+        else
+        {
+            nd->prev->next = nd->next;
+            nd->next->prev = nd->prev;
+        }
+        tail->next = nd;
+        nd->prev = tail;
+        nd->next = NULL;
+        tail = tail->next;
+    }
+public:
+    LRUCache(int capacity) 
+    {
+        maxSize = capacity;
+        head = NULL;
+        tail = NULL;
+        keyToNode.clear();
+    }
+    
+    int get(int key) 
+    {
+        if(keyToNode.count(key) == 0)
+        {
+            return -1;
+        }
+        moveToEnd(key);
+        return keyToNode[key]->val;
+    }
+    
+    void set(int key, int value) 
+    {
+        if(get(key) != -1)
+        {
+            keyToNode[key]->val = value;
+            return;
+        }
+        if(isFull())
+        {
+            removeHead();
+        }
+        insertToEnd(key, value);
+    }
+    bool isFull()
+    {
+        return keyToNode.size() >= maxSize;
+    }
+};
