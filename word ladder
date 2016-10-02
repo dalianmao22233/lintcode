@@ -1,0 +1,83 @@
+这道题看似一个关于字符串操作的题目，其实要解决这个问题得用图的方法。我们先给题目进行图的映射，顶点则是每个字符串，然后两个字符串如果相差一个字符
+则我们进行连边。接下来看看这个方法的优势，注意到我们的字符集只有小写字母，而且字符串长度固定，假设是L。那么可以注意到每一个字符可以对应的边则有
+25个（26个小写字母减去自己），那么一个字符串可能存在的边是25*L条。接下来就是检测这些边对应的字符串是否在字典里，就可以得到一个完整的图的结构了。
+根据题目的要求，等价于求这个图一个顶点到另一个顶点的最短路径，一般我们用广度优先搜索（不熟悉搜索的朋友可以看看Clone Graph）即可。这个算法中最
+坏情况是把所有长度为L的字符串都看一下，或者把字典中的字符串都看一下，而长度为L的字符串总共有26^L，所以时间复杂度是O(min(26^L, size(dict))，
+空间上需要存储访问情况，也是O(min(26^L, size(dict))。可以看出代码框架其实就是广度优先搜索的基本代码，就是判断边的时候需要换字符和查字典的操作，
+对于这些图的搜索等基本算法，还是要熟悉哈
+这道题是套用BFS同时也利用BFS能寻找最短路径的特性来解决问题。
+
+ 把每个单词作为一个node进行BFS。当取得当前字符串时，对他的每一位字符进行从a~z的替换，如果在字典里面，就入队，并将下层count++，并且为了避免环路，
+ 需把在字典里检测到的单词从字典里删除。这样对于当前字符串的每一位字符安装a~z替换后，在queue中的单词就作为下一层需要遍历的单词了。
+
+ 正因为BFS能够把一层所有可能性都遍历了，所以就保证了一旦找到一个单词equals（end），那么return的路径肯定是最短的。
+
+ 像给的例子 start = hit，end = cog，dict = [hot, dot, dog, lot, log]
+
+ 按照上述解题思路的走法就是：
+
+  level = 1    hit   dict = [hot, dot, dog, lot, log]
+
+         ait bit cit ... xit yit zit ，  hat hbt hct ... hot ... hxt hyt hzt ，  hia hib hic ... hix hiy hiz
+
+ 
+
+  level = 2    hot  dict = [dot, dog, lot, log]
+
+         aot bot cot dot ...  lot ... xot yot zot，hat hbt hct ... hxt hyt hzt，hoa hob hoc ... hox hoy hoz
+
+ 
+
+  level = 3    dot lot  dict = [dog log]
+
+         aot bot ... yot zot，dat dbt ...dyt dzt，doa dob ... dog .. doy doz，
+
+         aot bot ... yot zot，lat lbt ... lyt lzt，loa lob ... log... loy loz
+
+ 
+
+  level = 4   dog log dict = [] 
+
+         aog bog cog
+
+ 
+  level = 5   cog  dict = []
+  
+public class Solution {
+    public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+        if(beginWord == null || endWord == null || beginWord.length() == 0|| endWord.length() == 0 || beginWord.length() != endWord.length()) return 0;
+        HashSet<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(beginWord);
+        visited.add(beginWord);
+        int level = 1;
+        int lastnum = 1;
+        int curnum = 0;
+        while(!queue.isEmpty()) {
+            String cur = queue.poll();
+            
+            lastnum--;
+            for(int i = 0; i < cur.length(); i++) {
+                char[] charcur = cur.toCharArray(); //注意这句话的位置，不能for外面，因为每次都要重新修改charcur的某一位。
+                for(char c = 'a'; c <= 'z'; c++) {
+                    charcur[i] = c;
+                    String tmp = new String(charcur);//注意这里必须重新建个对象，我原来是charcur.toString()，字符数组不能直接tostring。
+                    if(tmp.equals(endWord)) {
+                        return level+1;
+                    }
+                    if(wordList.contains(tmp) && !visited.contains(tmp)) {
+                        curnum++;
+                        visited.add(tmp);
+                        queue.offer(tmp);
+                    }
+                }
+            }
+            if(lastnum == 0) {
+                level++;
+                lastnum = curnum;
+                curnum = 0;
+            }
+        }
+        return 0;
+    }
+}
