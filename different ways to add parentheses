@@ -1,0 +1,28 @@
+其实意思就是忽略运算符的优先级来计算算式。对此我们的解法是: 在算式valid的条件下，只要遇到运算符，我们就计算出左侧的数和右侧的数，
+然后根据这个运算符来得到结果。
+Time Complexity - O(3n)， Space Complexity - O(3n)
+public class Solution {
+    Map<String, List<Integer>> map = new HashMap<>();
+    public List<Integer> diffWaysToCompute(String input) {
+        if(map.containsKey(input)) return map.get(input);
+        List<Integer> res = new ArrayList<>();
+        if(input == null || input.length() == 0) return res;
+        for(int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if(c == '+' || c == '-' || c == '*') {
+                List<Integer> leftnums = diffWaysToCompute(input.substring(0, i));
+                List<Integer> rightnums = diffWaysToCompute(input.substring(i+1));
+                for(int left: leftnums) {
+                    for(int right: rightnums) {
+                        if(c == '+') res.add(left+right);
+                        else if(c == '-') res.add(left-right);
+                        else if(c == '*') res.add(left*right);
+                    }
+                }
+            }
+        }
+        if(res.size() == 0) res.add(Integer.parseInt(input));
+        map.put(input, res);
+        return res;
+    }
+}
