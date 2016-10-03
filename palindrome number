@@ -1,0 +1,39 @@
+计算全部digits:  设立一个int n = x， 然后我们计算一下n的按位反转数res，最后比较 n == res
+
+public class Solution {
+    public boolean isPalindrome(int x) {
+        if(x < 0) {
+            return false;
+        }
+        int n = x;
+        int res = 0;
+        while (x > 0) {
+            res = res * 10 + x % 10;
+            x /= 10;
+        }
+        return res == n;
+    }
+}
+
+计算一半digits:
+
+这里我们要先剪掉特殊情况 x % 10 == 0，这时候假如x不为0的话，肯定不是palindromic number。
+
+之后while循环作比较的条件是  x  > res。 我们只需要计算一半的digits，然后比较是否 x == res， 或者 x == res / 10。
+
+当x是偶数长度的话，我们比较 x == res; 当x时奇数长度的时候，比如 x = 1，这时我们比较的是 x == res / 10。合起来用一个或运算就可以了。
+
+复制代码
+public class Solution {
+    public boolean isPalindrome(int x) {
+        if(x < 0 || (x != 0 && x % 10 == 0)) {
+            return false;
+        }
+        int res = 0;
+        while (x > res) {
+            res = res * 10 + x % 10;
+            x /= 10;
+        }
+        return (x == res || x == res / 10) ;
+    }
+}
