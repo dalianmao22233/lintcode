@@ -1,0 +1,52 @@
+trie树的另一题。先做implement trie再来看这个。
+public class WordDictionary {
+    TrieNode root = new TrieNode();
+    // Adds a word into the data structure.
+    public void addWord(String word) {
+        if (word == null) return;
+        TrieNode node = this.root;
+        int d = 0;
+        while (d < word.length()) {
+            int index = word.charAt(d) - 'a';
+            if (node.next[index] == null) node.next[index] = new TrieNode();
+            node = node.next[index];
+            d++;
+        }
+        node.isWord = true;
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    public boolean search(String word) {
+return search(word, root, 0);
+    }
+    
+    private boolean search(String word, TrieNode node, int depth) {
+        if (node == null) return false;
+        if (depth == word.length()) return node.isWord;
+        char c = word.charAt(depth);
+        if (c != '.') {
+            return search(word, node.next[c - 'a'], depth + 1);
+        } else {
+            for (TrieNode nextNode : node.next) {
+                if (search(word, nextNode, depth + 1)) return true;
+            }
+            return false;
+        }
+    }
+    
+    private class TrieNode {
+        TrieNode[] next;
+        int R = 26;
+        boolean isWord;
+        
+        public TrieNode() {
+            this.next = new TrieNode[R];
+        }
+    }
+}
+
+// Your WordDictionary object will be instantiated and called as such:
+// WordDictionary wordDictionary = new WordDictionary();
+// wordDictionary.addWord("word");
+// wordDictionary.search("pattern");
