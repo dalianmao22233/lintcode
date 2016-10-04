@@ -37,7 +37,7 @@ public class Solution {
             return res;
         }
         List<Integer> last = grayCode(n-1);
-        res.addAll(last);
+        res.addAll(last);//这里不能写成res.add,addAll是加入last中所有元素。
         int prefix = 1 << (n-1);
         for(int i = last.size()-1; i >= 0; i--) {
             res.add(last.get(i)+prefix);
