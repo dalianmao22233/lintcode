@@ -1,6 +1,13 @@
 很巧妙的DP。
  另：使用DP思想的一些题目 - decode ways, climb stairs, find LCS(longest common subsequence), 
  find longest ascending subsequence, fine longest descending subsequens, 背包问题，poj滑雪，等等。
+ 一看到这题就想到了爬楼梯climb stairs，典型的一维DP。下面就用一维DP来做。先建立数组dp = new int[s.length() + 1]， 
+ 初始化一个数字的情况dp[0] = 1， 两个数字组成一个两位数字的情况dp[1] = 1。接下来写出循环体，先算一个数字的情况，
+ 当s.charAt(i - 1)不为0的时候，dp[i] = dp[i - 1]， 否则dp[i] = 0。 接下来考虑两位数字，当由i-2和i-1这两位组成的数字大于等于10，
+ 小于等于26时，dp[i] += dp[i - 2]， 否则忽略此种情况。
+
+Time Complexity - O(n)， Space Complexity - O(n)。
+
 public class Solution {
     public int numDecodings(String s) {
         if(s == null || s.length() == 0) return 0;
