@@ -1,3 +1,4 @@
+1. 广度优先搜索：
 /**
  * Definition for undirected graph.
  * class UndirectedGraphNode {
@@ -32,3 +33,55 @@ public class Solution {
     return map.get(node);  
 }  
 }
+
+2.深度优先搜索也可以用递归来实现，
+public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {  
+    if(node == null)  
+        return null;  
+    HashMap<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();  
+    UndirectedGraphNode copy = new UndirectedGraphNode(node.label);  
+    map.put(node,copy);  
+    helper(node,map);  
+    return copy;  
+}  
+private void helper(UndirectedGraphNode node, HashMap<UndirectedGraphNode, UndirectedGraphNode> map)  
+{  
+    for(int i=0;i<node.neighbors.size();i++)  
+    {   
+        UndirectedGraphNode cur = node.neighbors.get(i);  
+        if(!map.containsKey(cur))  
+        {  
+            UndirectedGraphNode copy = new UndirectedGraphNode(cur.label);  
+            map.put(cur,copy);  
+            helper(cur,map);  
+        }  
+        map.get(node).neighbors.add(map.get(cur));  
+    }  
+}  
+普通深度:
+public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {  
+    if(node == null)  
+        return null;  
+    LinkedList<UndirectedGraphNode> stack = new LinkedList<UndirectedGraphNode>();  
+    HashMap<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();  
+    stack.push(node);  
+    UndirectedGraphNode copy = new UndirectedGraphNode(node.label);  
+    map.put(node,copy);  
+    while(!stack.isEmpty())  
+    {  
+        UndirectedGraphNode cur = stack.pop();  
+        for(int i=0;i<cur.neighbors.size();i++)  
+        {  
+            if(!map.containsKey(cur.neighbors.get(i)))  
+            {  
+                copy = new UndirectedGraphNode(cur.neighbors.get(i).label);  
+                map.put(cur.neighbors.get(i),copy);  
+                stack.push(cur.neighbors.get(i));  
+            }  
+            map.get(cur).neighbors.add(map.get(cur.neighbors.get(i)));  
+        }  
+    }  
+    return map.get(node);  
+}  
+这几种方法的时间复杂度都是O(n)（每个结点访问一次），而空间复杂度则是栈或者队列的大小加上HashMap的大小，也不会超过O(n)。
+图的两种遍历方式是比较经典的问题了，虽然在面试中出现的不多，但是还是有可能出现的，而且如果出现了就必须做好，所以大家还是得好好掌握哈。
