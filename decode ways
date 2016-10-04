@@ -15,7 +15,7 @@ public class Solution {
     public int numDecodings(String s) {
         if(s == null || s.length() == 0) return 0;
         int[]  dp = new int[s.length()+1];
-        dp[0] = 1;
+        dp[0] = 1;//初始化注意这里是1，不能解析（没有数字）
         dp[1] = s.charAt(0) != '0'? 1:0;
         for(int i = 2; i < dp.length; i++){
             int first = Integer.valueOf(s.substring(i-1, i));
@@ -23,7 +23,7 @@ public class Solution {
             if(first >= 1 && first <= 9) {
                 dp[i] += dp[i-1]; //前一位的情况如果是符合条件的一位数，就加上这么多的情况。
             }
-            if(second >= 10 && second <= 26) {
+            if(second >= 10 && second <= 26) {//注意这里是>=10不是0
                 dp[i] += dp[i-2];//前两位的情况如何是符合条件的二位数，就加上这么多的情况。
             }
         }
