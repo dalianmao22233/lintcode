@@ -7,7 +7,7 @@ public class Solution {
     }
     private void helper(List<List<Integer>> res, ArrayList<Integer> solution, int level, int k, int n) {
         if(n<0 || k<0) return;//这个条件要加上。
-        if(0 == k && n == 0) res.add(new ArrayList<Integer>(solution));//注意这里不是solution.size() == k。。。
+        if(0 == k && n == 0) res.add(new ArrayList<Integer>(solution));//注意这里不是solution.size() == k。。。k会变成0，变为0的时候就是合要求的结果了，但是结果size不是0.。。笨蛋
         for(int i = level; i <=9; i++) {
             solution.add(i);
             helper(res, solution, i+1, k-1, n-i);
