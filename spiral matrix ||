@@ -1,0 +1,39 @@
+和spiral matrix一样。
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        if(n <= 0) return new int[][] {};
+        int[][] matrix = new int[n][n];
+        int left = 0, right = n-1, top = 0, bottom = n-1;
+        int count = 1, total = n*n;
+        while(count <= total ) {
+            for(int i = left; i <= right; i++) {
+                matrix[top][i] = count;
+                count++;
+                
+            }
+            top++;
+            if(count <= total) {
+                for(int i = top; i <= bottom; i++) {
+                    matrix[i][right] = count;
+                    count++;
+                }
+                right--;
+            }
+            if(count <= total) {
+                for(int i = right; i >= left; i--) {
+                    matrix[bottom][i] = count;
+                    count++;
+                }
+                bottom--;
+            }
+            if(count <= total) {
+                for(int i = bottom; i >= top; i--) {
+                    matrix[i][left] = count;
+                    count++;
+                }
+                left++;
+            }
+        }
+        return matrix;
+    }
+}
