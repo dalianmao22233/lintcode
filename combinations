@@ -1,5 +1,5 @@
 recursive:
-
+回溯+dfs
 public class Solution {
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
@@ -9,7 +9,7 @@ public class Solution {
     }
     private void view(List<List<Integer>> res, List<Integer> sol, int n, int k, int level){
         if(sol.size() == k){
-            res.add(new ArrayList(sol));
+            res.add(new ArrayList(sol)); //这里注意不能直接add(sol)， sol后面有改动，如果一直remove,可能就返回全是空。必须要new一个。
         }
         for(int i = level; i <= n; i++){
             sol.add(i);
