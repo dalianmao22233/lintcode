@@ -11,7 +11,7 @@ public class Solution {
         if(target < 0) return;
         if(target == 0) {
             res.add(new ArrayList<Integer>(solution));
-            return;
+            return;//不写也行。
         }
         for(int i = level; i < candidates.length; i++) {
             // if(candidates[i] > target) break; //可以不写，会通过前面的if筛选掉
