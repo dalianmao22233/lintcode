@@ -1,0 +1,48 @@
+这道题跟Maximum Subarray模型上和思路上都比较类似，还是用一维动态规划中的“局部最优和全局最优法”。这里的区别是维护一个局部最优不足以求得后面的全局最优，
+这是由于乘法的性质不像加法那样，累加结果只要是正的一定是递增，乘法中有可能现在看起来小的一个负数，后面跟另一个负数相乘就会得到最大的乘积。
+不过事实上也没有麻烦很多，我们只需要在维护一个局部最大的同时，在维护一个局部最小，这样如果下一个元素遇到负数时，就有可能与这个最小相乘得到
+当前最大的乘积和，这也是利用乘法的性质得到的。
+
+public int maxProduct(int[] A) {  
+    if(A==null || A.length==0)  
+        return 0;  
+    if(A.length == 1)  
+        return A[0];  
+    int max_local = A[0];  
+    int min_local = A[0];  
+    int global = A[0];  
+    for(int i=1;i<A.length;i++)  
+    {  
+        int max_copy = max_local;  
+        max_local = Math.max(Math.max(A[i]*max_local, A[i]), A[i]*min_local);  
+        min_local = Math.min(Math.min(A[i]*max_copy, A[i]), A[i]*min_local);  
+        global = Math.max(global, max_local);  
+    }  
+    return global;  
+}  
+
+discussion中的好方法：
+这里我们跟上面一样维护一个min和一个max，以及一个global的结果res。每次当nums[i] < 0的时候，我们swap一下min和max。在一般情况下，我们更新
+
+max = Math.max(nums[i], max * nums[i])， min = Math.min(nums[i], min * nums[i])，这两个步骤可以处理nums[i] = 0的case。
+最后我们尝试更新res = Math.max(res, max)。 
+
+
+public class Solution {
+    public int maxProduct(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int max = 1, min = 1;
+        int res = Integer.MIN_VALUE;
+        for (int num : nums) {
+            if (num < 0) {
+                int tmp = max;
+                max = min;
+                min = tmp;
+            } 
+            max = Math.max(num, max * num);
+            min = Math.min(num, min * num);
+            res = Math.max(res, max);
+        }
+        return res;
+    }
+}
