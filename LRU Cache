@@ -56,7 +56,7 @@ public class LRUCache {
             tail = node;
             return;
         }
-        
+        //从这里开始是从里面拿出来
         if (map.containsKey(node.key)) {
             if (node == tail) return;  // node is tail
             
@@ -68,7 +68,7 @@ public class LRUCache {
                 node.next.prev = node.prev;
             }    
         }
-        
+        //从这里开始是插入到尾部
         node.prev = tail;
         tail.next = node;
         node.next = null;//这句和下一句可以写反。
