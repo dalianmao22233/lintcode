@@ -1,0 +1,23 @@
+看了答案才懂。。其实很简单，就是用Hashset，如果两边对称就移除，计数。
+public class Solution {
+    public int longestPalindrome(String s) {
+        if(s == null || s.length() == 0) return 0;
+        int count = 0;
+        HashSet<Character> set = new HashSet<Character>();
+        for(int i = 0; i < s.length(); i++) {
+            if(set.contains(s.charAt(i))) {
+                set.remove(s.charAt(i));
+                count++;
+            } else {
+                set.add(s.charAt(i));
+            }
+             
+        }
+        if(!set.isEmpty()) {
+            return count*2+1; //has an element as a center
+        } 
+        return count*2;//no center, has even number elements
+    }
+    
+   
+}
