@@ -42,27 +42,57 @@ public class Solution {
 然后对新得到的课程调用DFS递归，直到出现新的课程已经访问过了，则返回false，没有冲突的话返回true，
 然后把标记为已访问的课程改为未访问。
 
-class Solution {
-public:
-    bool canFinish(int numCourses, vector<vector<int> >& prerequisites) {
-        vector<vector<int> > graph(numCourses, vector<int>(0));
-        vector<int> visit(numCourses, 0);
-        for (auto a : prerequisites) {
-            graph[a[1]].push_back(a[0]);
-        }
-        for (int i = 0; i < numCourses; ++i) {
-            if (!canFinishDFS(graph, visit, i)) return false;
-        }
+public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        if(prerequisites == null){
+        throw new IllegalArgumentException("illegal prerequisites array");
+    }
+ 
+    int len = prerequisites.length;
+ 
+    if(numCourses == 0 || len == 0){
         return true;
     }
-    bool canFinishDFS(vector<vector<int> > &graph, vector<int> &visit, int i) {
-        if (visit[i] == -1) return false;
-        if (visit[i] == 1) return true;
-        visit[i] = -1;
-        for (auto a : graph[i]) {
-            if (!canFinishDFS(graph, visit, a)) return false;
+ 
+    //track visited courses
+    int[] visit = new int[numCourses];
+ 
+    // use the map to store what courses depend on a course 
+    HashMap<Integer,ArrayList<Integer>> map = new HashMap<Integer,ArrayList<Integer>>();
+    for(int[] a: prerequisites){
+        if(map.containsKey(a[1])){
+            map.get(a[1]).add(a[0]);
+        }else{
+            ArrayList<Integer> l = new ArrayList<Integer>();
+            l.add(a[0]);
+            map.put(a[1], l);
         }
-        visit[i] = 1;
-        return true;
     }
-};
+ 
+    for(int i=0; i<numCourses; i++){
+        if(!canFinishDFS(map, visit, i))
+            return false;
+    }
+ 
+    return true;
+}
+ 
+private boolean canFinishDFS(HashMap<Integer,ArrayList<Integer>> map, int[] visit, int i){
+    if(visit[i]==-1) 
+        return false;
+    if(visit[i]==1) 
+        return true;
+ 
+    visit[i]=-1;
+    if(map.containsKey(i)){
+        for(int j: map.get(i)){
+            if(!canFinishDFS(map, visit, j)) 
+                return false;
+        }
+    }
+ 
+    visit[i]=1;
+ 
+    return true;
+}
+}
