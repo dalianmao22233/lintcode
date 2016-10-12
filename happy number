@@ -1,0 +1,70 @@
+简单题，但是不好想
+DFS
+1.
+public class Solution {
+    public boolean isHappy(int n) {
+        if(n <= 0) return false;
+        Set<Integer> set = new HashSet<Integer>();
+        while(n != 1) {
+            int num = 0;
+            while(n != 0) {
+                num += (n % 10) * (n %10);
+                n /= 10;
+            }
+            if(!set.add(num)) return false;
+            n = num;
+        }
+        return true;
+    }
+}
+2.
+更好理解，比第一种直观。
+public class Solution {
+    public boolean isHappy(int n) {
+        if(n <= 0) return false;
+        Set<Integer> set = new HashSet<Integer>();
+        while(n != 1) {
+            if(set.contains(n)) return false;
+            else {
+                set.add(n);
+                n = dfs(n);
+            }
+        }
+        return true;
+    }
+    private int dfs(int n) {
+        int res = 0;
+        while(n > 0) {
+            res += (n % 10) * (n % 10);
+            n = n/10;
+        }
+        return res;
+    }
+}
+
+3. 更好的解可以把Space Complexity 简化到 O(1)，使用 fast / slow pointer进行Cycle Detection的思路，很巧妙。 
+更奇妙的是运行时间也减少了。 
+public class Solution {
+    public boolean isHappy(int n) {
+        if (n < 1) {
+            return false;
+        }
+        int x = n, y = getDigitSquareSum(n);
+        while (x != y) {
+            x = getDigitSquareSum(x);
+            y = getDigitSquareSum(getDigitSquareSum(y));
+           
+        }
+        return x == 1;
+    }
+    
+    private int getDigitSquareSum(int n) {
+        int res = 0;
+        while (n > 0) {
+            int curDigit = n % 10;
+            res += curDigit * curDigit;
+            n /= 10;
+        }
+        return res;
+    }
+}
