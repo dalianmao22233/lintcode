@@ -1,0 +1,29 @@
+loop k times: each interation, find one digit to remove
+Rules: want to remove whatever digit at A[i] that's A[i] > A[i+1].
+Reason: Higher position (left side of the string) is always stronger/high number, 
+and remove the strong/high digit will always be right option.
+
+public class Solution {
+    public String removeKdigits(String A, int k) {
+        if (k == 0) return A;
+         if (A == null || A.length()==0 || A.length()==k) return "";
+         Stack<Character> stack = new Stack<Character>();
+         int len = A.length()-k;
+         for (int i=0; i<A.length(); i++) {
+             char c = A.charAt(i);
+             while (!stack.isEmpty() && c<stack.peek() && A.length()-i-1>=len-stack.size()) {
+                 stack.pop();
+             }
+             if (stack.size() < len) stack.push(c);
+         }
+         StringBuffer res = new StringBuffer();
+         while (!stack.isEmpty()) {
+             res.insert(0, stack.pop());
+         }
+         while (res.length()>0 && res.charAt(0)=='0') {
+             res.deleteCharAt(0);
+         }
+        //  System.out.println("res len: "+res.toString().length());
+         return res.toString().length() == 0? "0":res.toString();
+    }
+}
