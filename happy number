@@ -1,5 +1,9 @@
 简单题，但是不好想
 DFS
+判断一个数字是否为Happy Number。这道题跟求无限循环小数很像，最好维护一个HashSet，假如遇见重复，则返回false。
+否则替换n为digits square root sum，当n == 1时循环结束返回true。
+
+Time Complexity - O(n)， Space Complexity - O(n)。
 1.
 public class Solution {
     public boolean isHappy(int n) {
