@@ -1,0 +1,35 @@
+这题是之前那道 Course Schedule 课程清单的扩展，那道题只让我们判断是否能完成所有课程，即检测有向图中是否有环，
+而这道题我们得找出要上的课程的顺序，即有向图的拓扑排序，这样一来，难度就增加了，但是由于我们有之前那道的基础，
+而此题正是基于之前解法的基础上稍加修改，我们从queue中每取出一个数组就将其存在结果中，最终若有向图中有环，
+则结果中元素的个数不等于总课程数，那我们将结果清空即可。代码如下：
+
+ 
+public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        if(numCourses < 0 || prerequisites == null) return new int[]{};
+        List<List<Integer>> adj = new ArrayList<>();
+        for(int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<Integer>());
+        }
+        int[] indegree = new int[numCourses];
+        for(int[] pre: prerequisites) {
+            adj.get(pre[1]).add(pre[0]);
+            indegree[pre[0]]++;
+        }
+        Queue<Integer> queue = new LinkedList<Integer>();
+        for(int i = 0; i < numCourses; i++) {
+            if(indegree[i] == 0) queue.offer(i);
+        }
+        int[] res = new int[numCourses];
+        int index = 0;
+        while(!queue.isEmpty()) {
+            int course = queue.poll();
+            res[index++] = course;
+            for(int dependent: adj.get(course)) {
+                indegree[dependent]--;
+                if(indegree[dependent] == 0) queue.offer(dependent);
+            }
+        }
+        return (index == numCourses) ? res: new int[] {};
+    }
+}
