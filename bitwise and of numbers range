@@ -1,3 +1,5 @@
+both Time Complexity - O(1)， Space Complexity - O(1)
+
 第一种：
 public class Solution {
     public int rangeBitwiseAnd(int m, int n) {
@@ -11,6 +13,7 @@ public class Solution {
     }
 }
 第二种：
+就是对n进行末位清0，然后于m进行比较，直到n <= m，然后返回n
 public class Solution {
     public int rangeBitwiseAnd(int m, int n) {
         while(m < n) 
