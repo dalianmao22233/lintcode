@@ -1,0 +1,20 @@
+第一种：
+public class Solution {
+    public int rangeBitwiseAnd(int m, int n) {
+        int count = 0;
+        while(m != n) {
+            m = m >> 1;
+            n = n >> 1;
+            count++;
+        }
+        return m << count;
+    }
+}
+第二种：
+public class Solution {
+    public int rangeBitwiseAnd(int m, int n) {
+        while(m < n) 
+            n = n & (n - 1);
+        return n;
+    }
+}
