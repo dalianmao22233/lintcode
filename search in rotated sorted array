@@ -1,0 +1,28 @@
+Binary Search，就是先判断是否nums[mid] == target，再判断这个sorted array是向左还是右平移，哪一部分仍然是有序的。
+接下来根据上面的信息来判断如何二分。
+Java:
+Time Complexity - O(logn)， Space Complexity - O(1)。
+public class Solution {
+    public int search(int[] nums, int target) {
+        if(nums == null || nums.length == 0) return 0;
+        int lo = 0, hi = nums.length-1;
+        while(lo<=hi) {
+            int mid = lo+(hi-lo)/2;
+            if(nums[mid] == target) return mid; //这里是target==nums[mid]的情况
+            else if(nums[mid] < nums[lo]) {
+                if(nums[mid] < target && target <= nums[hi]) {//注意等号， 这个地方要取到，target属于(nums[mid], nums[hi]]的范围
+                    lo = mid+1;
+                } else {
+                    hi = mid-1;
+                }
+            } else {
+                if(nums[mid] > target && target >= nums[lo]) {//注意等号， target属于[nums[lo], nums[mid])的范围
+                    hi = mid-1;
+                } else {
+                    lo = mid+1;
+                }
+            }
+        }
+        return -1;
+    }
+}
