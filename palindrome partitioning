@@ -1,0 +1,37 @@
+主要分为三部分。1是题目给定的方法，2是辅助方法，用来递归和回溯，3是判断string是否是palindrome。注意考虑清楚需要多少变量，以及时间空间复杂度。
+
+Time Complexity: O(n!)
+Space Complexity: O(n ^ 2)
+
+public class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        if(s == null || s.length() == 0) return res;
+        helper(res, new ArrayList<>(), s);
+        return res;
+    }
+    private void helper(List<List<String>> res, List<String> list, String s) {
+        if(s.length() == 0) {
+            res.add(new ArrayList<String>(list));
+            return;
+        }
+        for(int i = 0; i <= s.length(); i++) {
+            String front = s.substring(0, i);
+            if(ispalindrome(front)) {
+                list.add(front);
+                helper(res, list, s.substring(i));
+                list.remove(list.size()-1);
+            }
+        }
+    }
+    private boolean ispalindrome(String s) {
+        if(s == null || s.length() == 0) return false;
+        int lo = 0, hi = s.length()-1;
+        while(lo < hi) {
+            if(s.charAt(lo) != s.charAt(hi)) return false;
+            lo++;
+            hi--;
+        }
+        return true;
+    }
+}
