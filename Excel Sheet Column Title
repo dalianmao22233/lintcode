@@ -1,0 +1,44 @@
+转换数字和excel column title。数学题，写几个例子找到规律就可以了，比如53, 52, 26, 27等等。规律是，当n > 0时， 假如n % 26 == 0，
+则n为26的倍数，要转换为'Z'插入队首，
+之后n = n / 26 - 1， 假如n % 26 != 0， 则使用一般方法计算字符，int c = 'A' + n % 26 - 1， 之后 n /= 26。
+
+Time Complexity - O(N)， Space Complexity - O(1)。 
+public class Solution {
+    public String convertToTitle(int n) {
+        if(n <= 0) return "";
+        StringBuilder res = new StringBuilder();
+        while(n > 0) {
+            if(n %26 == 0){
+                res.insert(0,'Z');
+                n = n/26-1;
+            } else {
+                int c = 'A'+n%26-1;
+                res.insert(0, (char)c);
+                n = n/26;
+            }
+        }
+        return res.toString();
+    }
+}
+第二种：
+使用了一个很巧妙的小技术，把n映射到0-25这26个数字里，我们可以先n--， 然后再进行后面的转换 -  n % 26 + 'A'，  最后n /= 26.
+
+这个小技巧和Permutation Sequence很像，要好好学习。
+
+Java：
+
+复制代码
+public class Solution {
+    public String convertToTitle(int n) {
+        if (n < 1) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) {
+            n--;
+            sb.insert(0, (char)(n % 26 + 'A'));
+            n /= 26;
+        }
+        return sb.toString();
+    }
+}
