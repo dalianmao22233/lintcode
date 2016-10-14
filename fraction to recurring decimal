@@ -1,0 +1,44 @@
+分数转循环小数。
+Time Complexity - O(n)， Space Complexity - O(n)
+public class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if(numerator == 0)  return "0";
+        if(denominator == 0) return "this is an error";
+        boolean sign = (numerator>0) ^ (denominator<0);
+        long top = Math.abs((long)numerator);
+        long under = Math.abs((long)denominator);
+        
+        StringBuilder res = new StringBuilder();
+        if(sign==false) res.append("-");
+        res.append(top/under);
+        top = top%under;
+        if(top == 0) return res.toString();
+        HashMap<Long, Integer> map = new HashMap<Long, Integer>();
+        
+        res.append(".");
+        while(top != 0) {
+            map.put(top, res.length());
+            top = top *10;
+            res.append(top/under);
+            top = top%denominator;
+            if(map.containsKey(top)){
+                res.insert(map.get(top), "(");
+                res.append(")");
+                return res.toString();
+            }
+        }
+        return res.toString();
+    }
+}
+Test Cases:
+
+(1, 3)
+(1, 5)
+(1, 6)
+(1, 90)
+(1, 99)
+(22, 7)
+(-50, 8)
+(0, -5)
+(-1, -2147483648)
+(-2147483648, 1)
