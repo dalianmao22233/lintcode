@@ -1,0 +1,13 @@
+找到公式以后从前向后遍历一次。这种题目估计可能会出个数据结构之类的题结合excel column number一起考。
+Time Complexity - O(n)， Space Complexity - O(1)。
+
+public class Solution {
+    public int titleToNumber(String s) {
+        if(s == null || s.length() == 0) return 0;
+        int res = 0;
+        for(int i = 0; i < s.length(); i++) {
+            res = res * 26 + s.charAt(i)-'A'+1;
+        }
+        return res;
+    }
+}
