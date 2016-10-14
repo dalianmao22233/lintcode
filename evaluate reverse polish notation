@@ -1,0 +1,30 @@
+使用一个Stack<Integer>来保存临时结果。在token等于数字的话直接push入栈。 在token等于符号的时候分别进行计算，之后再把结果push入栈。
+
+要注意计算的时候 parseInt返回的是int， valueOf返回的是Integer，这之间有个auto boxing 和unboxing。 
+假如有exception的话可以加try catch来throw new Runtime Exception。
+
+更好的写法是用一个switch语句，并且用int[] 数组来cache之前的结果。
+
+Java:
+
+Time Complexity - O(n)，Space Complexity - O(n)
+public class Solution {
+    public int evalRPN(String[] tokens) {
+        if(tokens == null || tokens.length == 0) return 0;
+        Stack<Integer> stack = new Stack<Integer>();
+        for(String token: tokens) {
+            if(token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/")) {
+                int num2 = stack.pop();
+                int num1 = stack.pop();
+                if(token.equals("+")) stack.push(num1+num2);
+                else if(token.equals("-")) stack.push(num1-num2);
+                else if(token.equals("*")) stack.push(num1*num2);
+                else if(token.equals("/")) stack.push(num1/num2);
+                
+            } else {
+                stack.push(Integer.parseInt(token));
+            }
+        }
+        return stack.pop();
+    }
+}
