@@ -1,0 +1,26 @@
+这道题要求o(logn)
+题目可以转化为，求n!中含有多少个5。如何计算一个数里面有多少个5呢？我们可以用以下公式:
+
+count = n / 5 + n / 25 + n / 125 + ....
+
+就是用n除5来取得一开始的基数，当遇到5的倍数的时候，我们也要作相应的增加， 转换为循环的话我们可以先计算单个5的个数  n / 5，
+然后 n /= 5来计算 25的个数，然后再继续。最后返回count.
+
+Java:
+
+Time Complexity - O(logn)， Space Complexity - O(1)
+
+
+public class Solution {
+    public int trailingZeroes(int n) {
+        if (n < 5) {
+            return 0;
+        }
+        int count = 0;
+        while (n > 0) {
+            count += n / 5;
+            n /= 5;
+        }
+        return count;
+    }
+}
