@@ -1,0 +1,30 @@
+Time Complexity -  push - O(1)， pop - O(n)， peek - O(n)， isEmpty - O(1)。  Space Complexity - O(n).
+class MyQueue {
+    // Push element x to the back of queue.
+    Stack<Integer> pushstack = new Stack<>();
+    Stack<Integer> popstack = new Stack<>();
+    public void push(int x) {
+        pushstack.push(x);
+    }
+
+    // Removes the element from in front of queue.
+    public void pop() {
+        peek();
+        popstack.pop();
+    }
+
+    // Get the front element.
+    public int peek() {
+        if(popstack.isEmpty()) {
+            while(!pushstack.isEmpty()) {
+                popstack.push(pushstack.pop());
+            }
+        }
+        return popstack.peek();
+    }
+
+    // Return whether the queue is empty.
+    public boolean empty() {
+        return pushstack.isEmpty() && popstack.isEmpty();
+    }
+}
