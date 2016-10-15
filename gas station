@@ -1,0 +1,17 @@
+贪心：
+public class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        if(gas == null || cost == null || gas.length != cost.length ) return -1;
+        int totalcost = 0, totalgas = 0, curtank = 0, start = 0;
+        for(int i = 0; i < gas.length; i++) {
+            totalgas += gas[i];
+            totalcost += cost[i];
+            curtank += (gas[i]-cost[i]);
+            if(curtank < 0) {
+                curtank = 0;
+                start = i+1;
+            }
+        }
+        return totalgas >= totalcost ? start : -1;
+    }
+}
