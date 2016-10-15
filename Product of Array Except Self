@@ -1,0 +1,38 @@
+public class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        if(nums == null || nums.length == 0) return new int[] {};
+        int[] output = new int[nums.length];
+        output[0] = 1;
+        //for the left side
+        for(int i = 1; i < nums.length; i++) {
+            output[i] = output[i-1] * nums[i-1];
+        }
+        int product = 1;
+        //for the right side
+        for(int i = nums.length-2; i >= 0; i--) {
+            product = nums[i+1]*product;
+            output[i] = output[i]*product;
+        }
+        return output;
+    }
+}
+或者：
+public class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        if(nums == null || nums.length == 0) return new int[] {};
+        int[] output = new int[nums.length];
+        output[0] = 1;
+        //for the left side
+        for(int i = 1; i < nums.length; i++) {
+            output[i] = output[i-1] * nums[i-1];
+        }
+        int product = 1;
+        //for the right side
+        for(int i = nums.length-1; i >= 0; i--) { //这里为了不写成nums.length-2，调换一下顺序
+            output[i] = output[i]*product;
+            product = nums[i]*product;
+           
+        }
+        return output;
+    }
+}
