@@ -1,0 +1,40 @@
+和single number不同，
+首先将nums中的每一个元素都看作是二进制，右移（0-31）,通过&1来看某一位是否为1，如果是1，通过这样的叠加，这一位的和会变成3的倍数，余数为0，
+最后再左移还原。
+http://www.cnblogs.com/springfor/p/3870863.html
+第一种：比较容易懂
+public class Solution {
+    public int singleNumber(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        int res = 0;
+        for(int i = 0; i < 32; i++) {
+            int sum = 0;
+            for(int j = 0; j < nums.length; j++) {
+                sum += (nums[j] >>i) & 1;
+            }
+            res |= (sum %3) << i;
+        }
+        return res;
+    }
+}
+第二种：
+思路很相似，用3个整数来表示INT的各位的出现次数情况，one表示出现了1次，two表示出现了2次。当出现3次的时候该位清零。最后答案就是one的值。
+
+ones   代表第ith 位只出现一次的掩码变量
+twos  代表第ith 位只出现两次次的掩码变量
+threes  代表第ith 位只出现三次的掩码变量
+
+public class Solution {
+    public int singleNumber(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int ones = 0, twos = 0, xThrees = 0;
+        for (int num : nums) {
+            twos |= (ones & num);
+            ones ^= num;
+            xThrees = ~(ones & twos);
+            ones &= xThrees;
+            twos &= xThrees;
+        }
+        return ones;
+    }
+}
