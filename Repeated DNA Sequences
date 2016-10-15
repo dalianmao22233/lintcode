@@ -1,0 +1,20 @@
+最直接的想法就是从头遍历，把substring加入到HashMap中，然后进行比较。这样的话因为substring()的复杂度是O(n)，
+所以整个算法复杂度是O(n2)。
+Time Complexity - O(n2)， Space Complexity - O(n)。
+public class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+        List<String> res = new ArrayList<>();
+        if(s == null || s.length() == 0) return res;
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        for(int i = 0; i <= s.length()-10; i++) {
+            String str = s.substring(i, i+10);
+            if(!map.containsKey(str)) {
+                map.put(str, 1);
+            } else {
+                if(map.get(str) == 1) res.add(str);
+                map.put(str, 2);
+            }
+        }
+        return res;
+    }
+}
