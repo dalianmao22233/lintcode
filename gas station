@@ -6,7 +6,7 @@ public class Solution {
         for(int i = 0; i < gas.length; i++) {
             totalgas += gas[i];
             totalcost += cost[i];
-            curtank += (gas[i]-cost[i]);
+            curtank += (gas[i]-cost[i]);//这里不能写成=totalgas-totalcost，因为如果curtank<0，前面累计的都不能算了。
             if(curtank < 0) {
                 curtank = 0;
                 start = i+1;
