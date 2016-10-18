@@ -1,0 +1,17 @@
+太简单了。
+public class Solution {
+    public List<String> fizzBuzz(int n) {
+        List<String> res = new ArrayList<String>();
+        if(n <= 0) return res;
+        while(n > 0){
+            if(n%3 == 0 && n%5 == 0) res.add(0, "FizzBuzz");
+            else if(n%3 == 0) res.add(0, "Fizz");
+            else if(n%5 == 0) res.add(0, "Buzz");
+            
+            else res.add(0, Integer.toString(n));//这里注意怎么转换的
+        
+            n--;
+        }
+        return res;
+    }
+}
