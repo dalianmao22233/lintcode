@@ -1,0 +1,59 @@
+/*   There is a linked list of numbers of length N.   You don't know value of N.   N is very large, such that the list cannot fit into main memory.   You have internal storage space for k numbers.   k is much smaller than N.   You will be provided the input list of N numbers one by one.   Implement a solution to return k random samples from the inputs.*///  e.g.//     int k = 5;//     int input = new int[]{3, 4, 99, 25, 4, 2, 100, 9, 31, 45, 87, 9666};//     Sampling sampling = new Sampling(k);//     for (int i : input) {//       sampling.sample(i);//     }//     List<Integer> result = sampling.getRandomSamples();new number added to rst list, probability: k / curN
+use induction to prove
+
+还有就是给你7个random 让你求五个random
+
+
+
+random nodes based on value 5, 3, 2, 1, 2
+
+1. create a list of 5 node5, 3 node3,… randomly select one of the nodes
+2. 
+1 - 20%
+
+2 - 20%
+
+3 - 10%
+
+4 - 5%
+
+5 - 5%
+
+If `0 <= Round() <= 0.2`: result = 1.
+If `0.2 < Round() <= 0.4`: result = 2.
+If `0.4 < Round() <= 0.5`: result = 3.
+If `0.5 < Round() <= 0.55`: result = 4.
+If `0.55 < Round() <= 0.60`: result = 5.
+
+
+
+Given a function which produces a random integer in the range 1 to 5, write a function which produces a random integer in the range 1 to 7.
+
+int i;
+do
+{
+  i = 5 * (rand5() - 1) + rand5();  // i is now uniformly random between 1 and 25
+} while(i > 21);
+// i is now uniformly random between 1 and 21
+return i % 7 + 1;  // result is now uniformly random between 1 and 7
+
+解释：
+int rand7()
+{
+    int vals[5][5] = {
+        { 1, 2, 3, 4, 5 },
+        { 6, 7, 1, 2, 3 },
+        { 4, 5, 6, 7, 1 },
+        { 2, 3, 4, 5, 6 },
+        { 7, 0, 0, 0, 0 }
+    };
+
+    int result = 0;
+    while (result == 0)
+    {
+        int i = rand5();
+        int j = rand5();
+        result = vals[i-1][j-1];
+    }
+    return result;
+}

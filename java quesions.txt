@@ -1,0 +1,405 @@
+Checked vs Unchecked Exceptions in Java
+
+1) Checked: are the exceptions that are checked at compile time. If some code within a method throws a checked exception, then the method must either handle the exception or it must specify the exception using throws keyword.
+
+
+2) Unchecked are the exceptions that are not checked at compiled time. In C++, all exceptions are unchecked, so it is not forced by the compiler to either handle or specify the exception. It is up to the programmers to be civilized, and specify or catch the exceptions.
+In Java exceptions under Error and RuntimeException classes are unchecked exceptions, everything else under throwable is checked.
+
+
+1、throws出现在方法函数头；而throw出现在函数体。
+2、throws表示出现异常的一种可能性，并不一定会发生这些异常；throw则是抛出了异常，执行throw则一定抛出了某种异常。
+3、两者都是消极处理异常的方式，只是抛出或者可能抛出异常，但是不会由函数去处理异常，真正的处理异常由函数的上层调用处理。
+
+
+
+void doA(int a) throws IOException,{
+           try{
+                 ......
+
+           }catch(Exception1 e){
+              throw e;
+           }catch(Exception2 e){
+              System.out.println("出错了！");
+           }
+           if(a!=b)
+              throw new  Exception3("自定义异常");
+}
+
+reflection:
+http://stackoverflow.com/questions/37628/what-is-reflection-and-why-is-it-useful
+
+singleton
+http://www.javaworld.com/article/2073352/core-java/simply-singleton.html
+Ensure a class has only one instance, and provide a global point of access to it.
+
+it's appropriate to have exactly one instance of a class: window managers, print spoolers, and filesystems are prototypical examples.
+are accessed by disparate objects throughout a software system, and therefore require a global point of access
+
+
+public class ClassicSingleton {
+   private static ClassicSingleton instance = null;
+   protected ClassicSingleton() {
+      // Exists only to defeat instantiation.
+   }
+   public static ClassicSingleton getInstance() {
+      if(instance == null) {
+         instance = new ClassicSingleton();
+      }
+      return instance;
+   }
+}
+
+Best, Thread safe
+public class Singleton {
+   public final static Singleton INSTANCE = new Singleton();
+   private Singleton() {
+         // Exists only to defeat instantiation.
+      }
+}
+
+Thread safe, but may fail at compile level
+public static Singleton getInstance() {
+  if(singleton == null) {
+     synchronized(Singleton.class) {
+       if(singleton == null) {
+         singleton = new Singleton();
+       }
+    }
+  }
+  return singleton;
+}
+
+
+synchronized getInstance method? only need to synchronized when the first time it is called, synchronized function is expensive. 
+
+
+abstract vs interface
+general rule is if you are creating something that provides common functionality to unrelated classes, use an interface. 
+If you are creating something for objects that are closely related in a hierarchy, use an 
+abstract class. 
+
+Abstract classes allow you to provide default functionality for the subclasses.
+If you plan on updating this base class throughout the life of your program, it is best to allow that base class to be an abstract class. Because you can make a change to it and all of the inheriting classes will now have this new functionality. 
+
+If the base class will be changing often and an interface was used instead of an abstract class, we are going to run into problems. Once an interface is changed, any class that implements that will be broken. Now if its just you working on the project, that’s no big deal. However, once your interface is published to the client, that interface needs to be locked down. At that point, you will be breaking the clients code.
+
+
+
+java garbage collection, how it works
+
+Java garbage collection is a function of JVM. It can recycle unreferenced spaces dynamically automatically .
+You can use System.gc(), Runtime.getRuntion().gc() to call garage collection.
+
+It allows developers to create new objects without worrying explicitly about memory allocation and deallocation, because the garbage collector automatically reclaims memory for reuse.
+
+Live objects are tracked and everything else designated garbage.
+
+All objects are allocated on the heap area managed by the JVM. Every item that the developer uses is treated this way, including class objects, static variables, and even the code itself. 
+
+As long as an object is being referenced, the JVM considers it alive. Once an object is no longer referenced and therefore is not reachable by the application code, the garbage collector removes it and reclaims the unused memory.
+
+Therefore, a simple Java application has the following GC roots:
+Local variables in the main method
+The main thread
+Static variables of the main class
+
+As long as the application can reach those roots, the whole tree is reachable.
+
+Marking and Sweeping Away Garbage
+To determine which objects are no longer in use, the JVM intermittently runs what is very aptly called a mark-and-sweep algorithm. 
+two-step process:
+1.The algorithm traverses all object references, starting with the GC roots, and marks every object found as alive.
+2.All of the heap memory that is not occupied by marked objects is reclaimed. It is simply marked as free, essentially swept free of unused objects.
+
+Java的垃圾回收机制是Java虚拟机提供的能力，用于在空闲时间以不定时的方式动态回收无任何引用的对象占据的内存空间。
+需要注意的是：垃圾回收回收的是无任何引用的对象占据的内存空间而不是对象本身。
+System.gc()
+Runtime.getRuntime().gc()  
+上面的方法调用时用于显式通知JVM可以进行一次垃圾回收，但真正垃圾回收机制具体在什么时间点开始发生动作这同样是不可预料的，这和抢占式的线程在发生作用时的原理一样
+
+
+Object creation is faster because global synchronization with the operating system is not needed for every single object. An allocation simply claims some portion of a memory array and moves the offset pointer forward (see Figure 2.1). The next allocation starts at this offset and claims the next portion of the array. When an object is no longer used, the garbage collector reclaims the underlying memory and reuses it for future object allocation. This means there is no explicit deletion and no memory is given back to the operating system.
+
+It’s possible to have unused objects that are still reachable by an application because the developer simply forgot to dereference them. Such objects cannot be garbage-collected. 
+
+
+
+consumer & producer
+
+// cubbyhole multi-thead
+// wait(), give up lock
+// available, because contents can’t be null, if contents can be null, then use content == null
+// notifyAll(), notify all wait() to continue(include all producers and all consumers) and get lock
+
+class CubbyHole {
+   private int contents;
+   private boolean available = false;
+   public synchronized int get() {
+      while (available == false) {
+         try {
+            wait();
+         }
+         catch (InterruptedException e) {
+         }
+      }
+      available = false;
+      notifyAll();
+      return contents;
+   }
+   public synchronized void put(int value) {
+      while (available == true) {
+         try {
+            wait();
+         }
+         catch (InterruptedException e) { 
+         } 
+      }
+      contents = value;
+      available = true;
+      notifyAll();
+   }
+}
+
+http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem
+http://en.wikipedia.org/wiki/Semaphore_(programming)
+
+
+semaphore is atomic
+mutex is binary semaphore, 1 or 0.
+
+The emptyCount is initially N, fullCount is initially 0, and useQueue is initially 1.
+
+produce:
+    P(emptyCount)
+    P(useQueue)
+    putItemIntoQueue(item)
+    V(useQueue)
+    V(fullCount)
+
+consume:
+    P(fullCount)
+    P(useQueue)
+    item ← getItemFromQueue()
+    V(useQueue)
+    V(emptyCount)
+Example
+1. A single consumer enters its critical section. Since fullCount is 0, the consumer blocks.
+2. Several producers enter the producer critical section. No more than N producers may enter their critical section due to emptyCount constraining their entry.
+3. The producers, one at a time, gain access to the queue through useQueue and deposit items in the queue.
+4. Once the first producer exits its critical section, fullCount is incremented, allowing one consumer to enter its critical section.
+
+why use useQueue?
+1.Two producers decrement emptyCount
+2.One of the producers determines the next empty slot in the buffer
+3.Second producer determines the next empty slot and gets the same result as the first producer
+4.Both producers write into the same slot
+
+
+use a class to present a enum
+
+public class DayHalf {
+    
+     static final DayHalf AM = new DayHalf();
+     static final DayHalf PM = new DayHalf();
+
+     private DayHalf() {
+        
+     }
+}
+
+DayHalf dh1 = DayHalf.AM;
+DayHalf dh2 = DayHalf.PM;
+
+public enum Day {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY 
+}
+
+public class EnumTest {
+    Day day;
+    
+    public EnumTest(Day day) {
+        this.day = day;
+    }
+    
+    public void tellItLikeItIs() {
+        switch (day) {
+            case MONDAY:
+                System.out.println("Mondays are bad.");
+                break;
+                    
+            case FRIDAY:
+                System.out.println("Fridays are better.");
+                break;
+                         
+            case SATURDAY: case SUNDAY:
+                System.out.println("Weekends are best.");
+                break;
+                        
+            default:
+                System.out.println("Midweek days are so-so.");
+                break;
+        }
+    }
+    
+    public static void main(String[] args) {
+        EnumTest firstDay = new EnumTest(Day.MONDAY);
+        firstDay.tellItLikeItIs();
+        EnumTest thirdDay = new EnumTest(Day.WEDNESDAY);
+        thirdDay.tellItLikeItIs();
+        EnumTest fifthDay = new EnumTest(Day.FRIDAY);
+        fifthDay.tellItLikeItIs();
+        EnumTest sixthDay = new EnumTest(Day.SATURDAY);
+        sixthDay.tellItLikeItIs();
+        EnumTest seventhDay = new EnumTest(Day.SUNDAY);
+        seventhDay.tellItLikeItIs();
+    }
+}
+
+3. What is difference between fail-fast and fail-safe Iterators?
+
+Fail-fast Iterators throws ConcurrentModificationException when one Thread is iterating over collection object and other thread structurally modify Collection either by adding, removing or modifying objects on underlying collection. They are called fail-fast because they try to immediately throw Exception when they encounter failure. 
+
+fail-safe Iterators works on copy of collection instead of original collection
+
+
+
+What is difference between poll() and remove() method of Queue interface?
+Though both poll() and remove() method from Queue is used to remove object and returns head of the queue, there is subtle difference between them. If Queue is empty() then a call to remove() method will throw Exception, while a call to poll() method returns null. 
+
+
+How do you remove an entry from a Collection? what is difference between remove() method of Collection and remove() method of Iterator, which one you will use, while removing elements during iteration?
+
+You can use any of these method to remove an entry from Collection, while not iterating.
+
+If you use Collection's or List's remove() method during iteration then your code will throw ConcurrentModificationException. That's why it's advised to use Iterator remove() method to remove objects from Collection.
+ 
+
+What is difference between Synchronized Collection and Concurrent Collection?
+Concurrent Collections has better performance than synchronized Collection because they lock only a portion of Map to achieve concurrency and Synchronization.
+
+ConcurrentHashMap
+
+BlockingQueue
+use BlockingQueue to solve Producer Consumer problem
+a Queue that supports operations that wait for the queue to become non-empty when retrieving and removing an element, and wait for space to become available in the queue when adding an element.
+
+CopyOnWriteArrayList
+provides better concurrent access than Synchronized List. CopyOnWriteArrayList doesn't throw any ConcurrentModification Exception. 
+Its different than ArrayList because its thread-safe and ArrayList is not thread safe and its different than Vector in terms of Concurrency. 
+
+arraylist vector
+non-synchronized, synchronized
+iterator, enumeration
+resize: grow by half of current size, double current size
+
+
+How does HashSet is implemented in Java, How does it uses Hashing ?
+you will find that that it uses a HashMap with same values for all keys
+
+8. What do you need to do to use a custom object as key in Collection classes like Map or Set?
+If you are using any custom object in Map as key, you need to override equals() and hashCode() method
+On the other hand if you are storing a custom object in Sorted Collection e.g. SortedSet or SortedMap, you also need to make sure that your equals() method is consistent to compareTo() method
+
+
+
+10. When do you use ConcurrentHashMap in Java?
+
+ConcurrentHashMap is better suited for situation where you have multiple readers and one
+Writer or fewer writers since Map gets locked only during write operation. 
+If you have equal number of reader and writer than ConcurrentHashMap will perform in line of Hashtable or synchronized HashMap.
+
+17) Can we replace Hashtable with ConcurrentHashMap?
+
+Answer 3 : Yes we can replace Hashtable with ConcurrentHashMap and that's what suggested in Java documentation of ConcurrentHashMap. but you need to be careful with code which relies on locking behavior of Hashtable. Since Hashtable locks whole Map instead of portion of Map.
+
+
+ListIterator has add() method but Iterator doesn't or Why add() method is declared in ListIterator and not on Iterator.
+ListIterator has add() method because of its ability to traverse or iterate in both direction of collection. it maintains two pointers in terms of previous and next call and in position to add new element without affecting current iteration.
+
+Override允许子类改变父类的一些行为。 
+2.方法被定义为private或static或final的则不能被覆盖。 
+4.在方法调用时先会在子类中找覆盖的方法，如果子类中没有则会在父类中去找。 
+
+
+2) Explain Collection’s hierarchy?
+Java Collections Framework:
+Collection: [set:[SortedSet], list, queue]
+Map:[SortedMap]
+
+Framework also consist of Map interface, which is part of collection framework. but it does not extend Collection interface.
+
+4) Why Map interface does not extend Collection interface?
+
+A good answer to this interview question is “because they are incompatible“. Collection has a method add(Object o). Map can not have such method because it need key-value pair. There are other reasons also such as Map supports keySet, valueSet etc. Collection classes does not have such views.
+
+Due to such big differences, Collection interface was not used in Map interface, and it was build in separate hierarchy.
+
+array to arraylist
+Integer[] nums = {1,2,3,4};
+List numsList = Arrays.asList(nums);
+
+reverse list
+Collections.reverse(list);
+
+10) Can a null element added to a TreeSet or HashSet?
+
+As you see, There is no null check in add() method in previous question. And HashMap also allows one null key, so one “null” is allowed in HashSet.
+
+TreeSet uses NavigableMap for storing the elements.
+NavigableMap is subtype of SortedMap which does not allow null keys. So essentially, TreeSet also does not support null keys.
+
+17) When to use HashMap or TreeMap?
+TreeMap is special form of HashMap. It maintains the ordering of keys which is missing in HashMap class. This ordering is by default “natural ordering”. The default ordering can be override by providing an instance of Comparator class, whose compare method will be used to maintain ordering of keys.
+
+25) Difference between TreeSet and SortedSet?
+SortedSet is an interface which TreeSet implements
+
+
+32) What is difference between fail-fast and fail-safe?
+Fail-fast Iterators fail as soon as they realized that structure of Collection has been changed since iteration has begun. 
+
+Fail-safe iterators are just opposite to fail-fast. They never fail if you modify the underlying collection on which they are iterating, because they work on clone of Collection instead of original collection.
+
+Iterator of CopyOnWriteArrayList is an example of fail-safe Iterator also iterator written by ConcurrentHashMap keySet is also fail-safe iterator and never throw ConcurrentModificationException.
+
+35) Which collection classes provide random access of it’s elements?
+
+ArrayList, HashMap, TreeMap, Hashtable classes provide random access to it’s elements.
+
+
+
+3) Why Collection interface does not extend Cloneable and Serializable interface?
+
+Well, simplest answer is “there is no need to do it“.not everybody will have a reason to have Cloneable collection because if it has very large data, then every unnecessary clone operation will consume a big memory.
+
+
+What is the benefit of Generics in Collections Framework?
+Stronger type checks at compile time.
+Elimination of casts.
+Enabling programmers to implement generic algorithms that work on collections of different types.
+
+How to avoid ConcurrentModificationException while iterating a collection?
+
+We can use concurrent collection classes to avoid ConcurrentModificationException while iterating over a collection, for example CopyOnWriteArrayList instead of ArrayList.
+Check this post for ConcurrentHashMap Example.
+
+
+Can we use any class as Map key?
+
+If the class overrides equals() method, it should also override hashCode() method.
+The class should follow the rules associated with equals() and hashCode() for all instances.
+
+Best practice for user defined key class is to make it immutable, so that hashCode() value can be cached for fast performance. Also immutable classes make sure that hashCode() and equals() will not change in future that will solve any issue with mutability.
+
+
+Which collection classes provide random access of it’s elements?
+ArrayList, HashMap, TreeMap, Hashtable classes provide random access to it’s elements. 
+
+Which collection classes are thread-safe?
+Vector, Hashtable, Properties and Stack are synchronized classes, so they are thread-safe
+
+
+
+
