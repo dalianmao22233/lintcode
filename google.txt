@@ -1,0 +1,112 @@
+
+昨天刚面的电面两轮，可能是本科实习，所以问题都不难
+
+第一轮是国人大哥
+给一个input string 和一个dictionary Set, 把input string的字元删除後判断是否在dictionary中，求出最长的满足条件的string
+例如：input string = "appple"   dictionary = {"apple", "ape"} 返回 "apple"
+
+第二轮感觉是native的妹子
+第一题是判断string是否是palindrome, follow-up 是leetcode原题Longest Palindrome Substring-google 1point3acres
+
+1
+lc 66, 原题 Plus One
+
+2. 
+1）
+Unique Paths 变体
+m * n的矩阵， 每一格有一个数字
+求从左上角到右下角，和最大的路径
+followup： 如果两个人一起从左上角走， 每个人到了一个格子之后会把该格子的数清零。 求两个人走的路径和的最大值
+2）. 1point3acres.com/bbs
+给一个5*5的矩阵， 把数字1到25填进不同的格子， 要求相同行相同列的数字递增.嗗湴
+求有多少种放法
+
+3
+给一个字符串s和整数k
+求包含k个不同字符的滑动窗的最大长度.
+
+4 . 
+lc 212. Word Search II （print）
+
+
+Round one:
+1. Game of Life (Leetcode).
+Follow up: how to scale if the board has 1 million rows and columns
+用MapReduce
+. more info on 1point3acres.com
+Round two:
+1. Gate and Wall (Leetcode).
+2 Range Sum Query 2D - Mutable  (Leetcode)
+用 Binary Indexed Tree
+
+Round Three
+
+1. How to Model HTML dococument 
+用Tree
+
+2. Check if two documents represend by tree have the same inner text.
+首先extract all text in the tree and then compare.
+考官不满意，然后写个Iterator，用Iterators进行比较
+
+Round Four. 
+
+1. Given a binary tree, find all duplicate subtrees 
+后序访问树，计算每个节点的Hash并且保存在一个HashMap里，
+如果有相同的Hash，需要进行比较确认后. 
+然后讨论怎么样计算Hash和一些优化
+
+Round Five (System Design)
+- How to design Google Search Suggestion
+
+第一轮：听声音是美白，声音浑厚，搞ML, CV的phd。题目是给一个矩阵，里面有山，有一些宝藏，有一些路，求离所有宝藏距离之和最近的点。面试官人挺好的，一直笑。
+
+第二轮：听口音是中国人，问了问简历和项目。第一题是longest increasing subarray， 第二题是longest increasing subarray in 2D array. 第二题没完全写完，还差一点点，时间到了。。讲了讲思路，问问题，结束。
+
+
+两面，第一面好像是欧洲大叔，第二面是国人小哥。
+
+第一面：
+1.找出数组中的递增子数列
+2. 找出一个二叉树中最长的递增路径
+
+第二面：
+1. merge interval
+2. 两台电脑，坏的时间不同，给定每台电脑坏的时间，求一个时间段可以使用的电脑数目。就是上一题的变种。
+
+
+
+刚面完了Google两轮背靠背，自从因为听不懂印度口音挂了amazon后心灰意冷，又自觉配不上Google的high bar，抱着体验人生的心态去面的，结果比较幸运题目都很简单，做的就呵呵了，不过收获还是挺多的。
+
+一面：非华人非阿三的姐姐，不知道是哪里的口音，认真听能听懂。先问了挺长时间实习经历，问的比较细，然后coding, 题目是find the different characters in two string. 两个string不知道哪个包含哪个，没有duplicates. 我说用hash，让写了这种思路，写完应该是木有问题，问时间空间复杂度。之后问有什么其他更好的方法，当时只想到sort两个string，然后用two pointers遍历。她说string里有大写也有小写，问按什么顺序sort，然后给两个string让解释pointers移动的过程，又问了时间空间复杂度。这时候我发现，好像这个方法好像也不怎么好啊。。。她问为什么，我说strings are immutable，她说great，所以应该是思路跑偏了会跪。。。又问了一些基础如arraylist和linkedlist的区别，后来没有什么时间了就问问题结束了。
+
+二面：应该是native男，交流方面还挺顺利的。先问了最喜欢的project是什么，然后coding，题目是find any popular value in a sorted array. Popular value是出现了大于N / 4的int。我说了两种方法，一种是存一遍hashmap，当map里某个key的value大于N/4时就找出来，另一种是two pointers，一个指向index = i，一个指向i + N / 4遍历数组。然后让很细致的分析了两种方法的时间空间复杂度。他说第二种能不能改进？觉得比o(n)更好的就是o(logn)，就说binary search，但是方向没搞对，他提示了一下知道了，发现明明是leetcode做过类似的居然没有想起来。然后把实现细节都问了一遍才开始写，另外要处理popular value不存在的情况，我选了抛出异常。最后介绍了一下他的team和project，问问题结束。
+
+一面：国男.
+上来先谈简历，做过的一些项目，大概扯了十分钟左右。. 1point3acres.com/bbs
+然后做题：encoder and decoder
+Example: aaaabbbbcc5555->4xa4xbcc4x5->aaaabbbbcc5555
+我直接用naive方法做了，Two Pointers。这个方法的局限是只能做连续字母个数小于10的那种，比如21a，decoder就不知道是21a还是21个a。
+写程序后，让跑个test case，像debug一样一步步讲，途中问了一个pointer的问题。
+然后让分析算法复杂度。
+接着是一堆OOD的问题：
+什么是virtual function，什么时候用？
+什么时候用virtual deconstrutor ?
+这些都在CC150中有。
+最后还有时间，就让我提问，我就问了intern都干些什么，小公司还是大公司对个人发展更有帮助，还有就是对于interview有什么建议？
+他最后说我除了边界条件没处理，其他都做的挺好的，他会给我good feedback。（这里真的很感谢这些前辈！！！给了我很大信心！）
+
+
+二面：白男
+上来直接问我做过的一个Android项目，问的挺细致的，让我讲扫描二维码登陆的具体实现原理。。。
+然后做题：
+A: 34567
+B: 45678
+C: 67345
+交换A中的数字位置，得到一个新的数C，使得C大于B。
+我的想法是，每次挑出最大的那个digit跟前面的swap，直到找大于B的，时间复杂度是O(n*n);corner case：当A、B的digits个数不等时，直接返回结果。. From 1point 3acres bbs
+这时候小哥给了hint说这本质上是一个sort问题，那么sort问题你ideal复杂度应该是多少呢？sort我就直接想到了quicksort，我就说找最大digit的那个过程可以用quick select，这样就是O(nlogn)了。然后让用test case跑一边quick select，让分析复杂度。
+
+Follow up: 存在很多这样的C，返回其中最小的那个。
+因为要把integer的digits一个个拿出来，弄成array，比较麻烦，就只让讲了下想法，然后用test case跑一边. 1point3acres.com/bbs
+最小的就是离B最近的那个，所以我的想法是，从B开始找。因为B中可能存在A没有digits，所以先作差集A-B={3}，把B中的8替换成3，得到45673.. visit 1point3acres.com for more.
+然后从B的尾巴开始，保持一个递减的序列B[i - 1] > B[i]，直到碰到一个B[i - 1] < B[i]， 则B[i - 1]跟B[i...n]中第一个比B[i - 1]大的那个交换，得到45763，然后使B[i...n]递增，得到45736。
