@@ -1,0 +1,77 @@
+dfs, 有向图
+1. 九章
+public class Solution {
+    public List<String> findItinerary(String[][] tickets) {
+        Map<String, PriorityQueue<String>> hashmap = new HashMap<String, PriorityQueue<String>>();
+        List<String> list = new ArrayList<String>();
+        String cur = "JFK";
+        int length = tickets.length;
+        for (int i = 0; i < length; i++) {
+            if (!hashmap.containsKey(tickets[i][0])) {
+                hashmap.put(tickets[i][0], new PriorityQueue<String>());
+            }
+            hashmap.get(tickets[i][0]).add(tickets[i][1]);
+        }                                                  //build hashmap based on the itinerary 
+        dfs(cur, hashmap, list);
+        Collections.reverse(list);// build-in method for reverse arraylist.
+        return list;
+    }
+    public void dfs(String cur, Map<String, PriorityQueue<String>> hashmap, List<String> list) {
+        while (hashmap.containsKey(cur) && !hashmap.get(cur).isEmpty()) {
+            dfs(hashmap.get(cur).poll(), hashmap, list);
+        }
+        list.add(cur);// build path.
+    }
+}
+2. discussion 大神
+Just Eulerian path. Greedy DFS, building the route backwards when retreating.
+Explanation
+
+First keep going forward until you get stuck. That's a good main path already. Remaining tickets form cycles which are found on the way back and get merged into that main path. By writing down the path backwards when retreating from recursion, merging the cycles into the main path is easy - the end part of the path has already been written, the start part of the path hasn't been written yet, so just write down the cycle now and then keep backwards-writing the path.
+
+Example:
+
+enter image description here
+
+From JFK we first visit JFK -> A -> C -> D -> A. There we're stuck, so we write down A as the end of the route and retreat 
+back to D. There we see the unused ticket to B and follow it: D -> B -> C -> JFK -> D. Then we're stuck again, 
+retreat and write down the airports while doing so: Write down D before the already written A, then JFK before the D, etc. 
+When we're back from our cycle at D, the written route is D -> B -> C -> JFK -> D -> A. Then we retreat further along 
+the original path, prepending C, A and finally JFK to the route, 
+ending up with the route JFK -> A -> C -> D -> B -> C -> JFK -> D -> A.
+https://discuss.leetcode.com/topic/36370/short-ruby-python-java-c
+
+public List<String> findItinerary(String[][] tickets) {
+    for (String[] ticket : tickets)
+        targets.computeIfAbsent(ticket[0], k -> new PriorityQueue()).add(ticket[1]);
+    visit("JFK");
+    return route;
+}
+
+Map<String, PriorityQueue<String>> targets = new HashMap<>();
+List<String> route = new LinkedList();
+
+void visit(String airport) {
+    while(targets.containsKey(airport) && !targets.get(airport).isEmpty())
+        visit(targets.get(airport).poll());
+    route.add(0, airport);
+}
+
+
+
+##Iterative version:
+
+public List<String> findItinerary(String[][] tickets) {
+    Map<String, PriorityQueue<String>> targets = new HashMap<>();
+    for (String[] ticket : tickets)
+        targets.computeIfAbsent(ticket[0], k -> new PriorityQueue()).add(ticket[1]);
+    List<String> route = new LinkedList();
+    Stack<String> stack = new Stack<>();
+    stack.push("JFK");
+    while (!stack.empty()) {
+        while (targets.containsKey(stack.peek()) && !targets.get(stack.peek()).isEmpty())
+            stack.push(targets.get(stack.peek()).poll());
+        route.add(0, stack.pop());
+    }
+    return route;
+}
