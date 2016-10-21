@@ -13,7 +13,7 @@ public class Solution {
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
                 if(grid[i][j] != '1') continue;
-                res++;
+                res++;//这里+1是因为，如果dfs一直探查，遇到了boundary，即dfs里的if，就会停止，此时这就算是一个岛了。因为不能再污染。
                 dfs(grid, i, j);
             }
         }
