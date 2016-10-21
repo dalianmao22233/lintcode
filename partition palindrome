@@ -1,0 +1,46 @@
+dfs+backtracking.
+public class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        if(s == null || s.length() == 0) return res;
+        dfs(res, s, new ArrayList<String>());
+        return res;
+    }
+    private void dfs(List<List<String>> res, String s, ArrayList<String> solution) {
+        
+        if(s.length() == 0) {  // partition is done. to the last position of string.
+            res.add(new ArrayList<String>(solution));
+            return;
+        }
+        for(int i = 0; i <= s.length(); i++) {   //没想清楚错了
+            String front = s.substring(0, i);
+            if(isPal(front)) {
+                solution.add(front);
+                dfs(res, s.substring(i), solution);
+                solution.remove(solution.size()-1);
+            }
+        }
+        
+    }
+    private boolean isPal(String s) {
+        if(s == null || s.length() == 0) return false;
+        int l = 0, r = s.length()-1;
+        while(l <= r) {
+            // if(!Character.isLetter(s.charAt(l)) && !Character.isDigit(s.charAt(l))) {
+            //     l++; 
+            //     continue;
+            // }
+            // if(!Character.isLetter(s.charAt(r)) && !Character.isDigit(s.charAt(r))) {
+            //     r--;
+            //     continue;
+            // }
+            if(s.charAt(l) == s.charAt(r)) {
+                l++; 
+                r--;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+}
