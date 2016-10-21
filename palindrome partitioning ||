@@ -1,0 +1,49 @@
+dp 和第一个不一样。 那个会超时。
+凡是求最优解的，一般都是走DP的路线
+
+最好的解：O(n^2) time and O(n) space
+public class Solution {
+    public int minCut(String s) {
+        if(s == null || s.length() == 0) return 0;
+        int n = s.length();
+        
+        int[] cut = new int[n+1];  // number of cuts for the first k characters
+        for (int i = 0; i <= n; i++) cut[i] = i-1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; i-j >= 0 && i+j < n && s.charAt(i-j)==s.charAt(i+j) ; j++) // odd length palindrome
+                cut[i+j+1] = Math.min(cut[i+j+1],1+cut[i-j]);
+
+            for (int j = 1; i-j+1 >= 0 && i+j < n && s.charAt(i-j+1) == s.charAt(i+j); j++) // even length palindrome
+                cut[i+j+1] = Math.min(cut[i+j+1],1+cut[i-j+1]);
+        }
+        return cut[n];
+    }
+}
+
+yrb的：
+public class Solution {
+    public int minCut(String s) {
+        int len = s.length();
+        int[] minCuts = new int[len];  //minCuts[i] is min cut for s.substring(0, i + 1)
+        boolean[][] isPalindrome = new boolean[len][len];
+       
+        for (int i = 0; i < len; i++) {            
+            minCuts[i] = Integer.MAX_VALUE;  //set initial value for minCuts[i]      
+            
+            for (int j = 0; j <= i; j++) {         
+                if (s.charAt(i) == s.charAt(j)) {   //if s.substring(j, i) is Palindrome
+                    if (i - j <= 1 || isPalindrome[j + 1][i - 1]) {          
+                        isPalindrome[j][i] = true;      
+                        if (j == 0)                       
+                            minCuts[i] = 0; //if(s[0....i] is palindrome),  no cut needed
+                        else {
+                            minCuts[i] = Math.min(minCuts[i], minCuts[j - 1] + 1);  //1-D dp
+                        }
+                    }
+                }
+            }
+        }
+
+        return minCuts[len - 1];
+    }
+}
