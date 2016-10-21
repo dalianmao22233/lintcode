@@ -1,7 +1,9 @@
 第二次：
 这道题目其实没有说清楚的是，wordDict中的元素是否可以被重复使用。测试了几次以后发现是可以的。比如S = "aa"，wordDict = ["a"]，结果为true。
 面试的时候一定要注意问清楚面试官的意思，一点一点clarify问题。 
-
+动态规划：
+res[i]代表到第i位的时候这个子串是不是存在于wordDict中。举个例子，leetcode
+leetcode这个字符串，i=4, j=0,就可以得到res[4] = true;此时就可以知道位置为4的时候是字典中的内容。以此类推，到res[8]的时候，i=8, j=4, res[8]=true;
 Recursive:
 
 Time Complexity - O(n ^ 2)， Space Complexity - O(n ^ 2)
@@ -10,7 +12,7 @@ public class Solution {
         if(s == null || s.length() == 0) return true;
         boolean[] res = new boolean[s.length()+1];
         res[0] = true;
-        for(int i = 1; i <= s.length(); i++) {
+        for(int i = 1; i <= s.length(); i++) {//这里注意i 的取值。可以去到最后一位，因为最后一位是）而不是]。
             for(int j = 0; j < i; j++) {
                 if(res[j] && wordDict.contains(s.substring(j, i))) {
                     res[i] = true;
