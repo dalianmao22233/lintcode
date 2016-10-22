@@ -1,0 +1,48 @@
+DP, 状态转移方程：
+只让我们求出最小的那种，对于求极值问题，我们还是主要考虑动态规划Dynamic Programming来做，我们维护一个一维动态数组dp，
+其中dp[i]表示钱数为i时的最小硬币数的找零，递推式为：
+dp[i] = min(dp[i], dp[i - coins[j]] + 1);
+
+其中coins[j]为第j个硬币，而i - coins[j]为钱数i减去其中一个硬币的值，剩余的钱数在dp数组中找到值，然后加1和当前dp数组中的值做比较，
+取较小的那个更新dp数组
+public class Solution {
+    public int coinChange(int[] coins, int amount) {
+        if(coins == null || coins.length == 0 || amount == 0) return 0;
+        int n = coins.length;
+        int[] dp = new int[amount+1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+        for(int i = 1; i <= amount; i++) {
+            for(int j = 0; j < coins.length; j++) {
+                if(coins[j] <= i) {
+                    dp[i] = Math.min(dp[i], dp[i-coins[j]]+1);
+                }
+            }
+        }
+        return dp[amount] > amount? -1: dp[amount]; //这里如果是> amount,就说明硬币数量不够。举个极端的例子，[1], 10， 最后如果dp[10]>10,
+        //就是根本没那么多硬币去换。。
+    }
+}
+第二种：recursive:
+public class Solution {
+    public int coinChange(int[] coins, int amount) {
+        if(coins == null || coins.length == 0 || amount == 0) return 0;
+        int n = coins.length;
+        int[] dp = new int[amount+1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+        return dfs(coins, amount, dp);
+        
+    }
+    private int dfs(int[] coins, int amount, int[] dp) {
+        if(amount < 0) return -1;
+        if(dp[amount] != Integer.MAX_VALUE) return dp[amount];
+        for(int i = 0; i < coins.length; i++) {
+            int tmp = dfs(coins, amount-coins[i], dp);
+            if(tmp >= 0) {
+                dp[amount] = Math.min(dp[amount], tmp+1);
+            }
+        }
+        return dp[amount] = dp[amount] == Integer.MAX_VALUE ? -1: dp[amount];
+    }
+}
