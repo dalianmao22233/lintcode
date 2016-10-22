@@ -46,6 +46,13 @@ public class Solution {
 第二种：
 Time Complexity - O(n)， Space Complexity - O(1)
 
+我们可以用一个数组来存bulls和cows。用s和g来表示数组的数字值
+当 s = g时，我们找到了bull， bulls++
+否则我们要看：
+nums[g] > 0的话，说明当前guess的这个数字曾经出现在secret中，这是一个cow，我们cow++
+我们也要看是否nums[s] < 0， 这个表明当前ssecret的数字曾经出现在guess中，这也是一个cow，我们还是cow++
+我们用正数记录下nums[s]为bull的一个位置，nums[s]++，  我们也用负数记录下guess中出现过的数字，nums[g]--，
+
  这种超级快
 public class Solution {
     public String getHint(String secret, String guess) {
