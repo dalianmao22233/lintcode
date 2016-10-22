@@ -1,0 +1,34 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+ 使用comparator来对整个interval数组进行排序，我们可以用anonymous comparator
+ Time Complexity - O(nlogn),  Space Complexity - O(1)
+public class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        List<Interval> res = new ArrayList<Interval>();
+        if(intervals == null || intervals.size() == 0) return res;
+        Collections.sort(intervals, new Comparator<Interval>() {
+            public int compare(Interval i1, Interval i2){
+                return i1.start != i2.start ? i1.start-i2.start : i1.end-i2.end; 
+            }
+        });
+        Interval start = intervals.get(0);
+        for(int i = 1; i < intervals.size(); i++) {
+            Interval tmp = intervals.get(i);
+            if(tmp.start > start.end) {
+                res.add(start);
+                start = tmp;
+            } else if(start.end < tmp.end) {
+                start.end = tmp.end;
+            }
+        }
+        res.add(start);
+        return res;
+    }
+}
