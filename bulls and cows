@@ -1,0 +1,71 @@
+第一种 hashmap:
+Time Complexity - O(n)， Space Complexity - O(n)
+public class Solution {
+    public String getHint(String secret, String guess) {
+        if(secret == null || secret.length() == 0 || guess == null || guess.length() == 0 || secret.length() != guess.length()) return secret;
+        HashMap<Character, Integer> map = new HashMap<>();
+        int countA = 0, countB = 0;
+        for(int i = 0; i < secret.length(); i++) {
+            char c1 = secret.charAt(i);
+            char c2 = guess.charAt(i);
+            if(c1 == c2) countA++;
+            else {
+                if(map.containsKey(c1)) {
+                    int freq = map.get(c1);
+                    freq++;
+                    map.put(c1, freq);
+                } else {
+                    map.put(c1, 1);
+                }
+            }
+            
+        }
+        for(int i = 0; i < secret.length(); i++) {
+            char c1 = secret.charAt(i);
+            char c2 = guess.charAt(i);
+            if(c1 != c2) {
+                if(map.containsKey(c2)) {
+                    countB++;
+                    if(map.get(c2) == 1) { //这里注意，如果只出现过1次，要彻底移除，不然就是put(c2, 0)，不对了。
+                        map.remove(c2);
+                    } else {
+                        int freq =map.get(c2);
+                        freq--;
+                        map.put(c2, freq);
+                    }
+                    
+                }
+                
+            }
+        }
+        String res = countA+"A"+countB+"B";
+        
+        return res;
+    }
+}
+第二种：
+Time Complexity - O(n)， Space Complexity - O(1)
+
+ 这种超级快
+public class Solution {
+    public String getHint(String secret, String guess) {
+        if (secret == null || guess == null || secret.length() != guess.length()) return "0A0B";
+        int bullsCount = 0, cowsCount = 0;
+        int len = secret.length();
+        int[] count = new int[10];
+        
+        for (int i = 0; i < len; i++) {
+            int sc = secret.charAt(i) - '0';
+            int gc = guess.charAt(i) - '0';
+            if (sc == gc) {
+                bullsCount++;
+            } else {
+                if (count[gc] > 0) cowsCount++;
+                if (count[sc] < 0) cowsCount++;
+                count[sc]++;
+                count[gc]--;
+            }
+        }
+        return bullsCount + "A" + cowsCount + "B";
+    }
+}
