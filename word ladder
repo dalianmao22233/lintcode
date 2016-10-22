@@ -42,7 +42,61 @@
 
  
   level = 5   cog  dict = []
+新的解法：
   
+Two-way BFS。存两个HashSet beginSet和endSet，然后每次从较小的hashset开始进行下一步的计算，把BFS的结果存在一个tmp HashSet中。
+最后更新beginSet = tmp。 其他过程跟1-way BFS基本一样，不同的一点是，假如newWord存在于endSet中，我们立刻可以返回steps + 1。 
+这里新建立一个wordList的copy，再从其中移除已访问过的单词，也可以增加一些速度。
+
+Java:
+
+Time Complexity - O(n * 26L)，  Space Complexity - O(n * 26L)
+  public class Solution {
+    public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+        if (beginWord == null || endWord == null || wordList == null || beginWord.equals(endWord)) return 0;
+        Set<String> beginSet = new HashSet<>(wordList.size());
+        Set<String> endSet = new HashSet<>(wordList.size());
+        Set<String> list = new HashSet(wordList);       //have a copy of input
+        
+        beginSet.add(beginWord);
+        endSet.add(endWord);
+    
+        int steps = 1, curLevel = 1, nextLevel = 0;
+        
+        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
+            if (beginSet.size() > endSet.size()) {
+                Set<String> set = beginSet;
+                beginSet = endSet;
+                endSet = set;
+            }
+            
+            Set<String> tmpSet = new HashSet<String>();
+            
+            for (String word : beginSet) {
+                char[] wordArr = word.toCharArray();
+                for (int i = 0; i < wordArr.length; i++) {
+                    char ch = wordArr[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        wordArr[i] = c;
+                        String newWord = String.valueOf(wordArr);
+                        if (endSet.contains(newWord)) return steps + 1;
+                        if (list.contains(newWord)) {
+                            list.remove(newWord);
+                            tmpSet.add(newWord);
+                        }
+                    }
+                    wordArr[i] = ch;
+                }
+            }
+            beginSet = tmpSet;
+            steps++;
+        }
+        return 0;
+    }
+}
+
+
+  这个解法TLE了！！！！！
 public class Solution {
     public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
         if(beginWord == null || endWord == null || beginWord.length() == 0|| endWord.length() == 0 || beginWord.length() != endWord.length()) return 0;
