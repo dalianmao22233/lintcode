@@ -1,0 +1,47 @@
+http://www.cnblogs.com/springfor/p/3877056.html
+这个有图的讲解，非常清楚。
+其中一部分就是work break，判断能不能break.其他的就是dfs+backtracking.
+public class Solution {
+    public List<String> wordBreak(String s, Set<String> wordDict) {
+        List<String> res = new ArrayList<String>();
+        if(s == null || s.length() == 0) return res;
+        if(canbreak(s, wordDict)) {
+            dfs(s, wordDict, 0, "", res);
+        }
+        return res;
+    }
+    private void dfs(String s, Set<String> wordDict, int start, String item, List<String> res) {
+        if(start >= s.length()) {
+            res.add(item);
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i = start; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            if(wordDict.contains(sb.toString())) {
+                String newitem = "";
+                if(item.length() > 0) {
+                    newitem = item+" "+sb.toString();
+                } else {
+                    newitem = sb.toString();
+                }
+                dfs(s, wordDict, i+1, newitem, res);
+            }
+        }
+    }
+    private boolean canbreak(String s, Set<String> wordDict) {
+        if(s == null || s.length() == 0) return false;
+        boolean[] flag = new boolean[s.length()+1];
+        flag[0] = true;
+        for(int i = 1; i <= s.length(); i++) {
+            for(int j = 0; j < i; j++) {
+                String str = s.substring(j, i);
+                if(wordDict.contains(str) && flag[j]) {
+                    flag[i] = true; 
+                    break;
+                } 
+            }
+        }
+        return flag[s.length()];
+    }
+}
