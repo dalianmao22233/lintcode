@@ -1,3 +1,55 @@
+第二次：搜索边界
+注意搜索左边界时，遇到mid = target时我们hi = mid - 1，最后返回的边界index是lo。
+搜索右边界时，遇到mid = target我们lo = mid + 1，最后返回的边界index是hi。
+public class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if(nums == null || nums.length == 0) return new int[]{0};
+        int lo = 0, hi = nums.length-1;
+        int[] res = {-1, -1}; //初始化，先写出这种情况。是没搜索到
+        
+        int mid = 0; 
+        while(lo <= hi) {
+            mid = lo+(hi-lo)/2;
+            if(nums[mid] < target) {
+                lo = mid+1;
+            } else {
+                hi = mid-1;
+            }
+        }
+        System.out.println("left: lo: " + lo + ",hi: " + hi);
+        int left = lo;
+        lo = 0;
+        hi = nums.length-1;
+        while(lo <= hi) {
+            mid = lo+(hi-lo)/2;
+            if(nums[mid] <= target) {
+                lo = mid+1;
+            } else {
+                hi = mid-1;
+            }
+        }
+        System.out.println("right: lo: " + lo + ",hi: " + hi);
+        int right = hi;
+        if(left <= right) {
+            res[0] = left;
+            res[1] = right;
+        }
+        return res;
+    }
+}
+Your input
+
+[2,3,6,7,8,8,9]
+8
+Your stdout
+
+left: lo: 4,hi: 3
+right: lo: 6,hi: 5
+Your answer
+
+[4,5]
+
+第一次：
 public class Solution {
     public int[] searchRange(int[] A, int target) {
         if (A.length == 0) {
