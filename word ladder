@@ -45,7 +45,17 @@
 新的解法：
   
   相对快，好理解
-  
+  BFS
+
+类似于图的遍历，将start一步内可以到达的单词加入到queue中，并将相应长度放入queue中
+
+每次从queue中poll出一个单词，看是否是目标单词，如果是则返回相应长度
+
+对每个单词的每一位进行变化('a'-'z'), 看是否在dict中，如在则说明该单词是转换路径中的一个
+
+由于在找到一个转换路径后就返回，此返回值可以确保是最小值
+
+
   
   public class Solution {
     public static int ladderLength(String start, String end, Set<String> dict) {
