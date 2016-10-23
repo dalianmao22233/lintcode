@@ -1,0 +1,52 @@
+1.我的想法：
+可以使用StringBuilder来减少空间复杂度。
+Time Complexity - O(n)， Space Complexity - O(1)。
+public class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        List<String> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) return res;
+        StringBuilder sb = new StringBuilder(nums[0] + "");
+        int count = 1;
+        
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] - nums[i - 1] == 1) {
+                count++;
+            } else {
+                if (count > 1) sb.append("->").append(nums[i - 1]);
+                res.add(sb.toString());
+                sb.setLength(0);
+                sb.append(nums[i]);
+                count = 1;
+            }
+        }
+        
+        if (count > 1) sb.append("->").append(nums[nums.length - 1]);
+        res.add(sb.toString());
+        return res;
+    }
+}
+2.快！Different logic. This time we use a sliding window. If we found out nums[i] > nums[i - 1] + 1, 
+we need to add result to res.  here if i - 1 != lo, we need to add a range into res,  
+otherwise we need to add a single number into res.  We also need to do double check 
+while we finished running the loop. 
+public class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        List<String> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) return res;
+        StringBuilder sb = new StringBuilder();
+        int lo = 0, len = nums.length;
+        for (int i = 1; i < len; i++) {
+            if (nums[i] > nums[i - 1] + 1) {
+                if (i - 1 != lo) sb.append(nums[lo]).append("->").append(nums[i - 1]);
+                else sb.append(nums[lo]); //ex:[0,2]此时第一个sb是“0”
+                res.add(sb.toString());
+                lo = i;
+                sb.setLength(0);
+            }
+        }
+        if (lo == len - 1) sb.append(nums[lo]);
+        else sb.append(nums[lo]).append("->").append(nums[len - 1]);
+        res.add(sb.toString());
+        return res;
+    }
+}
