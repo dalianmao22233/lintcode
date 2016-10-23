@@ -1,4 +1,38 @@
-// Version 1: Traverse
+第二次：
+用stack, not recursive
+Time Complexity - O(n)， Space Complexity - O(n)。
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void flatten(TreeNode root) {
+        if(root == null) return;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while(!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if(node.right != null) stack.push(node.right);
+            if(node.left != null) stack.push(node.left);
+            //connect
+            node.left = null;
+            
+            if (stack.empty()) {
+                node.right = null;
+            } else {
+                node.right = stack.peek();
+            }
+        }
+    }
+}
+
+
+// Version 1: Traverse   不是很懂。。。哭了😢
 public class Solution {
     private TreeNode lastNode = null;
 
