@@ -1,0 +1,38 @@
+求给定图中，能形成树的最矮的树。
+先计算每个点的degree，然后将degree为1的点放入list或者queue中进行计算，把这些点从neighbours中去除，
+然后计算接下来degree = 1的点。最后剩下1 - 2个点就是新的root
+
+
+先计算degree为1的节点，这些节点只和一个节点相连，所以这些是leaf节点。逐个去除掉leaf节点以后我们可以尝试计算上一层leaf，
+继续and继续，直到最后我们剩下一个节点或者两个节点，就是我们要求的root nodes。
+
+Time Complexity - O(n)， Space Complexity - O(n)
+
+
+public class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        List<Integer> leaves = new ArrayList<>();
+        if (n == 1) return Collections.singletonList(0);
+        List<Set<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) graph.add(new HashSet<>());
+        for (int[] edge : edges) {
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+        for (int i = 0; i < n; i++) {
+            if (graph.get(i).size() == 1) leaves.add(i);
+        }
+        while (n > 2) {
+            n -= leaves.size();
+            List<Integer> newLeaves = new ArrayList<>();
+            for (int leaf : leaves) {
+                for (int j : graph.get(leaf)) {
+                    graph.get(j).remove(leaf);
+                    if (graph.get(j).size() == 1) newLeaves.add(j);
+                }
+            }
+            leaves = newLeaves;
+        }
+        return leaves;
+    }
+}
