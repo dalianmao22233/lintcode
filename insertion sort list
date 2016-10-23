@@ -5,12 +5,12 @@ public class Solution {
         ListNode dummy = new ListNode(0);
 
         while (head != null) {
-            ListNode node = dummy;
+            ListNode node = dummy;//保证每次排序都从第一个开始。
             while (node.next != null && node.next.val < head.val) {
                 node = node.next;
             }
             ListNode temp = head.next;
-            head.next = node.next;
+            head.next = node.next;//这句话就是head插入到node后面了。
             node.next = head;
             head = temp;
         }
