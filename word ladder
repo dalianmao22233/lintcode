@@ -44,6 +44,67 @@
   level = 5   cog  dict = []
 新的解法：
   
+  相对快，好理解
+  
+  
+  public class Solution {
+    public static int ladderLength(String start, String end, Set<String> dict) {
+        int result = 0;
+        if (dict.size() == 0) {
+            return result;
+        }
+        dict.add(start);
+        dict.add(end);
+
+        result = BFS(start, end, dict);
+
+        return result;
+    }
+
+    private static int BFS(String start, String end, Set<String> dict) {
+        Queue<String> queue = new LinkedList<String>();
+        Queue<Integer> length = new LinkedList<Integer>();
+        queue.add(start);
+        length.add(1);
+
+        while (!queue.isEmpty()) {
+            String word = queue.poll();
+            int len = length.poll();
+
+            if (match(word, end)) {
+                return len;
+            }
+
+            for (int i = 0; i < word.length(); i++) {
+                char[] arr = word.toCharArray();
+                for (char c = 'a'; c <= 'z'; c++) {
+                    if (c == arr[i])
+                        continue;
+
+                    arr[i] = c;
+                    String str = String.valueOf(arr);
+                    if (dict.contains(str)) {
+                        queue.add(str);
+                        length.add(len + 1);
+                        dict.remove(str);
+                    }
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    private static boolean match(String word, String end) {
+        if (word.equals(end)) {
+            return true;
+        }
+        return false;
+    }
+}
+
+最快的做法：
+
 Two-way BFS。存两个HashSet beginSet和endSet，然后每次从较小的hashset开始进行下一步的计算，把BFS的结果存在一个tmp HashSet中。
 最后更新beginSet = tmp。 其他过程跟1-way BFS基本一样，不同的一点是，假如newWord存在于endSet中，我们立刻可以返回steps + 1。 
 这里新建立一个wordList的copy，再从其中移除已访问过的单词，也可以增加一些速度。
