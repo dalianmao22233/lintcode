@@ -1,0 +1,83 @@
+第一种：
+就是使用HashMap来坐，HashMap的key存原始pointer，value存新的pointer。
+
+第一遍，先不copy random的值，只copy数值建立好新的链表。并把新旧pointer存在HashMap中。
+
+第二遍，遍历旧表，复制random的值，因为第一遍已经把链表复制好了并且也存在HashMap里了，所以只需从HashMap中，
+把当前旧的node.random作为key值，得到新的value的值，并把其赋给新node.random就好
+/**
+ * Definition for singly-linked list with a random pointer.
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ */
+public class Solution {
+    public RandomListNode copyRandomList(RandomListNode head) {
+        if(head == null) return head;
+        HashMap<RandomListNode, RandomListNode> map = new HashMap<>();
+        RandomListNode newhead = new RandomListNode(head.label);
+        map.put(head, newhead);
+        RandomListNode pre = newhead;
+        RandomListNode node = head.next;
+        while(node != null) {
+            RandomListNode newnode = new RandomListNode(node.label);
+            map.put(node, newnode);
+            pre.next = newnode;
+            pre = pre.next;
+            node = node.next;
+        }
+        node = head;
+        RandomListNode copynode = newhead;
+        while(node != null) {
+            copynode.random = map.get(node.random);
+            copynode = copynode.next;
+            node = node.next;
+        }
+        return newhead;
+    }
+}
+第二种：更快
+利用了原来的链表省去了额外空间，虽然多进行一次扫描，不过对时间复杂度量级没有影响，还是对算法有提高的
+
+那么有没有办法可以不用额外空间来完成这个任务呢？
+还是有的，前面我们需要一个哈希表的原因是当我们访问一个结点时可能它的随机指针指向的结点还没有访问过，结点还没有创建，
+所以我们需要线性的额外空间。想避免使用额外空间，我们只能通过利用链表原来的数据结构来存储结点。基本思路是这样的，
+对链表进行三次扫描，第一次扫描对每个结点进行复制，然后把复制出来的新节点接在原结点的next，也就是让链表变成一个重复链表，
+就是新旧更替；第二次扫描中我们把旧结点的随机指针赋给新节点的随机指针，因为新结点都跟在旧结点的下一个，
+所以赋值比较简单，就是node.next.random = node.random.next，其中node.next就是新结点，
+因为第一次扫描我们就是把新结点接在旧结点后面。现在我们把结点的随机指针都接好了，最后一次扫描我们把链表拆成两个，
+第一个还原原链表，而第二个就是我们要求的复制链表。因为现在链表是旧新更替，只要把每隔两个结点分别相连，
+对链表进行分割即可。这个方法总共进行三次线性扫描，所以时间复杂度是O(n)。而这里并不需要额外空间，所以空间复杂度是O(1)。
+比起上面的方法，这里多做一次线性扫描，但是不需要额外空间，还是比较值的。实现的代码如下：
+public RandomListNode copyRandomList(RandomListNode head) {  
+    if(head == null)  
+        return head;  
+    RandomListNode node = head;  
+    while(node!=null)  
+    {  
+        RandomListNode newNode = new RandomListNode(node.label);  
+        newNode.next = node.next;  
+        node.next = newNode;  
+        node = newNode.next;  
+    }  
+    node = head;  
+    while(node!=null)  
+    {  
+        if(node.random != null)  
+            node.next.random = node.random.next;  
+        node = node.next.next;  
+    }  
+    RandomListNode newHead = head.next;  
+    node = head;  
+    while(node != null)  
+    {  
+        RandomListNode newNode = node.next;  
+        node.next = newNode.next;  
+        if(newNode.next!=null)  
+            newNode.next = newNode.next.next;  
+        node = node.next;  
+    }  
+    return newHead;  
+}  
