@@ -1,0 +1,40 @@
+最好的一种：
+
+public class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        // if(ransomNote == null || ransomNote.length() == 0 || magazine == null || magazine.length() == 0) return true;
+        //这句话不对。当magazine为空的时候，如果ransomNote="a", 应该返回false.但是两个同时为空又要true。可以不写。根据后面的处理。
+        int[] arr = new int[26];
+        for (int i = 0; i < magazine.length(); i++) {
+            arr[magazine.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            if(--arr[ransomNote.charAt(i)-'a'] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+另一种，不快：
+public boolean canConstruct(String ransomNote, String magazine) {
+        boolean ret = true;
+        byte[] bytes = new byte[magazine.length()];
+        for (int i = 0; i < ransomNote.length(); i++) {
+            char c = ransomNote.charAt(i);
+            boolean found = false;
+            for (int j = 0; j < magazine.length(); j++) {
+                if (bytes[j] == 0 && magazine.charAt(j) == c) {
+                    bytes[j]++;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                ret = false;
+                break;
+            }
+        }
+
+        return ret;
+    }
