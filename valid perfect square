@@ -1,0 +1,16 @@
+这种比较慢， 不能用二分，会超时。
+从1搜索到sqrt(num)，看有没有平方正好等于num的数：
+public class Solution {
+    public boolean isPerfectSquare(int num) {
+        if(num < 0)  return false;
+        for(int i = 1; i <= num/i; i++) {
+            if(i*i == num) {
+                return true;
+            }
+            // } else if(i*i > num){  这里不用写了笨蛋
+            //     return false;
+            // } 
+        }
+        return false;
+    }
+}
