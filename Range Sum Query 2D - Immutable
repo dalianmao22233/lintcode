@@ -1,0 +1,24 @@
+二维矩阵求Range Sum。这题我们也是用DP，不过dp的方法是: dp[i][j]等于从坐标matrix[0][0]到matrix[i - 1][j - 1]中所有元素的和。 
+这样我们就可以用中小学时计算矩形重叠面积的方法来计算出我们想要的结果。
+
+Time Complexity - O(n2)， Space Complexity - O(n2)。
+public class NumMatrix {
+    private int[][] sum;
+    public NumMatrix(int[][] matrix) {
+        if(matrix == null || matrix.length == 0) {
+            return;
+        }
+        int rowNum = matrix.length, colNum = matrix[0].length;
+        sum = new int[rowNum + 1][colNum + 1];
+        
+        for(int i = 1; i < sum.length; i++) {
+            for(int j = 1; j < sum[0].length; j++) {
+                sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + matrix[i - 1][j - 1];
+            }
+        }
+    }
+
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+            return sum[row2 + 1][col2 + 1] - sum[row1][col2 + 1] - sum[row2 + 1][col1] + sum[row1][col1];
+    }
+}
