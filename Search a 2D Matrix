@@ -1,3 +1,65 @@
+第二种：练习用这种。转为1D之后是sorted array, 正好用一次binary search. 
+虽然本题看似是矩阵问题，但是本着搜索题目关键字为第一步的原则，可以找到：each row are sorted，每一行按照顺序也是sorted。同时也是数组保存。
+
+但是本题的难点就是如何将2D矩阵转换成1D，然后利用二分查找法来解决问题。转换的重点就在于每个点的位置，在矩阵表示中，我们习惯用（i，j）来表示一个点，
+所以这就有碍于我们使用low high mid来指向需要的位置。为了解决问题，第一步就是需要将这个矩阵按照顺序拉成一条线。
+
+像题中的例子我可以将其转化为：
+
+position: 0   1   2   3   4   5   6   7   8   9   10   11   
+
+values:   1   3   5   7   10  11  16  20  23  30  34   50
+
+row:      0   0   0   0   1   1   1   1   2   2    2    2
+
+column:   0   1   2   3   0   1   2   3   0   1    2    3 
+
+ 
+
+其中：行数rows=3，列数columns=4
+
+ 
+
+如上，这个就是将2D矩阵转化成1行数组的对应表。所以对于二分查找法的初始值为：low=0，high=rows*columns-1（总共数值的个数，因为从0开始所以减1）。
+而为了能够方便在given 2D matrix找到需要比对的值，我们还是需要确定行数和列数，通过上表可以看出，行数是position/columns，
+而列数是position%columns, 这样一来，就能很容易的在原矩阵中定位到所需要的值。剩下其他的解题思路，就与二分查找法一模一样了。
+
+时间复杂度O(log(rows*columns))
+// Binary Search Once
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+        if (matrix[0] == null || matrix[0].length == 0) {
+            return false;
+        }
+        
+        int row = matrix.length, column = matrix[0].length;
+        int start = 0, end = row * column - 1;
+        
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            int number = matrix[mid / column][mid % column];//上面的解释很清楚了。
+            if (number == target) {
+                return true;
+            } else if (number < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (matrix[start / column][start % column] == target) {
+            return true;
+        } else if (matrix[end / column][end % column] == target) {
+            return true;
+        }
+        
+        return false;
+    }
+}
+第一种：
 // Binary Search Twice
 二分法确定target可能在第几行出现。再用二分法在该行确定target可能出现的位置。时间复杂度O(logn+logm)
 public class Solution {
@@ -56,40 +118,6 @@ public class Solution {
     }
 }
 
-// Binary Search Once
-public class Solution {
-    public boolean searchMatrix(int[][] matrix, int target) {
-        if (matrix == null || matrix.length == 0) {
-            return false;
-        }
-        if (matrix[0] == null || matrix[0].length == 0) {
-            return false;
-        }
-        
-        int row = matrix.length, column = matrix[0].length;
-        int start = 0, end = row * column - 1;
-        
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            int number = matrix[mid / column][mid % column]; //？？？这里为什么都是除以col，%col?
-            if (number == target) {
-                return true;
-            } else if (number < target) {
-                start = mid;
-            } else {
-                end = mid;
-            }
-        }
-        
-        if (matrix[start / column][start % column] == target) {
-            return true;
-        } else if (matrix[end / column][end % column] == target) {
-            return true;
-        }
-        
-        return false;
-    }
-}
 3. 不用二分搜索，时间复杂度高
 从左下角元素开始遍历，每次遍历中若与target相等则返回true；若大于则行向上移动；若小于则列向右移动。时间复杂度m+n
 public class Solution {
