@@ -1,4 +1,25 @@
 给定整数数组nums，计算下标i与j之间的元素和（i ≤ j），包含边界。
+第二次：
+初始的数组长度设为nums.length+1比较方便，sumRange的时候可以不用写复杂的边界条件。不然就要判断i和0，1的比较。但是其实还要加上
+i,j的边界判断。
+public class NumArray {
+    private int[] sum;
+    public NumArray(int[] nums) {
+        if(nums == null || nums.length == 0) return;
+        sum = new int[nums.length+1];
+        
+        for(int i = 0; i < nums.length; i++) {
+            
+            sum[i+1] = sum[i]+nums[i];
+        }
+    }
+
+    public int sumRange(int i, int j) {
+        return sum[j+1]-sum[i];
+    }
+}
+第一次：
+
 public class NumArray {
     int[] sum;
     public NumArray(int[] nums) {
