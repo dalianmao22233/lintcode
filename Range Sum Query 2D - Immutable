@@ -1,6 +1,35 @@
 二维矩阵求Range Sum。这题我们也是用DP，不过dp的方法是: dp[i][j]等于从坐标matrix[0][0]到matrix[i - 1][j - 1]中所有元素的和。 
 这样我们就可以用中小学时计算矩形重叠面积的方法来计算出我们想要的结果。
+http://buttercola.blogspot.com/2015/12/leetcode-range-sum-query-2d-immutable.html
+Construct a 2D array sums[row+1][col+1]
+(notice: we add additional blank row sums[0][col+1]={0} and blank column sums[row+1][0]={0} to remove the edge case checking),
+so, we can have the following definition
+sums[i+1][j+1] represents the sum of area from matrix[0][0] to matrix[i][j]
+To calculate sums, the ideas as below
 
++-----+-+-------+     +--------+-----+     +-----+---------+     +-----+--------+
+|     | |       |     |        |     |     |     |         |     |     |        |
+|     | |       |     |        |     |     |     |         |     |     |        |
++-----+-+       |     +--------+     |     |     |         |     +-----+        |
+|     | |       |  =  |              |  +  |     |         |  -  |              |
++-----+-+       |     |              |     +-----+         |     |              |
+|               |     |              |     |               |     |              |
+|               |     |              |     |               |     |              |
++---------------+     +--------------+     +---------------+     +--------------+
+
+   sums[i][j]      =    sums[i-1][j]    +     sums[i][j-1]    -   sums[i-1][j-1]   +  
+
+                        matrix[i-1][j-1]
+So, we use the same idea to find the specific area's sum.
++---------------+   +--------------+   +---------------+   +--------------+   +--------------+
+|               |   |         |    |   |   |           |   |         |    |   |   |          |
+|   (r1,c1)     |   |         |    |   |   |           |   |         |    |   |   |          |
+|   +------+    |   |         |    |   |   |           |   +---------+    |   +---+          |
+|   |      |    | = |         |    | - |   |           | - |      (r1,c2) | + |   (r1,c1)    |
+|   |      |    |   |         |    |   |   |           |   |              |   |              |
+|   +------+    |   +---------+    |   +---+           |   |              |   |              |
+|        (r2,c2)|   |       (r2,c2)|   |   (r2,c1)     |   |              |   |              |
++---------------+   +--------------+   +---------------+   +--------------+   +--------------+
 Time Complexity - O(n2)， Space Complexity - O(n2)。
 public class NumMatrix {
     private int[][] sum;
