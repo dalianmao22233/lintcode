@@ -1,3 +1,19 @@
+第二次：从右上角往下搜就是找更大的，往左搜就是找更小的，或者可以从左下角开始。
+时间复杂度：o(m+n) 空间复杂度：o(1)
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0) return false;
+        int rowNum = matrix.length, colNum = matrix[0].length;
+        int i = 0, j = colNum - 1;
+        while (i < rowNum && j >= 0) {
+            if (matrix[i][j] == target) return true;
+            else if (matrix[i][j] < target) i++;
+            else j--;
+        }
+        return false;
+    }
+}
+第一次：
 o(m+n)
 public class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
