@@ -29,7 +29,7 @@ ArrayList<ArrayList<Integer>> res)
     {  
         if(i>start && num[i]==num[i-1]) continue;  
         item.add(num[i]);  
-        helper(num,i+1,target-num[i],item,res);  //这里是i+1不是level+1，是记录pos用的。。
+        helper(num,i+1,target-num[i],item,res);  //这里是i+1不是level+1，是记录pos用的。。和combination sum差别就在i+1，因为这里不能重复
         item.remove(item.size()-1);  
     }  
 }  
