@@ -1,3 +1,25 @@
+第二次：我写的
+public class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(k <= 0 || n <= 0) return res;
+        dfs(k, n, new ArrayList<Integer>(), res, 1);
+        return res;
+    }
+    private void dfs(int k, int n, ArrayList<Integer> solution, List<List<Integer>> res, int level) {
+        if(n < 0) return;
+        if(n == 0 && solution.size() == k) { //注意加上size的判断。这个方法比第一种好懂。
+            res.add(new ArrayList<Integer>(solution));
+            return;
+        }
+        for(int i = level; i <= 9; i++) {
+            solution.add(i);
+            dfs(k, n-i, solution, res, i+1);
+            solution.remove(solution.size()-1);
+        }
+    }
+}
+第一次：
 public class Solution {
     public List<List<Integer>> combinationSum3(int k, int n) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
