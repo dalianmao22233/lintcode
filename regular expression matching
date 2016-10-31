@@ -1,0 +1,76 @@
+第一种：dp
+'.'是可以match任何单字符，'*'必须连同其前面的字符才能表示0个或者1个该字符。所以使用二维dp的话我们可以按照以下步骤来做:
+
+找出base状态。我们先去掉一些边界条件，比如s和p为null，p长度为0，以及p开头为'*'，这些情况都是不合理的。接下来我们分析得出，
+当s和p都为空字符串情况下， 两串是match的，应该返回true。
+初始化。 这时候我们要创建2维DP矩阵。 矩阵里面的 dp[i][j]的意思是， 到串s的第i - 1个字符和串p的第j - 1个字符是否match。
+我们也要对i = 0时，即s为空串时的dp数组进行初始化。
+分析转移方程。
+当 p.charAt(j - 1) = '*'时，这时候我们要考虑系统可能处于的两种状态
+当dp[i][j - 2] 为true时，这时候代表epsilon transition : '*'之前的字母出现0次这种情况，我们可以设置dp[i][j] = true
+或者，当dp[i - 1][j]为true时，这时候说明 s.charAt(i - 2)可以match到p.charAt( j - 1)，我们要从s串继续向下扩展一个字符，
+看s.charAt(i - 1)是否能匹配p.charAt(j - 1)。这里我们就可以比较s.charAt(i - 1)是否等于p.charAt(j - 2)，
+即s.charAt(i - 1)是否和'*'之前的字母相等，或者p.charAt(j - 2)等于通配符'.'。这时候代表epislon transition : '*'之前的字母出现1次。
+我们可以设置dp[i][j] = true。
+否则p.charAt(j - 1) != '*'。 这时候我们只需要考虑在之前两个字母匹配的情况下，即 dp[i - 1][j - 1] = true时，  
+现在s中的字符s.charAt(i - 1)是否等于现在p中的字符p.charAt(j - 1)，或者现在p的字符为通配符'.'
+Time Complexity - O(mn)， Space Complexity - O(mn)。
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        if (s == null || p == null) return s == p;
+        if (p.length() == 0) return s.length() == 0;
+        if (p.charAt(0) == '*') return false;
+        int sLen = s.length(), pLen = p.length();
+        boolean[][] dp = new boolean[sLen + 1][pLen + 1];
+        dp[0][0] = true;
+        for (int j = 2; j <= pLen; j++) {
+            if (p.charAt(j - 1) == '*' && dp[0][j - 2]) dp[0][j] = true;
+        }
+        
+        for (int i = 1; i <= sLen; i++) {
+            for (int j = 1; j <= pLen; j++) {
+                if (p.charAt(j - 1) == '*') {
+                    if (dp[i][j - 2] || (dp[i - 1][j] && ((s.charAt(i - 1) == p.charAt(j - 2)) || (p.charAt(j - 2) == '.')))) {
+                        dp[i][j] = true;
+                    }
+                } else {
+                    if (dp[i - 1][j - 1] && (s.charAt(i - 1) == p.charAt(j - 1) || p.charAt(j - 1) == '.')) {
+                        dp[i][j] = true;
+                    }    
+                }
+            }
+        }
+        
+        return dp[sLen][pLen];
+    }
+}
+第二种：recursive
+public class Solution {
+    public static boolean isMatch(String s, String p) {
+        if (p.length() == 0)
+            return s.length() == 0;
+
+        // length == 1 is the case that is easy to forget.
+        // as p is subtracted 2 each time, so if original
+        // p is odd, then finally it will face the length 1
+        if (p.length() == 1)
+            return (s.length() == 1) && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.');
+
+        // next char is not '*': must match current character
+        if (p.charAt(1) != '*') {
+            if (s.length() == 0)
+                return false;
+            else
+                return (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.')
+                        && isMatch(s.substring(1), p.substring(1));
+        }else{
+            // next char is *
+            while (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
+                if (isMatch(s, p.substring(2))) 
+                    return true;
+                s = s.substring(1);
+            }
+            return isMatch(s, p.substring(2));
+        }
+    }
+}
