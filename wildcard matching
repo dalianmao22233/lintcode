@@ -1,0 +1,43 @@
+使用二维DP来做这道题。 空间还可以继续优化到一维DP。 时间也可以继续优化。这道题也是Two Sigma上午onsite第二轮的必考题。 这道题dp并非最优解。
+1.找出base状态。这里依然是s和p均为空字符串时，两串match，返回true
+dp[0][0] = true表示s和p都为""的时候match成功
+初始化。 这时候我们要创建2维DP矩阵。 矩阵里面的 dp[i][j]的意思是， 到串s的第i - 1个字符和串p的第j - 1个字符是否match。
+2.我们还要对i = 0时，即s为空串时的dp数组进行初始化。这时假如dp[0][j - 1]为true，并且p.charAt(j - 1)为*的话， 
+因为'*'可以match任何串，dp[0][j]为true， 直到我们遇到一个非'*'的字符为止。
+pattern p的首行'*'号的0 match情况进行初始化，res[0][j] = res[0][j - 1] && p.charAt(j - 1) == '*'。
+这里表示，假如res[0][j - 1]，也就是""与p.charAt(j - 2)成功match，那么因为当前字符p.charAt(j - 1) = '*'可以代表空字符串，
+所以res[0][j]也肯定match成功。
+3.
+分析转移方程:
+当p.charAt(j - 1) = '*'时，我们只需要查看之前保存下来的结果，当dp[i - 1][j]或者dp[i][j - 1]为true的时候，
+我们可以设置dp[i][j] = true。 即我们可以从 (i - 1, j)或者(i, j - 1)扩展到(i, j)。
+否则p.charAt(j - 1)不为'*'。我们按照regular expression matching的老方法， 在dp[i - 1][j - 1]即前两个字母match的情况下，
+查看现在s中的字符s.charAt(i - 1)是否等于现在p中的字符p.charAt(j - 1)，或者现在p的字符是否为通配符'?'
+
+Java:
+
+Time Complexity - O(mn)， Space Complexity - O(mn)
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        if(s == null || p == null) return s == p;
+        if(p.length() == 0) return s.length() == 0;
+        int slen = s.length(), plen = p.length();
+        boolean[][] dp = new boolean[slen+1][plen+1];
+        dp[0][0] = true;
+        for(int j = 1; j <= plen; j++) {
+            if(dp[0][j-1] && (p.charAt(j-1) == '*)) dp[0][j] = true;
+            //if(dp[0][j-1] == false || (p.charAt(j-1) != '*')) break;
+            //else dp[0][j] = true; //this condition is dp[0][j-1]==true && (p.charAt(j-1)=='*')
+        }
+        for(int i = 1; i <= slen; i++) {
+            for(int j = 1; j <= plen; j++) {
+                if(p.charAt(j-1) != '*') {
+                    dp[i][j] = dp[i-1][j-1] && ((s.charAt(i-1) == p.charAt(j-1)) || (p.charAt(j-1) == '?'));
+                } else {
+                    dp[i][j] = dp[i-1][j] || dp[i][j-1];
+                }
+            }
+        }
+        return dp[slen][plen];
+    }
+}
