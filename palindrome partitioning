@@ -15,7 +15,7 @@ public class Solution {
             res.add(new ArrayList<String>(list));
             return;
         }
-        for(int i = 0; i <= s.length(); i++) {
+        for(int i = 0; i <= s.length(); i++) { //可以等于s.length()
             String front = s.substring(0, i);
             if(ispalindrome(front)) {
                 list.add(front);
@@ -25,9 +25,9 @@ public class Solution {
         }
     }
     private boolean ispalindrome(String s) {
-        if(s == null || s.length() == 0) return false;
+        if(s == null || s.length() == 0) return false;//注意这里是false.空串不是回文串！
         int lo = 0, hi = s.length()-1;
-        while(lo < hi) {
+        while(lo < hi) {//注意lo不能=hi，因为是看两边的字符，不能指向同一个！
             if(s.charAt(lo) != s.charAt(hi)) return false;
             lo++;
             hi--;
