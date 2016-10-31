@@ -1,0 +1,21 @@
+用hashmap不行。过不了OJ。
+用了mask，因为题目中说都是小写字母，那么只有26位，一个整型数int有32位，我们可以用后26位来对应26个字母，若为1，说明该对应位置的字母出现过，
+那么每个单词的都可由一个int数字表示，两个单词没有共同字母的条件是这两个int数相与为0：
+public class Solution {
+    public int maxProduct(String[] words) {
+        if(words == null || words.length == 0) return 0;
+        int res = 0;
+        int[] mask = new int[words.length];
+        for(int i = 0; i < words.length; i++) {
+            for(Character c: words[i].toCharArray()) { //这里注意如果要循环一个字符串里的字符，要先变成字符串数组。
+                mask[i] |= 1 <<(c-'a');
+            }
+            for(int j = 0; j < i; j++) {
+                if((mask[i] & mask[j]) == 0) { //这里注意如果要进行&操作，一定加()，不然会报bad operator，保证优先级
+                    res = Math.max(res, words[i].length()*words[j].length());
+                }
+            }
+        }
+        return res;
+    }
+}
