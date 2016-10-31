@@ -1,0 +1,44 @@
+第一种：
+动态规划（Dynamic Programming）
+
+利用数组dp[i]记录和为i的子数组是否存在，初始令dp[0] = 1
+要更新[nums[i], target]之间的值，那么对于这个区间中的任意一个数字j，
+如果dp[j - nums[j]]为true的话，那么dp[j]就一定为true：
+dp[j] = dp[j] || dp[j - nums[i]]         (nums[i] <= j <= target)
+public boolean canPartition(int[] nums) 
+    {
+        if(nums == null || nums.length == 0) 
+            return true;
+        int sum = 0;
+        for(int n : nums) sum += n;
+        if(sum % 2 != 0 ) return false;
+        sum /= 2;
+        boolean[] dp = new boolean[sum + 1];
+        dp[0] = true;
+        // replace nums[i-1] with nums[i]
+        for(int i = 0; i < nums.length; ++ i)
+        {
+            for(int j = sum; j >= nums[i] ; --j)
+                dp[j] = dp[j] || dp[j - nums[i]];
+        }
+        return dp[sum];
+}
+第二种：dfs+backtracking。TLE，但是思路没错
+public boolean canPartition(int[] nums) {
+        Arrays.sort(nums);
+        int sum=0;
+        for (int num:nums) sum+= num;
+        if(sum % 2 == 1) return false;
+        sum/=2;
+        return dfs(0,sum,nums);
+    }
+    // 一一尝试
+    public boolean dfs(int index,int sum,int[] nums){
+        sum -= nums[index] ;
+        if(sum == 0) return true;
+        for(int i=index+1;i<nums.length;i++){
+            if(sum<nums[i]) break;
+            if(dfs(i,sum,nums)) return true;
+        }
+        return false;
+    }
