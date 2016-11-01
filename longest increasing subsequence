@@ -1,3 +1,13 @@
+求数组的最长递增子序列。经典dp问题，在很多大学讲DP的教程里，都会出现这道题以及Longest Common Subsequence。 
+这里其实也有O(nlogn)的方法，比如Patience Sorting一类的，来看DP。这个问题一开始可以被分解为recursive的子问题，
+一步一步优化就可以得到带有memorization的iterative解法。
+初始化dp[i] = 1，即一个元素的递增序列。 
+假设以i - 1结尾的subarray里的LIS为dp[i - 1]，那么我们要求以i结尾的subarray里的LIS，dp[i]的时候，
+要把这个新的元素和之前所有的元素进行比较，同时逐步比较dp[j] + 1与dp[i]，
+假如发现更长的序列，我们则更新dp[i] = dp[j] + 1，继续增加j进行比较。
+当i之前的元素全部便利完毕以后，我们得到了当前以i结尾的subarray里的LIS，就是dp[i]。
+dp[j]+1是因为nums[i]与nums[j]比较，如果符合，就多加一个元素(nums[i])。。下次一定要会做
+Time Complexity - O(n2)， Space Complexity - O(n2)。
 public class Solution {
     public int lengthOfLIS(int[] nums) {
         if(nums == null || nums.length == 0) {
