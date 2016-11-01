@@ -1,0 +1,91 @@
+这题不懂！
+
+题意：给定一个数组，求其中的一个最大子集，要求该子集中任意的两个元素满足 x % y ==0 或者 y % x==0
+
+思路：其实和求最大上升子序列LIS差不多，只不过这题要求输出序列而已。
+
+先把数组排好序。首先要明确，若a<b且b%a==0 ,  b <c 且 c%b==0那么必然有c%a==0
+
+我们设dp[i] 为最大的子集长度，更新的时候保存上一个的下标即可。
+Java Solution 1 - DFS
+
+public class Solution {
+    List<Integer> answer;
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        if(nums==null || nums.length==0)
+            return new ArrayList<Integer>();
+ 
+        Arrays.sort(nums);
+ 
+        int[] max = new int[1];
+        List<Integer> result = new ArrayList<Integer>();
+        helper(nums, 0, result, max);
+        return answer;
+    }
+ 
+    public void helper(int[] nums, int start, List<Integer> result, int[] max){
+        if(result.size()>max[0]){
+            max[0]=result.size();
+            answer=new ArrayList<Integer>(result);
+        }
+ 
+        if(start==nums.length)
+            return;
+ 
+        for(int i=start; i<nums.length; i++){
+            if(result.size()==0){
+                result.add(nums[i]);
+                helper(nums, i+1, result, max);
+                result.remove(result.size()-1);
+ 
+            }else{
+ 
+                int top = result.get(result.size()-1);
+                if(nums[i]%top==0){
+                    result.add(nums[i]);
+                    helper(nums, i+1, result, max);
+                    result.remove(result.size()-1);
+                }
+            }
+        }
+    }
+}
+Java Solution 2 - DP
+
+public List<Integer> largestDivisibleSubset(int[] nums) {
+    List<Integer> result = new ArrayList<Integer>();
+    if(nums==null||nums.length==0)
+        return result;
+ 
+    Arrays.sort(nums);
+ 
+    int[] t = new int[nums.length];
+    int[] index = new int[nums.length];
+    Arrays.fill(t, 1);
+    Arrays.fill(index, -1);
+ 
+    int max=0;
+    int maxIndex=-1;
+ 
+    for(int i=0; i<t.length; i++){
+        for(int j=i-1; j>=0; j--){
+            if(nums[i]%nums[j]==0 && t[j]+1>t[i]){
+                t[i]=t[j]+1;
+                index[i]=j;
+            }
+        }
+ 
+        if(max<t[i]){
+            max=t[i];
+            maxIndex=i;
+        }
+    }
+ 
+    int i=maxIndex;
+    while(i>=0){
+        result.add(nums[i]);
+        i=index[i];
+    }
+ 
+    return result;
+}
