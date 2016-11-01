@@ -1,3 +1,21 @@
+第二次：更快
+求最长前缀。按列计算，判断条件是当前列字符是否相同，以及当前行的长度是否有效。
+Time Complexity - O(n)， Space Complexity - O(1)。
+public class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
+        
+        for (int j = 0; j < strs[0].length(); j++) {
+            for (int i = 1; i < strs.length; i++) {
+                if (j == strs[i].length() || strs[i].charAt(j) != strs[0].charAt(j)) 
+                    return strs[0].substring(0, j);
+            }
+        }
+        return strs[0];
+    }
+}
+第一次：
+
 注意border，只有一个的情况。
 public class Solution {
     public String longestCommonPrefix(String[] strs) {
