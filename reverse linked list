@@ -41,19 +41,18 @@ public class Solution {
 //recursively call reverse method on the rest of the list to reverse it,
 // mark the last node of the original list when reverse method reaches the end
 // after reverse method returns, point the second node to the first node, point the first node to null
-public ListNode reverseList(ListNode head) {
-    if(head == null) return null;
-    if(head.next == null) return head;
-    ListNode rest = head.next;
-    ListNode newhead = reverse(rest);
-    rest.next = head;
-    head.next = null;
-    return newhead;
-}
-private ListNode reverse(ListNode rest){
-    if(rest.next == null) return rest;
-    ListNode newrest = rest.next;
-    ListNode head = reverse(newrest);
-    newrest.next = rest;
-    return head;
+不断的进入递归函数，直到head指向最后一个节点，p指向之前一个节点，然后调换head和p的位置，再返回上一层递归函数，再交换p和head的位置，
+每次交换后，head节点后面都是交换好的顺序，直到p为首节点，然后再交换，首节点就成了为节点，此时整个链表也完成了翻转
+draw a picture of list then make sense!!!
+public class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode nextNode = head.next;
+        ListNode newHead = reverseList(nextNode);
+        nextNode.next = head;
+        head.next = null;
+        return newHead;
+    }
 }
