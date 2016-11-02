@@ -26,10 +26,10 @@ public class Solution {
         }
         
         ListNode prev = null;//prev point to null node. 
-        while(head != null){
+        while(head != null){ //don't need head.next != null because head.next can be null. Then after this iteration, while will stop, return prev
             ListNode temp = head.next;//head is current node，保存cur.next信息。
             head.next = prev;//give prev a position， send it to head.next
-            prev = head;//change pointer
+            prev = head;//change pointer 
             head = temp;
         }
         return prev;
