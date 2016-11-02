@@ -1,0 +1,115 @@
+1. My thinking:
+keep a start to record the valid start of parentheses; keep max;
+meet (, then push into stack;
+meet ), then :
+  1. if stack is empty: 
+    update start = i+1;
+  2. if not empty:
+    pop,
+    update max:
+        1. if stack is empty: compare with i-start+1; eg: (())
+        2. if not empty: compare with i-stack.peek(); eg: (()
+        
+Time Complexity - O(n)， Space Complexity - O(n)        
+public class Solution {
+    public int longestValidParentheses(String s) {
+        if(s == null || s.length() == 0) return 0;
+        int start = 0;
+        int max = 0;
+        Stack<Integer> stack = new Stack<>();
+        
+        for(int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if(ch == '(') {
+                stack.push(i);
+            } else if(ch == ')') {
+                if(stack.isEmpty()) {
+                    start = i+1;
+                } else {
+                    stack.pop();
+                    max = stack.isEmpty()? Math.max(max, i-start+1):Math.max(max, i-stack.peek());
+                }
+            }  
+            
+        }  
+        return max;
+        
+    }
+}
+2. DP:
+一维DP，分好几种情况，画一个decision tree会比较清楚逻辑。
+维护一个数组max[], 其中max[i]代表以s.charAt(i)结尾的longest valid parentheses的长度。我们考虑接下来集中情况。
+max[0] = 0，因为此时不能组成"()"。所以我们可以直接从 i = 1开始遍历
+当前字符是'('， max[i] = 0，因为valid parentheses不能以'('结尾
+否则，当前字符等于')'，这时候继续判断几种情况
+s.charAt(i - 1) = '('，正好可以组成一对括号。
+当 i - 2 >= 0，max[i] = max[i - 2] + 2
+当 i - 2 < 0， max[i] = 2
+否则s.charAt(i - 1) = ')'，此时我们也是继续进行判断
+此时我们要求出i关于max[i - 1]对称的字符，就是 i - max[i - 1] - 1
+假如i - max[i - 1] - 1 >= 0，并且 s.charAt(i - max[i - 1] - 1) == '('
+此时表示从i - max[i - 1] - 1到i这一段都合理，所以这一部分等于max[i - 1] + 2, 我们要继续判断  i - max[i - 1] - 2
+当i - max[i - 1] - 2 >= 0， 则 max[i] = max[i - 1] + 2 + max[i - max[i - 1] - 2]
+否则max[i] = max[i - 1] + 2
+否则max[i] = 0，我们不改变什么 
+在开头维护一个res = 0， 每次计算完max[i]之后尝试更新这个res，最后返回的也是这个res.
+Time Complexity - O(n)， Space Complexity - O(n)
+public class Solution {
+    public int longestValidParentheses(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int[] max = new int[s.length()];     // max[i] contains longest valid parentheses end at i
+        int res = 0;
+        for (int i = 1; i < max.length; i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                max[i] = 0;
+            } else {                // c = ')'
+                if (s.charAt(i - 1) == '(') {
+                    max[i] = i - 2 >= 0 ? max[i - 2] + 2 : 2;
+                } else {
+                    if (i - max[i - 1] - 1 >= 0 && s.charAt(i - max[i - 1] - 1) == '(') {
+                        max[i] = max[i - 1] + 2 + (i - max[i - 1] - 2 >= 0 ? max[i - max[i - 1] - 2] : 0);
+                    }
+                }
+            }
+            res = Math.max(max[i], res);
+        }
+        return res;
+    }
+}
+3. a method without stack:
+维护一个depth，一个count。
+从左向右遍历时并且当char == '('时，depth++，否则char = ')'，depth--，这时候我们count++，因为找到了一对valid parenthese
+当depth == 0的时候，左右括号平衡，可以尝试更新max， max = Math.max(max, count * 2)
+接下来判断depth是否小于0，小于0的话depth = 0, count = 0，我们从头开始计算。
+左右各自遍历一遍。从右向左遍历是为了计算类似于"()(()()"这种情况，这时depth always > 0，没办法得到max = 4的结论。
+Time Complexity - O(n)， Space Complexity - O(1)
+public class Solution {
+    public int longestValidParentheses(String s) {
+        if (s == null || s.length() == 0) return 0;
+        int max = 0, count = 0, start = 0, len = s.length();
+        for (int i = 0; i < len; i++) {
+            if (s.charAt(i) == '(') count++;
+            else count--;
+            if (count == 0) max = Math.max(max, i - start + 1);
+            if (count < 0) {
+                count = 0;
+                start = i + 1;
+            }
+        }
+        start = len - 1;
+        count = 0;
+        for (int i = len - 1; i >= 0; i--) {
+            if (s.charAt(i) == ')') count++;
+            else count--;
+            if (count == 0) max = Math.max(max, start - i + 1);
+            if (count < 0) {
+                count = 0;
+                start = i - 1;
+            }
+        }
+        return max;
+    }
+}
