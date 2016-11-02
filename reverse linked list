@@ -25,7 +25,7 @@ public class Solution {
             return head;
         }
         
-        ListNode prev = null;//prev point to null node. 
+        ListNode prev = null;//prev point to null node. cannot be new ListNode(0), otherwise will return 0, 1. But there's no 0
         while(head != null){ //don't need head.next != null because head.next can be null. Then after this iteration, while will stop, return prev
             ListNode temp = head.next;//head is current node，保存cur.next信息。
             head.next = prev;//give prev a position， send it to head.next
