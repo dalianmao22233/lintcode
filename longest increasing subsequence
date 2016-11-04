@@ -7,6 +7,26 @@
 假如发现更长的序列，我们则更新dp[i] = dp[j] + 1，继续增加j进行比较。
 当i之前的元素全部便利完毕以后，我们得到了当前以i结尾的subarray里的LIS，就是dp[i]。
 dp[j]+1是因为nums[i]与nums[j]比较，如果符合，就多加一个元素(nums[i])。。下次一定要会做
+
+第二次：
+public class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, 1);//初始化只有一个元素的单增序列，这步必须写，不然就是dp[i]=0, 在dp[j]+1的时候结果就少了1，会影响max的结果。
+        int max = 0;
+        for(int i = 0; i < nums.length; i++) {
+            for(int j = 0; j < i; j++) {
+                if(nums[i] > nums[j]) {
+                    dp[i] = Math.max(dp[j]+1, dp[i]);
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+}
+第一次：
 Time Complexity - O(n2)， Space Complexity - O(n2)。
 public class Solution {
     public int lengthOfLIS(int[] nums) {
