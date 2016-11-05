@@ -26,9 +26,9 @@ public class Solution {
             char t = arr[i];
             arr[i]=arr[j];
             arr[j]=t;
-            i++;
+            i++;//注意写这两步！
             j--; 
         }
-        return new String(arr);
+        return new String(arr);//或者String.valueOf(arr);
     }
 }
