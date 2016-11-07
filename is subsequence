@@ -1,0 +1,21 @@
+我写的，还挺快，beat 69%, 就是两个指针一起往后走
+public class Solution {
+    public boolean isSubsequence(String s, String t) {
+        if(s == null && t == null) return true;
+        if(s == null || t == null) return false;
+        int p1 = 0, p2 = 0;
+        int len1 = t.length()-1;
+        int len2 = s.length()-1;
+        while(p1 <= len1 && p2 <= len2) {
+            if(s.charAt(p2) == t.charAt(p1)) {
+                p1++;
+                p2++;
+            } else {
+                p1++;
+            }
+            // System.out.println("p1: "+p1+"p2: "+p2);
+        }
+        if(p2 == len2+1) return true;
+        return false;
+     }
+}
