@@ -1,3 +1,29 @@
+第二次：
+这种真的一目了然，希望下次会做了。
+画个图就懂了，真的。
+还可以看连接：http://www.programcreek.com/2015/03/leetcode-odd-even-linked-list-java/
+connectnode就始终是第二个节点，因为它一直是even的head.不会变。
+public class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if(head == null) return head;
+        ListNode res = head;
+        ListNode p1 = head;
+        ListNode p2 = head.next;
+        ListNode connectnode = head.next;
+        while(p1 != null && p2 != null) {
+            ListNode t = p2.next;
+            if(t == null) break;
+            p1.next = p2.next;
+            p1 = p1.next;
+            
+            p2.next = p1.next;
+            p2 = p2.next;
+        }
+        p1.next = connectnode;
+        return res;
+    }
+}
+第一次：
 public class Solution {
     public ListNode oddEvenList(ListNode head) {
         if (head == null) return null;
