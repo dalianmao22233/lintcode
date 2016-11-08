@@ -15,6 +15,19 @@ public class Solution {
         return prev;
     }
 }
+recursive:
+public class Solution {
+    public ListNode reverseList(ListNode head) {
+        return reverseListInt(head, null);
+    }
+    private ListNode reverseListInt(ListNode head, ListNode newHead) {
+    if (head == null)
+        return newHead;
+    ListNode next = head.next;
+    head.next = newHead;
+    return reverseListInt(next, head);
+}
+}
 第一次：
 //iterative method:
 实际上就是把list中的指针转向都改变。
