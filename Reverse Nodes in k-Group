@@ -1,0 +1,46 @@
+基本的就是先会reverse list，有两种形式，一种是只有一个头结点，一种是有起始和结束节点。
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null || head.next == null || k <= 1) return head;
+        int count = 0;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy, cur = head;
+        while(cur != null) {
+            count++;
+            ListNode next = cur.next;
+            if(count == k) {
+                //System.out.println("before: " + pre.val);
+                pre = reverse(pre, next);
+                //System.out.println("after: " + pre.val);
+                count = 0;
+            }
+            //System.out.println("in: " + pre.val);
+            cur = next;
+        }
+        //System.out.println(head.val);
+        return dummy.next;
+    }
+    private ListNode reverse(ListNode pre, ListNode end) {
+        if(pre == null || pre.next == null) return pre;
+        ListNode head = pre.next;
+        ListNode cur = pre.next.next;
+        while(cur != end) {
+            ListNode next = cur.next;
+            cur.next = pre.next;
+            pre.next = cur;
+            cur = next;
+        }
+        head.next = end;
+        return head;
+    }
+}
