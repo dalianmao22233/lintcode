@@ -11,32 +11,27 @@
 public class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
         if(head == null || head.next == null || k <= 1) return head;
-        int count = 0;
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        ListNode pre = dummy, cur = head;
-        while(cur != null) {
+        ListNode pre = dummy;
+        int count = 0;
+        while(head != null) {
             count++;
-            ListNode next = cur.next;
+            ListNode next = head.next;
             if(count == k) {
-                //System.out.println("before: " + pre.val);
-                pre = reverse(pre, next);
-                //System.out.println("after: " + pre.val);
+                pre = reverse(pre, next);//保存每次链表的最后节点
                 count = 0;
             }
-            //System.out.println("in: " + pre.val);
-            cur = next;
+            head = next; //head后移
         }
-        //System.out.println(head.val);
         return dummy.next;
     }
     private ListNode reverse(ListNode pre, ListNode end) {
-        if(pre == null || pre.next == null) return pre;
         ListNode head = pre.next;
         ListNode cur = pre.next.next;
         while(cur != end) {
             ListNode next = cur.next;
-            cur.next = pre.next;
+            cur.next = pre.next; //注意这里别写head，会报错，要指到pre.next才会改变结构。
             pre.next = cur;
             cur = next;
         }
