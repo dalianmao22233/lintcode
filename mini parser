@@ -66,6 +66,8 @@ public class Solution {
     }
 }
 第二种：真特么快， recursive做法
+Just for people who try this approach instead of stack. This takes much more time than stack as the depth of elements grow.
+If you would like to reduce time complexity, use stack as a space trade-off for time.
 public class Solution {
        public NestedInteger deserialize(String s) {
         NestedInteger ret = new NestedInteger();
@@ -88,3 +90,4 @@ public class Solution {
         return ret;
     }
 }
+http://massivealgorithms.blogspot.com/2016/08/leetcode-385-mini-parser.html 还有很多种其他方法。
