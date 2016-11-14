@@ -1,5 +1,6 @@
 同combinations,回溯+dfs
-先sort数组。。
+先sort数组。。 不sort也没关系，但是最好sort。约定俗成。
+此题注意加上level的计数，不然会重复出现之前的结果，比如[2,2,3], [3,2,2] (target=7)
 public class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
