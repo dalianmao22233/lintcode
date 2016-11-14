@@ -1,0 +1,32 @@
+我想到了dp，但是没想清楚怎么做：
+
+http://www.davex.pw/2016/01/21/LeetCode-Dungeon-Game/
+http://massivealgorithms.blogspot.com/2015/01/leetcodedungeon-game.html
+建立一个和迷宫大小相同的二维数组用来表示当前位置出发的起始血量，最先初始化的是公主所在的房间的起始生命值，
+然后慢慢向第一个房间扩散，不断的得到各个位置的最优的起始生命值。
+二维DP：
+Time Complexity - O(mn)， Space Complexity - O(mn)。  
+public class Solution {
+    public int calculateMinimumHP(int[][] dungeon) {
+        int res = 0;
+        if(dungeon == null || dungeon.length == 0) return res;
+        int m = dungeon.length;
+        int n = dungeon[0].length;
+        
+        int[][] dp = new int[m][n];
+        dp[m-1][n-1] = Math.max(1, 1-dungeon[m-1][n-1]);
+        for(int i = m-2; i >= 0; i--) {
+            dp[i][n-1] = Math.max(1, dp[i+1][n-1] - dungeon[i][n-1]);
+        }
+        for(int j = n-2; j >= 0; j--) {
+            dp[m-1][j] = Math.max(1, dp[m-1][j+1] - dungeon[m-1][j]);
+        }
+        for(int i = m-2; i >= 0; i--) {
+            for(int j = n-2; j>= 0; j--) {
+                dp[i][j] = Math.max(1, Math.min(dp[i+1][j], dp[i][j+1])- dungeon[i][j]);
+            }
+        }
+        return dp[0][0];
+        
+    }
+}
