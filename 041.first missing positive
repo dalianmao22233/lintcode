@@ -6,8 +6,8 @@
 实现中还需要注意一个细节，就是如果当前的数字所对应的下标已经是对应数字了，那么我们也需要跳过，
 因为那个位置的数字已经满足要求了，否则会出现一直来回交换的死循环。这样一来我们只需要扫描数组两遍，
 时间复杂度是O(2*n)=O(n)，而且利用数组本身空间，只需要一个额外变量，所以空间复杂度是O(1)。
-这道题个人还是比较喜欢的，既有一点算法思想，在实现中又有一些注意细节，而且整体来说模型比较简单，很适合在面试中出现。
-
+ 
+http://www.cnblogs.com/lichen782/p/leetcode_First_Missing_Positive.html
 public class Solution {
     public int firstMissingPositive(int[] nums) {
         if(nums==null || nums.length==0)  return 1;
