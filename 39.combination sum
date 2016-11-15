@@ -17,7 +17,7 @@ public class Solution {
         }
         for(int i = level; i < candidates.length; i++) {
             // if(candidates[i] > target) break; //可以不写，会通过前面的if筛选掉
-            if(i > level && candidates[i] == candidates[i-1]) continue; 
+            if(i > 1 && candidates[i] == candidates[i-1]) continue; //i>1就是为了i-1的验证
             solution.add(candidates[i]);
             helper(res, solution, candidates, target-candidates[i], i);//不是i+1，因为这一位可以重复，和combinations不一样。
             solution.remove(solution.size()-1);
