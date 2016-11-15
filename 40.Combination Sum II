@@ -1,0 +1,32 @@
+先sort..
+这道题还要判断重复解。combination sum |也是。用两个方法：http://www.cnblogs.com/springfor/p/3884294.html
+ 1. if(i>0 && candidates[i] == candidates[i-1])//deal with dupicate
+                 continue; 
+ 2. if(!res.contains(item)) 
+                res.add(new ArrayList<Integer>(item));   
+这两个方法解决。 
+图形解释：
+http://zjalgorithm.blogspot.com/2014/07/leetcode-java-combination-sum.html
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(candidates == null || candidates.length == 0) return res;
+        Arrays.sort(candidates);
+        dfs(res, new ArrayList<>(), target, candidates, 0);
+        return res;
+    }
+    private void dfs(List<List<Integer>> res, ArrayList<Integer> solution, int target, int[] candidates, int level) {
+        if(target == 0) {
+            res.add(new ArrayList<>(solution));
+            return;
+        }
+        if(target < 0 || level >= candidates.length) return;
+        
+        for(int i = level; i < candidates.length; i++) { 
+            if(i > level && candidates[i] == candidates[i-1]) { //注意！ 这里是i>level,不是1，因为每次循环进来初始的i都是Level.
+                continue;
+            }
+            solution.add(candidates[i]);
+            dfs(res, solution, target-candidates[i], candidates, i+1); //和39唯一的不同就是i+1，因为一个元素不能用多次。
+            solution.remove(solution.size()-1);
+        }
+    }
