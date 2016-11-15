@@ -22,22 +22,24 @@ public class Solution {
         
     }
 }
-dfs+backtracking:这种 TLE，但是要会
+dfs+backtracking:这种 TLE，但是要会， 我写的
 public class Solution {
-    int count = 0;
-    public int backPackVI(int[] nums, int target) {
-        int sum = 0;
-        dfs(nums, target, sum);
+    int count = 0; //注意这个要设为全局变量。不然DFS传回来的值不会得到正确的返回。
+    public int combinationSum4(int[] nums, int target) {
+        if(nums == null || nums.length == 0 || target <= 0) return 0;
+        // int count = 0;
+        dfs(nums, target);
         return count;
     }
-    
-    void dfs(int[] nums, int target, int sum){
-        if (sum > target) return;
-        else if (sum == target) {
+    private void dfs(int[] nums, int target) {
+        if(target == 0) {
             count++;
+            return;
         }
-        for (int i = 0; i < nums.length; i++) {
-            dfs(nums, target, sum+nums[i]);
+        if(target < 0) return;
+        for(int i = 0; i < nums.length; i++) {
+            dfs(nums, target-nums[i]);
         }
+        
     }
 }
