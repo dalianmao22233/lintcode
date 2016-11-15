@@ -36,7 +36,7 @@ public class Solution {
     
     private void dfs(List<String> res, StringBuilder sb, String digits, String[] map, int pos) {
         if(pos == digits.length()) {
-            res.add(sb.toString());
+            res.add(sb.toString()); //不用new stringbuilder了。
             return;
         }  
         int num = digits.charAt(pos) - '0';
@@ -44,8 +44,8 @@ public class Solution {
         
         for(int i = 0; i < str.length(); i++) {
             sb.append(str.charAt(i));
-            dfs(res, sb, digits, map, pos + 1);
-            sb.deleteCharAt(sb.length() - 1); //一直不太懂为啥要这句。
+            dfs(res, sb, digits, map, pos + 1);//这里是pos+1，用来记录遍历digits字符的位置。
+            sb.deleteCharAt(sb.length() - 1); //sb.setLength()也可以
         }
     }
 }
