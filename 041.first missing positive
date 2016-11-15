@@ -6,7 +6,8 @@
 实现中还需要注意一个细节，就是如果当前的数字所对应的下标已经是对应数字了，那么我们也需要跳过，
 因为那个位置的数字已经满足要求了，否则会出现一直来回交换的死循环。这样一来我们只需要扫描数组两遍，
 时间复杂度是O(2*n)=O(n)，而且利用数组本身空间，只需要一个额外变量，所以空间复杂度是O(1)。
- 
+ 。首先，不能按照A[i] = i来存，因为题目要求寻找正数，如果A[0]用来存储0的话，会影响数据处理。
+ 比如当A = {1}的时候，如果A[0] = 0的话，根本没地方存1的值了。所以正确的存储方式应该是A[i]= i+1.
 http://www.cnblogs.com/lichen782/p/leetcode_First_Missing_Positive.html
 public class Solution {
     public int firstMissingPositive(int[] nums) {
