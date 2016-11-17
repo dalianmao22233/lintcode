@@ -1,0 +1,30 @@
+shuffle中，给数组中的每个数字都标上一个随机数，random.nextInt(i+1), 与其对应的数字交换位置。
+看swap中，记得参数里有nums.不然是交换无效的。
+public class Solution {
+    private int[] nums;
+    private Random r;
+    
+    public Solution(int[] nums) {
+    	this.nums = nums;
+    	r = new Random();
+    }
+    
+    public int[] reset() {
+    	return this.nums;
+    }
+    
+    public int[] shuffle() {
+    	int[] shuffledNums = Arrays.copyOf(nums,nums.length);
+    	for(int i=1; i<shuffledNums.length; i++) {
+    		swap(shuffledNums,i,r.nextInt(i+1));
+    	}
+    	return shuffledNums;
+    }
+    
+    public void swap(int[] nums, int i, int j) {
+    	if(nums[i]==nums[j]) return;
+    	nums[i] = nums[i]^nums[j];
+    	nums[j] = nums[i]^nums[j];
+    	nums[i] = nums[i]^nums[j];
+    }
+}
