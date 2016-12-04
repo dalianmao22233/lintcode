@@ -2,9 +2,9 @@
 然后根据这个运算符来得到结果。
 Time Complexity - O(3n)， Space Complexity - O(3n)
 public class Solution {
-    Map<String, List<Integer>> map = new HashMap<>();
+    
     public List<Integer> diffWaysToCompute(String input) {
-        if(map.containsKey(input)) return map.get(input);
+        
         List<Integer> res = new ArrayList<>();
         if(input == null || input.length() == 0) return res;
         for(int i = 0; i < input.length(); i++) {
@@ -22,7 +22,7 @@ public class Solution {
             }
         }
         if(res.size() == 0) res.add(Integer.parseInt(input));
-        map.put(input, res);
+       
         return res;
     }
 }
