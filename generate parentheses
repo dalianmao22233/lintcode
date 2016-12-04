@@ -1,25 +1,33 @@
+关于卡特兰数
 典型的递归。一步步构造字符串。当左括号出现次数<n时，就可以放置新的左括号。
 当剩余的右括号大于左括号时，就可以放置新的右括号。
+给定的n为括号对，所以就是有n个左括号和n个右括号的组合。
+
+按顺序尝试知道左右括号都尝试完了就可以算作一个解。
+
+注意，左括号的数不能大于右括号，要不然那就意味着先尝试了右括号而没有左括号，类似“)(” 这种解是不合法的。
+
+算法的复杂度是O(结果的数量)
 还可以用StringBuilder 做法：http://www.cnblogs.com/yrbbest/p/4434626.html
 public class Solution {
     public List<String> generateParenthesis(int n) {
-        if(n <= 0){
-            return null;
-        }
-        ArrayList<String> rst = new ArrayList<String>();
-        helper(rst, "", n, n);
-        return rst;
+        List<String> res = new ArrayList<>();
+        if(n <= 0) return res;
+        dfs(res, n, n, "");
+        return res;
     }
-    private void helper(ArrayList<String> rst, String paren, int left, int right){
-        if(left == 0 && right == 0){
-            rst.add(paren);
+    public static void dfs(List<String> res, int left, int right, String paren) {
+        if(left > right)
+            return;//deal with ")(", invalid
+        if(left== 0 && right == 0) {
+            res.add(new String(paren));
             return;
         }
-        if(left > 0){
-            helper(rst, paren + '(', left-1, right);  //这里不能分开写成先paren += '(',再helper()，因为不能改变原来的paren
+        if(left > 0) {
+            dfs(res, left-1, right, paren+'(');
         }
-        if(right > 0 && left < right){
-            helper(rst, paren + ')', left, right-1);
+        if(right > 0) {
+            dfs(res, left, right-1, paren+')');
         }
         return;
     }
