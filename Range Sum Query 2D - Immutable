@@ -31,6 +31,38 @@ So, we use the same idea to find the specific area's sum.
 |        (r2,c2)|   |       (r2,c2)|   |   (r2,c1)     |   |              |   |              |
 +---------------+   +--------------+   +---------------+   +--------------+   +--------------+
 Time Complexity - O(n2)， Space Complexity - O(n2)。
+第二次：
+public class NumMatrix {
+    private int[][] sum;
+    public NumMatrix(int[][] matrix) {
+        if(matrix == null || matrix.length == 0) return;
+        if(matrix[0] == null || matrix[0].length == 0) return;
+        sum = new int[matrix.length+1][matrix[0].length+1];
+        for(int i = 0; i < matrix.length;  i++) { //见笔记，先初始化边界，这样+1的边界是方便后面处理的，其实没卵用
+            sum[i+1][0] = sum[i][0] + matrix[i][0];
+        }
+        for(int j = 0; j < matrix[0].length;  j++) {
+            sum[1][j+1] = sum[0][j] + matrix[0][j];
+        }
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
+                sum[i+1][j+1] = sum[i][j+1] + sum[i+1][j] + matrix[i][j] - sum[i][j];//这一步建立dp矩阵，详细解释看笔记
+            }
+        } 
+    }
+
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        if(row1 > row2 && col1 < col2) return -1;
+        return sum[row2+1][col2+1] - sum[row1][col2+1] - sum[row2+1][col1] + sum[row1][col1];
+    }
+}
+
+
+// Your NumMatrix object will be instantiated and called as such:
+// NumMatrix numMatrix = new NumMatrix(matrix);
+// numMatrix.sumRegion(0, 1, 2, 3);
+// numMatrix.sumRegion(1, 2, 3, 4);
+第一次：
 public class NumMatrix {
     private int[][] sum;
     public NumMatrix(int[][] matrix) {
