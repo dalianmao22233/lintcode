@@ -26,7 +26,12 @@ class Solution {
         return (n & (n - 1)) == 0;
     }
 };
-
+或用内置的方法
+public class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && Integer.bitCount(n) == 1;
+    }
+}
 
 Method 1: Iterative
 
