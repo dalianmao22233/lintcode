@@ -1,0 +1,17 @@
+1. 暴力搜索，用array.sort排一遍然后输出第K个。
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        if(nums == null || nums.length == 0) return -1;
+        if(k <= 0) return -1;
+        Arrays.sort(nums);
+        int m = 0;
+        for(Integer i: nums){
+            if(m == nums.length-k) {
+                return nums[m];
+            }
+            m++;
+        }
+        return -1;
+        
+    }
+}
