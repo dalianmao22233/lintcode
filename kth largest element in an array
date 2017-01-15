@@ -15,3 +15,32 @@ public class Solution {
         
     }
 }
+2. heap:
+Your input
+
+[7,8,1,2,3,5]
+4
+Your stdout
+
+pq: [7]
+pq: [7, 8]
+pq: [1, 8, 7]
+pq: [1, 2, 7, 8]
+pq: [2, 3, 7, 8]
+pq: [3, 5, 7, 8]
+使用小顶堆，队头就是所求得的Kth elem：
+
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        if(nums == null || nums.length == 0 ) return 0;
+        // k = k % nums.length;
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int i : nums) {
+            pq.offer(i);
+            if(pq.size() >k ) pq.poll();
+            System.out.println("pq: " + pq);
+        }
+        return pq.peek();
+    }
+}
+Contact GitHub API Training Shop Blog About
