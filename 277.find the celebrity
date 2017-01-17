@@ -1,0 +1,17 @@
+1. time: O(n), space: O(1), 最佳
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        int candidate = 0;
+        for(int i = 1; i < n; i++) {
+            if(knows(candidate, i)) {
+                candidate = i;
+            }
+        }
+        for(int i = 0; i < n; i++) {
+            if(i != candidate && (knows(candidate, i) || !knows(i, candidate))) return -1;
+        }
+        return candidate;
+    }
+}
+2. 算indegree, outdegree数量， time: O(n^2)
+3. 解法不正确，找到celebrity后没check明星认不认识其他人
