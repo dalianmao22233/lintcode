@@ -1,3 +1,4 @@
+http://www.geeksforgeeks.org/the-celebrity-problem/ 这个写的全
 1. time: O(n), space: O(1), 最佳
 public class Solution extends Relation {
     public int findCelebrity(int n) {
