@@ -52,6 +52,13 @@ After the first step, we could find out the potential candidate.
 In the second step, we validate the candidate by iterating through all the person again. 
 Each one must know the candidate while the candidate must not know anyone else. 
 
+
+
+The idea is to use two pointers, one from start and one from the end. Assume the start person is A, 
+and the end person is B. If A knows B, then A must not be the celebrity. Else, B must not be the celebrity. 
+We will find a celebrity candidate at the end of the loop. Go through each person again and check whether
+this is the celebrity.
+
 public class Solution extends Relation {
     public int findCelebrity(int n) {
         if (n <= 1) {
