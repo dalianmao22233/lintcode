@@ -1,6 +1,6 @@
 
 http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/
-1. 暴力搜索，用array.sort排一遍然后输出第K个。 O(nLogn)
+1. 暴力搜索，用array.sort排一遍然后输出第K个。 O(nLogn)+(n-k)
 public class Solution {
     public int findKthLargest(int[] nums, int k) {
         if(nums == null || nums.length == 0) return -1;
