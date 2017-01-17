@@ -1,6 +1,6 @@
 
 http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/
-1. 暴力搜索，用array.sort排一遍然后输出第K个。 O(nLogn)+(n-k)
+1. 暴力搜索，用array.sort排一遍然后输出第K个。 O(nLogn)+(n-k)比较 , average space: O(logn),看视频证明
 public class Solution {
     public int findKthLargest(int[] nums, int k) {
         if(nums == null || nums.length == 0) return -1;
@@ -17,7 +17,7 @@ public class Solution {
         
     }
 }
-2. min-heap: O(k + nLogk), max-heap: O(n + (k-1)*Logn),实现max-heap
+2. min-heap: O(k + nLogk), max-heap: O(n建立堆+ (k-1)*Logn),实现max-heap
 Your input
 
 [7,8,1,2,3,5]
