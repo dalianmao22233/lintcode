@@ -13,5 +13,73 @@ public class Solution extends Relation {
         return candidate;
     }
 }
-2. 算indegree, outdegree数量， time: O(n^2)
-3. 解法不正确，找到celebrity后没check明星认不认识其他人
+2. 算indegree, outdegree数量， Time: O(n^2), Space O(n).
+The problem can be transformed as a graph problem. We count the in-degree and out-degree for each person. 
+Then find out the person with in-degree n - 1 and out-degree 0. 
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        if (n <= 1) {
+            return -1;
+        }
+         
+        int[] inDegree = new int[n];
+        int[] outDegree = new int[n];
+         
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i != j && knows(i, j)) {
+                    outDegree[i]++;
+                    inDegree[j]++;
+                }
+            }
+        }
+         
+        for (int i = 0; i < n; i++) {
+            if (inDegree[i] == n - 1 && outDegree[i] == 0) {
+                return i;
+            }
+        }
+         
+        return -1;
+    }
+}
+
+3. 面试时解法不正确，找到celebrity后没check明星认不认识其他人
+Time：O(n), Space: O(1)
+Use two pointers, left starts from 0, and right starts from n - 1.
+Check if knows(left, right). If yes, left++. Else, right--.
+After the first step, we could find out the potential candidate. 
+In the second step, we validate the candidate by iterating through all the person again. 
+Each one must know the candidate while the candidate must not know anyone else. 
+
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        if (n <= 1) {
+            return -1;
+        }
+         
+        int left = 0;
+        int right = n - 1;
+         
+        // Step 1: Find the potential candidate
+        while (left < right) {
+            if (knows(left, right)) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+         
+        // Step 2: Validate the candidate
+        int candidate = right;
+        for (int i = 0; i < n; i++) {
+            if (i != candidate && (!knows(i, candidate) || knows(candidate, i))) {
+                return -1;
+            }
+        }
+         
+        return candidate;
+    }
+}
+
+
