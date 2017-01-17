@@ -1,5 +1,5 @@
-题目要求要constant space
-recursive方法
+题目要求要O(1) space
+1. recursive方法
 /**
  * Definition for binary tree with next pointer.
  * public class TreeLinkNode {
@@ -19,6 +19,27 @@ public class Solution {
         
         connect(root.left);
         connect(root.right);
+        return;
+    }
+}
+2. time: O(n^2)
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        if(root == null) return;
+        TreeLinkNode start = root;
+        while(start != null) {
+            TreeLinkNode cur = start;
+            while(cur != null) {
+                if(cur.left != null) {
+                    cur.left.next = cur.right;
+                }
+                if(cur.right != null && cur.next != null) {
+                    cur.right.next = cur.next.left;
+                }
+                cur = cur.next;
+            }
+            start = start.left;
+        }
         return;
     }
 }
