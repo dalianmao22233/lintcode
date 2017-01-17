@@ -17,7 +17,7 @@ public class Solution {
         
     }
 }
-2. min-heap: O(n + kLogn), max-heap: O(k + (n-k)*Logk)
+2. min-heap: O(k + nLogk), max-heap: O(n + (k-1)*Logn),实现max-heap
 Your input
 
 [7,8,1,2,3,5]
