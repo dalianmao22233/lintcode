@@ -7,17 +7,14 @@ public class Solution {
         if(k <= 0) return -1;
         Arrays.sort(nums);
         int m = 0;
-        for(Integer i: nums){
-            if(m == nums.length-k) {
-                return nums[m];
-            }
-            m++;
-        }
+        nums[size-k]
         return -1;
         
     }
 }
-2. min-heap: O(k + nLogk), max-heap: O(n建立堆+ (k-1)*Logn),实现max-heap
+2. //min-heap: O(k + nLogk), max-heap: O(n建立堆+ (k-1)*Logn),实现max-heap
+min-heap没有build！是max-heap，不变
+
 Your input
 
 [7,8,1,2,3,5]
