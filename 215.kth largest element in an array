@@ -13,7 +13,7 @@ public class Solution {
     }
 }
 2. 
-min-heap没有build的步骤，每次都是维持一个k大小的堆，time: O(nlogk)！
+min-heap没有build的步骤，每次都是维持一个k大小的堆，time: O(nlogk)！慢
 max-heap有build的步骤，时间为O(n)，因为是要先建立有n个元素的heap，再进行compare重新heapify，time: O(n+(k-1)*logn)
 Your input：
 [7,8,1,2,3,5]
