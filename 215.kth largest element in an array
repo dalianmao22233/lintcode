@@ -1,32 +1,32 @@
 
 http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/
-1. 暴力搜索，用array.sort排一遍然后输出第K个。 O(nLogn)+(n-k)比较 , average space: O(logn),看视频证明
+1. 用array.sort排一遍然后输出第K个。 O(nLogn)+(n-k)比较 , average space: O(logn),看视频证明
 public class Solution {
     public int findKthLargest(int[] nums, int k) {
         if(nums == null || nums.length == 0) return -1;
         if(k <= 0) return -1;
-        Arrays.sort(nums);
-        int m = 0;
-        nums[size-k]
-        return -1;
-        
+        if(k > nums.length) //注意判断，不判断会出现Length==k的情况，这样k=0。数组越界
+            k = k%nums.length;
+        System.out.println(k);
+        Arrays.sort(nums); //quicksort为内在原理，unstable
+        return nums[nums.length-k];
     }
 }
-2. //min-heap: O(k + nLogk), max-heap: O(n建立堆+ (k-1)*Logn),实现max-heap
-min-heap没有build！是max-heap，不变
-
-Your input
-
+2. 
+min-heap没有build的步骤，每次都是维持一个k大小的堆，time: O(nlogk)！
+max-heap有build的步骤，时间为O(n)，因为是要先建立有n个元素的heap，再进行compare重新heapify，time: O(n+(k-1)*logn)
+Your input：
 [7,8,1,2,3,5]
 4
-Your stdout
-
+Your stdout：
 pq: [7]
 pq: [7, 8]
 pq: [1, 8, 7]
 pq: [1, 2, 7, 8]
 pq: [2, 3, 7, 8]
 pq: [3, 5, 7, 8]
+min-heap:
+
 使用小顶堆，队头就是所求得的Kth elem：
 
 public class Solution {
@@ -42,7 +42,59 @@ public class Solution {
         return pq.peek();
     }
 }
+max-heap:
 
+1. Build a max-heap for nums, set heap_size to be nums.length;
+2. Swap nums[0] (after buding the max-heap, it will be the largest element) with nums[heap_size - 1] 
+(currently the last element). Then decrease heap_size by 1 and max-heapify nums (recovering its max-heap property) 
+at index 0;
+3. Repeat 2 for k times and the k-th largest element will be stored finally at nums[heap_size].
+public class Solution {
+    private static int heap_size;
+    public int findKthLargest(int[] nums, int k) {
+        if(nums == null || nums.length == 0) return -1;
+        if(k <= 0) return -1;
+        if(k > nums.length)
+            k = k%nums.length;
+        build_maxheap(nums);
+        for(int i = 0; i < k; i++) {
+            swap(nums, 0, heap_size-1);
+            heap_size--;
+            heapify(nums, 0);
+        }
+        return nums[heap_size];
+        
+    }
+    public static void swap(int[] a, int x, int y) {
+        int tmp = a[y];
+        a[y] = a[x];
+        a[x] = tmp;
+    }
+    public static int left(int i) {
+        return (i << 1) + 1;
+    }
+    public static int right(int i) {
+        return (i << 1) + 2;
+    }
+    
+    public static void heapify(int[] nums, int i) {
+        int largest = i;
+        int l = left(i);
+        int r = right(i);
+        if(l < heap_size && nums[l] > nums[largest]) largest = l;
+        if(r < heap_size && nums[r] > nums[largest]) largest = r;
+        if(largest != i) {
+            swap(nums, i, largest);
+            heapify(nums, largest);
+        }
+    }
+    public static void build_maxheap(int[] nums) {
+        heap_size = nums.length;
+        for(int i = (heap_size >> 1)-1; i >= 0; i--) {
+            heapify(nums, i);
+        }
+    }
+}
 3. quickselect:https://en.wikipedia.org/wiki/Quickselect
 worst case: O(n^2), reduces the average complexity from O(n log n) to O(n), 意思是average为O(n)
 public class Solution {
