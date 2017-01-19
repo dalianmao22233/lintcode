@@ -135,6 +135,55 @@ public class Solution {
 
 }
 ===============
+iterative:
+public class Solution {
+    private static int heap_size;
+    public int findKthLargest(int[] nums, int k) {
+        if(nums == null || nums.length == 0) return -1;
+        if(k <= 0) return -1;
+        if(k > nums.length)
+            k = k%nums.length;
+        int maxid = -1;
+        int start = 0;
+        int end = nums.length-1;
+        k = k-1; // index start from 0;
+        // separate values in 2 parts based on a pivot. Those that are max are in left and the others in right
+        while(k != maxid)
+        {
+            if(end == start)
+            {
+                maxid = end;
+                break;
+            }
+            // Move all values that are max or equal to the pivot to the left.
+            maxid = start-1;
+            int pivot = nums[end];
+            for(int i = start; i<end; ++i)
+            {
+                // compare to the pivot value and make sure we won't swap the same index
+                if(nums[i] >= pivot && ++maxid != i)
+                {
+                    // swap the value to the left
+                    int temp = nums[maxid];
+                    nums[maxid] = nums[i];
+                    nums[i] = temp;
+                }
+            }
+            
+            // swap the pivot value
+            nums[end] = nums[++maxid];
+            nums[maxid] = pivot;
+            if(k < maxid)
+                end = maxid - 1;
+            else
+                start = maxid + 1;
+        }
+        
+       return nums[maxid];
+        
+    }
+    
+}
 This is an optimization over method 1 if QuickSort is used as a sorting algorithm in first step. 
 In QuickSort, we pick a pivot element, then move the pivot element to its correct position and partition 
 the array around it. The idea is, not to do complete quicksort, but stop at the point where pivot itself 
