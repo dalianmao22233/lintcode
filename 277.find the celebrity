@@ -91,9 +91,7 @@ public class Solution extends Relation {
 }
 
 4. 用stack， Complexity O(N). Total comparisons 3(N-1)， Out goal is to minimize calls to HaveAcquanintance function.
-
-
-
+错误的解法。。看笔记
 The graph construction takes O(N2) time, it is similar to brute force search. In case of recursion, we reduce the problem instance by not more than one, and also combine step may examine M-1 persons (M – instance size).
 We have following observation based on elimination technique (Refer Polya’s How to Solve It book).
 
